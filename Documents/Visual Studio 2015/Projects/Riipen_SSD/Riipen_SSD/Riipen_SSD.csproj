@@ -192,6 +192,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAL\Repositories\Concrete Implementations\ContestJudgeRepository.cs" />
+    <Compile Include="DAL\Repositories\Interfaces\IContestJudgeRepository.cs" />
+    <Compile Include="ViewModels\AdminViewModels\IndexContestVM.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -283,6 +286,9 @@
     <Compile Include="Team.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\AdminViewModels\ContestDetailsVM.cs" />
+    <Compile Include="ViewModels\AdminViewModels\JudgeVM.cs" />
+    <Compile Include="ViewModels\AdminViewModels\ParticipantVM.cs" />
     <Compile Include="ViewModels\ContestVM.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -367,6 +373,8 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Admin\CreateContest.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\ContestDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

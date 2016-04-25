@@ -1,0 +1,104 @@
+﻿@model Riipen_SSD.AdminViewModels.ContestDetailsVM
+
+@{
+    ViewBag.Title = "ContestDetails";
+}
+
+<h2>ContestDetails</h2>
+
+<div>
+    <h4>ContestDetailsVM</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Published)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Published)
+        </dd>
+
+    </dl>
+</div>
+<table class="table">
+    <caption>Judges</caption>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Judges.FirstOrDefault().Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Judges.FirstOrDefault().Email)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Judges)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(x=>item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(x=>item.Email)
+            </td>
+        </tr>
+    }
+    </table>
+
+<table class="table">
+    <caption>Participants</caption>
+    <tr>
+        <th>
+          @Html.DisplayNameFor(model=>model.Participants.FirstOrDefault().TeamName)
+        </th>
+        <th>
+        @Html.DisplayNameFor(model=>model.Participants.FirstOrDefault().Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Participants.FirstOrDefault().Email)
+        </th>
+    </tr>
+    @foreach(var item in Model.Participants)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(x=>item.TeamName)
+            </td>
+            <td>
+                @Html.DisplayFor(x=>item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(x=>item.Email)
+            </td>
+        </tr>
+    }
+</table>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>

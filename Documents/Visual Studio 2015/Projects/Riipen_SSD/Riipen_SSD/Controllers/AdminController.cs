@@ -1,4 +1,7 @@
-﻿using Riipen_SSD.DAL;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Riipen_SSD.DAL;
+using Riipen_SSD.Models;
 using Riipen_SSD.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -10,6 +13,19 @@ namespace Riipen_SSD.Controllers
 {
     public class AdminController : Controller
     {
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
         private IUnitOfWork _unitOfWork;
         public AdminController()
         {
@@ -18,7 +34,9 @@ namespace Riipen_SSD.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            return View();
+           IEnumerable<AdminViewModels.IndexContestVM> adminContests = _unitOfWork.Contests.GetAll().Select(x => new AdminViewModels.IndexContestVM() { Name = x.Name, StartTime = x.StartTime.ToString(), Location = x.Location, Published = true, ContestID = x.Id });
+
+            return View(adminContests);
         }
         [HttpGet]
         public ActionResult CreateContest()
@@ -28,24 +46,68 @@ namespace Riipen_SSD.Controllers
         [HttpPost]
         public ActionResult CreateContest(ContestVM contest)
         {
-            var contestName = contest.ContestName;
-            var date = contest.Date;
-            var location = contest.Location;
-            var criteria = contest.Criteria;
+            ICollection<Criterion> criteriaList = contest.Criteria.Select(x => new Criterion() { Description = x.Description, Name = x.Criteria }).ToList();
 
-            ICollection<Criterion> criteriaList = criteria.Select(x => new Criterion() { Description = x.Description, Name = x.Criteria }).ToList();
-
-            _unitOfWork.Contests.Add(new Contest()
+            var newContest = new Contest()
             {
                 Criteria = criteriaList,
-                StartTime = date,
-                Location = location,
-                Name = contestName,
-            });
+                StartTime = contest.Date,
+                Location = contest.Location,
+                Name = contest.ContestName,
+            };
 
+            var judgeIds = new List<String>();
+            foreach (var judge in contest.Judges)
+            {
+                var newJudgeUser = _unitOfWork.Users.SingleOrDefault(x => x.Email == judge.Email);
+
+                if (newJudgeUser == null)
+                {
+                    var user = new ApplicationUser { UserName = judge.Email, Email = judge.Email };
+                    var result = UserManager.Create(user, "Pa$$w0rd");
+                    judgeIds.Add(user.Id);
+                }
+            }
+
+            newContest = _unitOfWork.Contests.Add(newContest);
+            _unitOfWork.Complete();
+
+            _unitOfWork.ContestJudges.AddRange(judgeIds.Select(x => new ContestJudge()
+            {
+                ContestId = newContest.Id,
+                JudgeUserId = x
+            }));
             _unitOfWork.Complete();
 
             return View();
         }
+        public ActionResult ContestDetails(int contestID)
+        {
+            var contest = _unitOfWork.Contests.Get(contestID);
+            var judges = contest.ContestJudges.Select(x => new AdminViewModels.JudgeVM()
+            {
+                Name = x.AspNetUser.Name,
+                Email = x.AspNetUser.Email
+            });
+            var participants = new List<AdminViewModels.ParticipantVM>();
+            foreach (var team in contest.Teams)
+            {
+                var participantsFromTeam = team.AspNetUsers.Select(x => new AdminViewModels.ParticipantVM() { Email = x.Email, Name = x.Name, TeamName = team.Name });
+                participants.AddRange(participantsFromTeam);
+            }
+
+            var contestDetailVM = new AdminViewModels.ContestDetailsVM()
+            {
+                Name = contest.Name,
+                StartTime = contest.StartTime.ToString(),
+                Location = contest.Location,
+                Published = true,
+                Participants = participants,
+                Judges = judges,
+            };
+
+            return View(contestDetailVM);
+        }
+        
     }
 }

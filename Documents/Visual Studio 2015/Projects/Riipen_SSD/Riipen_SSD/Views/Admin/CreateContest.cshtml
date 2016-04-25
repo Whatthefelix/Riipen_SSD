@@ -18,19 +18,14 @@
 
                 $(".add-criteria", $(this)).click(function (e) {
                     i++;
-                //    $('.multi-field:first-child', $wrapper).clone(true).appendTo($wrapper).find('input').val('').focus();
-                    var miles = $('.multi-field:first-child', $wrapper).clone(true);
+                    var criteria = $('.multi-field:first-child', $wrapper).clone(true);
 
-                    var children = miles.children('input');
+                    var children = criteria.children('input');
 
-                    console.log(children);
-                    console.log(children[0]);
-                    //       children[0].attr('name', 'criteria[' + i + '].criteria');
                     $(children[0]).attr('name', 'criteria[' + i + '].criteria');
                     $(children[1]).attr('name', 'criteria[' + i + '].description');
-                    miles.appendTo($wrapper).find('input').val('').focus();
+                    criteria.appendTo($wrapper).find('input').val('').focus();
                 });
-
 
 
                 $('.multi-field .remove-field', $wrapper).click(function () {
@@ -38,6 +33,28 @@
                         $(this).parent('.multi-field').remove();
                 });
             });
+            k = 0;
+            $(function () {
+                $('.multi-field-wrapper').each(function () {
+                    var $judgeWrapper = $('.multi-fields', this);
+
+                    $(".add-judge", $(this)).click(function (e) {
+                        i++;
+                        var judge = $('.multi-field:first-child', $judgeWrapper).clone(true);
+                        var children = judge.children('input');
+
+                        $(children[0]).attr('name', 'judge[' + k + '].name');
+                        $(children[1]).attr('name', 'judge[' + k + '].email');
+                        judge.appendTo($judgeWrapper).find('input').val('').focus();
+                    });
+                    $('.multi-field .remove-field', $judgeWrapper).click(function () {
+                        if ($('.multi-field', $judgeWrapper).length > 1)
+                            $(this).parent('.multi-field').remove();
+                    });
+                });
+            });
+
+
             $('#uploadExcel').click(function () {
                 $('#excelPreview').show();
             });
@@ -72,6 +89,17 @@
             </div>
             <button type="button" class="add-criteria"> Add Criteria</button>
         </div>
+        <div class="multi-field-wrapper">
+            <div class="multi-fields">
+                <div class="multi-field">
+                    <input type="text" name="judges[0].name" placeholder="Judge Name" />
+                    <input type="text" name="judges[0].email" placeholder="Judge Email" />
+                    <button type="button" class="remove-field">Remove</button>
+                </div>
+            </div>
+            <button type="button" class="add-judge"> Add Judge</button>
+        </div>
+
         <p>Add teams and judges</p>
         <button type="button" class="uploadExcel" id="uploadExcel"> Upload</button>
         <div id="excelPreview">

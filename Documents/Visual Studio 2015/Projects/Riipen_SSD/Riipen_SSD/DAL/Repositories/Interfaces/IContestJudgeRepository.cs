@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace Riipen_SSD.DAL.Repositories.Interfaces
 {
-    public interface IAspNetUserRepository : IRepository<AspNetUser>
+    public interface IContestJudgeRepository : IRepository<ContestJudge>
     {
-        // Add aspnetuser specific method contracts here
-        bool CheckIfUserExists(string email);
     }
 }

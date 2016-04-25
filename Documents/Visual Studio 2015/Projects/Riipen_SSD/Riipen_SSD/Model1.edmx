@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Riipen_SSDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Riipen_SSDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -65,6 +65,7 @@
           <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="256" />
         </EntityType>
         <EntityType Name="ContestJudges">
           <Key>
@@ -82,6 +83,7 @@
           <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Location" Type="varchar" MaxLength="255" />
           <Property Name="StartTime" Type="datetime" />
+          <Property Name="Published" Type="bit" />
         </EntityType>
         <EntityType Name="Criteria">
           <Key>
@@ -143,7 +145,7 @@
           <Property Name="ContestId" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
-        <Association Name="FK__ContestJu__Conte__01342732">
+        <Association Name="FK__ContestJu__Conte__19FFD4FC">
           <End Role="Contests" Type="Self.Contests" Multiplicity="1" />
           <End Role="ContestJudges" Type="Self.ContestJudges" Multiplicity="*" />
           <ReferentialConstraint>
@@ -155,7 +157,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ContestJu__Judge__02284B6B">
+        <Association Name="FK__ContestJu__Judge__1AF3F935">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
           <End Role="ContestJudges" Type="Self.ContestJudges" Multiplicity="*" />
           <ReferentialConstraint>
@@ -167,7 +169,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Criteria__Contes__0BB1B5A5">
+        <Association Name="FK__Criteria__Contes__247D636F">
           <End Role="Contests" Type="Self.Contests" Multiplicity="1" />
           <End Role="Criteria" Type="Self.Criteria" Multiplicity="*" />
           <ReferentialConstraint>
@@ -179,7 +181,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CriteriaS__Crite__10766AC2">
+        <Association Name="FK__CriteriaS__Crite__2942188C">
           <End Role="Criteria" Type="Self.Criteria" Multiplicity="1" />
           <End Role="CriteriaScores" Type="Self.CriteriaScores" Multiplicity="*" />
           <ReferentialConstraint>
@@ -191,7 +193,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CriteriaS__TeamI__0F824689">
+        <Association Name="FK__CriteriaS__TeamI__284DF453">
           <End Role="Teams" Type="Self.Teams" Multiplicity="1" />
           <End Role="CriteriaScores" Type="Self.CriteriaScores" Multiplicity="*" />
           <ReferentialConstraint>
@@ -203,7 +205,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Feedback__1446FBA6">
+        <Association Name="FK__Feedback__2D12A970">
           <End Role="ContestJudges" Type="Self.ContestJudges" Multiplicity="1" />
           <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
           <ReferentialConstraint>
@@ -217,7 +219,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Feedback__TeamId__153B1FDF">
+        <Association Name="FK__Feedback__TeamId__2E06CDA9">
           <End Role="Teams" Type="Self.Teams" Multiplicity="1" />
           <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
           <ReferentialConstraint>
@@ -229,7 +231,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TeamParti__Parti__08D548FA">
+        <Association Name="FK__TeamParti__Parti__21A0F6C4">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
           <End Role="TeamParticipants" Type="Self.TeamParticipants" Multiplicity="*" />
           <ReferentialConstraint>
@@ -241,7 +243,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TeamParti__TeamI__07E124C1">
+        <Association Name="FK__TeamParti__TeamI__20ACD28B">
           <End Role="Teams" Type="Self.Teams" Multiplicity="1" />
           <End Role="TeamParticipants" Type="Self.TeamParticipants" Multiplicity="*" />
           <ReferentialConstraint>
@@ -253,7 +255,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Teams__ContestId__0504B816">
+        <Association Name="FK__Teams__ContestId__1DD065E0">
           <End Role="Contests" Type="Self.Contests" Multiplicity="1" />
           <End Role="Teams" Type="Self.Teams" Multiplicity="*" />
           <ReferentialConstraint>
@@ -336,43 +338,43 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TeamParticipants" EntityType="Self.TeamParticipants" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Teams" EntityType="Self.Teams" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__ContestJu__Conte__01342732" Association="Self.FK__ContestJu__Conte__01342732">
+          <AssociationSet Name="FK__ContestJu__Conte__19FFD4FC" Association="Self.FK__ContestJu__Conte__19FFD4FC">
             <End Role="Contests" EntitySet="Contests" />
             <End Role="ContestJudges" EntitySet="ContestJudges" />
           </AssociationSet>
-          <AssociationSet Name="FK__ContestJu__Judge__02284B6B" Association="Self.FK__ContestJu__Judge__02284B6B">
+          <AssociationSet Name="FK__ContestJu__Judge__1AF3F935" Association="Self.FK__ContestJu__Judge__1AF3F935">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="ContestJudges" EntitySet="ContestJudges" />
           </AssociationSet>
-          <AssociationSet Name="FK__Criteria__Contes__0BB1B5A5" Association="Self.FK__Criteria__Contes__0BB1B5A5">
+          <AssociationSet Name="FK__Criteria__Contes__247D636F" Association="Self.FK__Criteria__Contes__247D636F">
             <End Role="Contests" EntitySet="Contests" />
             <End Role="Criteria" EntitySet="Criteria" />
           </AssociationSet>
-          <AssociationSet Name="FK__CriteriaS__Crite__10766AC2" Association="Self.FK__CriteriaS__Crite__10766AC2">
+          <AssociationSet Name="FK__CriteriaS__Crite__2942188C" Association="Self.FK__CriteriaS__Crite__2942188C">
             <End Role="Criteria" EntitySet="Criteria" />
             <End Role="CriteriaScores" EntitySet="CriteriaScores" />
           </AssociationSet>
-          <AssociationSet Name="FK__CriteriaS__TeamI__0F824689" Association="Self.FK__CriteriaS__TeamI__0F824689">
+          <AssociationSet Name="FK__CriteriaS__TeamI__284DF453" Association="Self.FK__CriteriaS__TeamI__284DF453">
             <End Role="Teams" EntitySet="Teams" />
             <End Role="CriteriaScores" EntitySet="CriteriaScores" />
           </AssociationSet>
-          <AssociationSet Name="FK__Feedback__1446FBA6" Association="Self.FK__Feedback__1446FBA6">
+          <AssociationSet Name="FK__Feedback__2D12A970" Association="Self.FK__Feedback__2D12A970">
             <End Role="ContestJudges" EntitySet="ContestJudges" />
             <End Role="Feedback" EntitySet="Feedback" />
           </AssociationSet>
-          <AssociationSet Name="FK__Feedback__TeamId__153B1FDF" Association="Self.FK__Feedback__TeamId__153B1FDF">
+          <AssociationSet Name="FK__Feedback__TeamId__2E06CDA9" Association="Self.FK__Feedback__TeamId__2E06CDA9">
             <End Role="Teams" EntitySet="Teams" />
             <End Role="Feedback" EntitySet="Feedback" />
           </AssociationSet>
-          <AssociationSet Name="FK__TeamParti__Parti__08D548FA" Association="Self.FK__TeamParti__Parti__08D548FA">
+          <AssociationSet Name="FK__TeamParti__Parti__21A0F6C4" Association="Self.FK__TeamParti__Parti__21A0F6C4">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="TeamParticipants" EntitySet="TeamParticipants" />
           </AssociationSet>
-          <AssociationSet Name="FK__TeamParti__TeamI__07E124C1" Association="Self.FK__TeamParti__TeamI__07E124C1">
+          <AssociationSet Name="FK__TeamParti__TeamI__20ACD28B" Association="Self.FK__TeamParti__TeamI__20ACD28B">
             <End Role="Teams" EntitySet="Teams" />
             <End Role="TeamParticipants" EntitySet="TeamParticipants" />
           </AssociationSet>
-          <AssociationSet Name="FK__Teams__ContestId__0504B816" Association="Self.FK__Teams__ContestId__0504B816">
+          <AssociationSet Name="FK__Teams__ContestId__1DD065E0" Association="Self.FK__Teams__ContestId__1DD065E0">
             <End Role="Contests" EntitySet="Contests" />
             <End Role="Teams" EntitySet="Teams" />
           </AssociationSet>
@@ -393,8 +395,7 @@
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Riipen_SSDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -458,6 +459,7 @@
           <NavigationProperty Name="ContestJudges" Relationship="Self.FK__ContestJu__Judge__02284B6B" FromRole="AspNetUsers" ToRole="ContestJudges" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
           <NavigationProperty Name="Teams" Relationship="Self.TeamParticipants" FromRole="AspNetUsers" ToRole="Teams" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ContestJudge">
           <Key>
@@ -481,6 +483,7 @@
           <NavigationProperty Name="ContestJudges" Relationship="Self.FK__ContestJu__Conte__01342732" FromRole="Contests" ToRole="ContestJudges" />
           <NavigationProperty Name="Criteria" Relationship="Self.FK__Criteria__Contes__0BB1B5A5" FromRole="Contests" ToRole="Criteria" />
           <NavigationProperty Name="Teams" Relationship="Self.FK__Teams__ContestId__0504B816" FromRole="Contests" ToRole="Teams" />
+          <Property Name="Published" Type="Boolean" />
         </EntityType>
         <EntityType Name="Criterion">
           <Key>
@@ -786,6 +789,7 @@
           <EntitySetMapping Name="AspNetUsers">
             <EntityTypeMapping TypeName="Riipen_SSDModel.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
@@ -812,6 +816,7 @@
           <EntitySetMapping Name="Contests">
             <EntityTypeMapping TypeName="Riipen_SSDModel.Contest">
               <MappingFragment StoreEntitySet="Contests">
+                <ScalarProperty Name="Published" ColumnName="Published" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Location" ColumnName="Location" />

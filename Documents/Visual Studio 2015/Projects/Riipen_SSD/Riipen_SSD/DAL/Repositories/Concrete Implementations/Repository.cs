@@ -39,9 +39,9 @@ namespace Riipen_SSD.DAL
             return _entities.SingleOrDefault(predicate);
         }
 
-        public void Add(TEntity entity)
+        public TEntity Add(TEntity entity)
         {
-            _entities.Add(entity);
+            return _entities.Add(entity);
         }
 
         public void AddRange(IEnumerable<TEntity> entities)
