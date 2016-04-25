@@ -6,10 +6,10 @@ using System.Web;
 
 namespace Riipen_SSD.DAL.Repositories.Concrete_Implementations
 {
-    //public class FeedbackRepository : Repository<Feedback>, IFeedbackRepository
-    //{
-    //    public FeedbackRepository(Riipen_SSDEntities context) : base(context)
-    //    {
-    //    }
-    //}
+    public class FeedbackRepository : Repository<Feedback>, IFeedbackRepository
+    {
+        public FeedbackRepository(Riipen_SSDEntities context) : base(context)
+        {
+        }
+    }
 }

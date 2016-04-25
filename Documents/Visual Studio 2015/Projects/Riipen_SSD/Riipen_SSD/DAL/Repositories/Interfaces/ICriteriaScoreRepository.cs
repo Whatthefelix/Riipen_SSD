@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Riipen_SSD.DAL.Repositories.Interfaces
 {
-    //public interface ICriteriaScoreRepository : IRepository<CriteriaScore>
-    //{
-    //    // Add CriteriaScore specific method contracts here
-    //}
+    public interface ICriteriaScoreRepository : IRepository<CriteriaScore>
+    {
+        // Add CriteriaScore specific method contracts here
+    }
 }

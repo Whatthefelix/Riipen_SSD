@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Riipen_SSD.DAL.Repositories.Interfaces
 {
-    //public interface IFeedbackRepository
-    //{
-    //    // Add feedback specific method contracts here
-    //}
+    public interface IFeedbackRepository
+    {
+        // Add feedback specific method contracts here
+    }
 }

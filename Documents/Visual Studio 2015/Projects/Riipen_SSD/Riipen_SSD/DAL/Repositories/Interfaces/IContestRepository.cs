@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Riipen_SSD.DAL.Repositories.Interfaces
 {
-    //public interface IContestRepository : IRepository<Contest>
-    //{
-    //    // Add contest specific method contracts here
+    public interface IContestRepository : IRepository<Contest>
+    {
+        // Add contest specific method contracts here
 
-    //    IEnumerable<Contest> GetAllForUser(string userID);
-    //}
+        IEnumerable<Contest> GetAllForUser(string userID);
+    }
 }
