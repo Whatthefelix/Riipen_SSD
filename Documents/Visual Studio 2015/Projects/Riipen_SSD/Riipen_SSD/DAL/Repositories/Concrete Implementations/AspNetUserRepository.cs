@@ -20,7 +20,6 @@ namespace Riipen_SSD.DAL.Repositories.Concrete_Implementations
         public bool CheckIfUserExists(string email)
         {
             return Riipen_SSDEntities.AspNetUsers.Any(x => x.Email == email);
-        }
     }
-    
+    */
 }
