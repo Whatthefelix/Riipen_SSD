@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2b13806493844fb5b124e1f7a01c3c52" Name="Diagram1" ZoomLevel="85">
+        <EntityTypeShape EntityType="Riipen_SSDModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Riipen_SSDModel.AspNetRole" Width="1.5" PointX="0.75" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="Riipen_SSDModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Riipen_SSDModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Riipen_SSDModel.AspNetUser" Width="1.5" PointX="3" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Riipen_SSDModel.ContestJudge" Width="1.5" PointX="8.25" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Riipen_SSDModel.Contest" Width="1.5" PointX="6" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Riipen_SSDModel.Criterion" Width="1.5" PointX="8.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Riipen_SSDModel.CriteriaScore" Width="1.5" PointX="10.5" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Riipen_SSDModel.Feedback" Width="1.5" PointX="10.5" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="Riipen_SSDModel.sysdiagram" Width="1.5" PointX="2.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Riipen_SSDModel.Team" Width="1.5" PointX="8.25" PointY="4.625" IsExpanded="true" />
+        <AssociationConnector Association="Riipen_SSDModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="Riipen_SSDModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="Riipen_SSDModel.FK__ContestJu__Judge__02284B6B" ManuallyRouted="false" />
+        <AssociationConnector Association="Riipen_SSDModel.FK__ContestJu__Conte__01342732" ManuallyRouted="false" />
+        <AssociationConnector Association="Riipen_SSDModel.FK__Feedback__1446FBA6" ManuallyRouted="false" />
+        <AssociationConnector Association="Riipen_SSDModel.FK__Criteria__Contes__0BB1B5A5" ManuallyRouted="false" />
+        <AssociationConnector Association="Riipen_SSDModel.FK__Teams__ContestId__0504B816" ManuallyRouted="false" />
+        <AssociationConnector Association="Riipen_SSDModel.FK__CriteriaS__Crite__10766AC2" ManuallyRouted="false" />
+        <AssociationConnector Association="Riipen_SSDModel.FK__CriteriaS__TeamI__0F824689" ManuallyRouted="false" />
+        <AssociationConnector Association="Riipen_SSDModel.FK__Feedback__TeamId__153B1FDF" ManuallyRouted="false" />
+        <AssociationConnector Association="Riipen_SSDModel.AspNetUserRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="Riipen_SSDModel.TeamParticipants" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
