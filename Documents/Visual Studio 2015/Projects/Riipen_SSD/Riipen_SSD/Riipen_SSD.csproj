@@ -230,6 +230,24 @@
     <Compile Include="C__MigrationHistory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\IUnitOfWork.cs" />
+    <Compile Include="DAL\Repositories\Concrete Implementations\AspNetUserRepository.cs" />
+    <Compile Include="DAL\Repositories\Concrete Implementations\AspNetUserRoleRepository.cs" />
+    <Compile Include="DAL\Repositories\Concrete Implementations\ContestRepository.cs" />
+    <Compile Include="DAL\Repositories\Concrete Implementations\CriteriaScoreRepository.cs" />
+    <Compile Include="DAL\Repositories\Concrete Implementations\CriterionRepository.cs" />
+    <Compile Include="DAL\Repositories\Concrete Implementations\FeedbackRepository.cs" />
+    <Compile Include="DAL\Repositories\Concrete Implementations\Repository.cs" />
+    <Compile Include="DAL\Repositories\Concrete Implementations\TeamRepository.cs" />
+    <Compile Include="DAL\Repositories\Interfaces\IAspNetUserRepository.cs" />
+    <Compile Include="DAL\Repositories\Interfaces\IAspNetUserRoleRepository.cs" />
+    <Compile Include="DAL\Repositories\Interfaces\IContestRepository.cs" />
+    <Compile Include="DAL\Repositories\Interfaces\ICriteriaScoreRepository.cs" />
+    <Compile Include="DAL\Repositories\Interfaces\ICriterionRepository.cs" />
+    <Compile Include="DAL\Repositories\Interfaces\IFeedbackRepository.cs" />
+    <Compile Include="DAL\Repositories\Interfaces\IRepository.cs" />
+    <Compile Include="DAL\Repositories\Interfaces\ITeamRepository.cs" />
+    <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="Feedback.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
