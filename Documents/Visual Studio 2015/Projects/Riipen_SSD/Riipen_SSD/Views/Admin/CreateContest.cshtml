@@ -1,0 +1,152 @@
+﻿
+@{
+    ViewBag.Title = "CreateContest";
+}
+
+@section Scripts{
+    <style>
+        #excelPreview {
+            display: none;
+        }
+    </style>
+    <script>
+        i = 0;
+        $(function () {
+            $('.multi-field-wrapper').each(function () {
+
+                var $wrapper = $('.multi-fields', this);
+
+                $(".add-criteria", $(this)).click(function (e) {
+                    i++;
+                    var criteria = $('.multi-field:first-child', $wrapper).clone(true);
+
+                    var children = criteria.children('input');
+
+                    $(children[0]).attr('name', 'criteria[' + i + '].criteria');
+                    $(children[1]).attr('name', 'criteria[' + i + '].description');
+                    criteria.appendTo($wrapper).find('input').val('').focus();
+                });
+
+
+                $('.multi-field .remove-field', $wrapper).click(function () {
+                    if ($('.multi-field', $wrapper).length > 1)
+                        $(this).parent('.multi-field').remove();
+                });
+            });
+            k = 0;
+            $(function () {
+                $('.multi-field-wrapper').each(function () {
+                    var $judgeWrapper = $('.multi-fields', this);
+
+                    $(".add-judge", $(this)).click(function (e) {
+                        i++;
+                        var judge = $('.multi-field:first-child', $judgeWrapper).clone(true);
+                        var children = judge.children('input');
+
+                        $(children[0]).attr('name', 'judge[' + k + '].name');
+                        $(children[1]).attr('name', 'judge[' + k + '].email');
+                        judge.appendTo($judgeWrapper).find('input').val('').focus();
+                    });
+                    $('.multi-field .remove-field', $judgeWrapper).click(function () {
+                        if ($('.multi-field', $judgeWrapper).length > 1)
+                            $(this).parent('.multi-field').remove();
+                    });
+                });
+            });
+
+
+            $('#uploadExcel').click(function () {
+                $('#excelPreview').show();
+            });
+
+
+        });
+
+    </script>
+}
+<h2>Add Contest</h2>
+<form id="ContestForm" role="form" method="post">
+    <div class="form-group">
+        <div class="contestName">
+            <label for="contestName">Contest Name</label>
+            <input type="text" name="ContestName" id="contestName" />
+        </div>
+        <div class="date">
+            <label for="date">Date</label>
+            <input type="date" name="Date" id="date" />
+        </div>
+        <div class="location">
+            <label for="location">Location</label>
+            <input type="text" name="Location" id="location" />
+        </div>
+        <div class="multi-field-wrapper">
+            <div class="multi-fields">
+                <div class="multi-field">
+                    <input type="text" name="criteria[0].criteria" placeholder="New Criteria" />
+                    <input type="text" name="criteria[0].description" placeholder="Criteria Description" />
+                    <button type="button" class="remove-field"> Remove </button>
+                </div>
+            </div>
+            <button type="button" class="add-criteria"> Add Criteria</button>
+        </div>
+        <div class="multi-field-wrapper">
+            <div class="multi-fields">
+                <div class="multi-field">
+                    <input type="text" name="judges[0].name" placeholder="Judge Name" />
+                    <input type="text" name="judges[0].email" placeholder="Judge Email" />
+                    <button type="button" class="remove-field">Remove</button>
+                </div>
+            </div>
+            <button type="button" class="add-judge"> Add Judge</button>
+        </div>
+
+        <p>Add teams and judges</p>
+        <button type="button" class="uploadExcel" id="uploadExcel"> Upload</button>
+        <div id="excelPreview">
+            <table class="table table-striped">
+                <caption>Judges</caption>
+                <tr>
+                    <td>Name</td>
+                    <td>Email</td>
+                </tr>
+                <tr>
+                    <td>Andrew</td>
+                    <td>AndrewJudge@judgetruddy.com</td>
+                </tr>
+            </table>
+            <table class="table table-striped">
+                <caption>Teams</caption>
+                <tr>
+                    <td>Team Name</td>
+                    <td> Members</td>
+                    <td> Email</td>
+                </tr>
+                <tr>
+                    <td>Team Awesome</td>
+                    <td>Jack</td>
+                    <td>Daniel</td>
+                    <td>jd@jd.com</td>
+                </tr>
+                <tr>
+                    <td>Team Awesome</td>
+                    <td>Jacob</td>
+                    <td>Kenny</td>
+                    <td>jdk@jdk.com</td>
+                </tr>
+                <tr>
+                    <td>Team Awesome</td>
+                    <td>Joseph</td>
+                    <td>Daniel</td>
+                    <td>josephd@jd.com</td>
+                </tr>
+                <tr>
+                    <td>Team Awesome</td>
+                    <td>Miles</td>
+                    <td>McLeod</td>
+                    <td>runningMiles@miles.com</td>
+                </tr>
+            </table>
+        </div>
+        <button type="submit"> Create Contest</button>
+    </div>
+</form>

@@ -17,7 +17,7 @@ namespace Riipen_SSD.DAL
         public IFeedbackRepository Feedback { get; private set; }
         public ITeamRepository Teams { get; private set; }
         public IAspNetUserRepository Users { get; private set; }
-      
+        public IContestJudgeRepository ContestJudges { get; private set; }
 
         public UnitOfWork(Riipen_SSDEntities context)
         {
@@ -29,7 +29,7 @@ namespace Riipen_SSD.DAL
             Feedback = new FeedbackRepository(_context);
             Teams = new TeamRepository(_context);
             Users = new AspNetUserRepository(_context);
-       
+            ContestJudges = new ContestJudgeRepository(_context);
         }
 
         public int Complete()
