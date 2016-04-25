@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Riipen_SSD.Team>
+
+@{
+    ViewBag.Title = "contest";
+}
+
+<h2>@if (ViewBag.ContestName != null)
+{
+    @ViewBag.ContestName
+}
+
+    </h2>
+
+<p>
+ 
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ContestId)
+        </th>
+        <th>
+           Team name
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContestId)
+        </td>
+        <td>
+            
+
+            @Html.ActionLink(item.Name, "Team", new { teamId = item.Id}) 
+
+</td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

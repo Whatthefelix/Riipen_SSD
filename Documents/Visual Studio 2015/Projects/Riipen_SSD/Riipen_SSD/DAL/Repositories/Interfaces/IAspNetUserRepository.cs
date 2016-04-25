@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Riipen_SSD.DAL.Repositories.Interfaces
 {
-    //public interface IAspNetUserRepository : IRepository<AspNetUser>
-    //{
-    //    // Add aspnetuser specific method contracts here
-    //}
+    public interface IAspNetUserRepository : IRepository<AspNetUser>
+    {
+        // Add aspnetuser specific method contracts here
+    }
 }

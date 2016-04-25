@@ -232,7 +232,6 @@
     </Compile>
     <Compile Include="DAL\IUnitOfWork.cs" />
     <Compile Include="DAL\Repositories\Concrete Implementations\AspNetUserRepository.cs" />
-    <Compile Include="DAL\Repositories\Concrete Implementations\AspNetUserRoleRepository.cs" />
     <Compile Include="DAL\Repositories\Concrete Implementations\ContestRepository.cs" />
     <Compile Include="DAL\Repositories\Concrete Implementations\CriteriaScoreRepository.cs" />
     <Compile Include="DAL\Repositories\Concrete Implementations\CriterionRepository.cs" />
@@ -240,7 +239,6 @@
     <Compile Include="DAL\Repositories\Concrete Implementations\Repository.cs" />
     <Compile Include="DAL\Repositories\Concrete Implementations\TeamRepository.cs" />
     <Compile Include="DAL\Repositories\Interfaces\IAspNetUserRepository.cs" />
-    <Compile Include="DAL\Repositories\Interfaces\IAspNetUserRoleRepository.cs" />
     <Compile Include="DAL\Repositories\Interfaces\IContestRepository.cs" />
     <Compile Include="DAL\Repositories\Interfaces\ICriteriaScoreRepository.cs" />
     <Compile Include="DAL\Repositories\Interfaces\ICriterionRepository.cs" />
@@ -272,6 +270,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ViewModels\CriteriaScoreVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -367,11 +366,14 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Judge\Index.cshtml" />
+    <Content Include="Views\Judge\contest.cshtml" />
+    <Content Include="Views\Judge\team.cshtml" />
+    <Content Include="Views\Judge\EditCriteriaScore.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Admin\" />
-    <Folder Include="Views\Judge\" />
     <Folder Include="Views\Participant\" />
   </ItemGroup>
   <ItemGroup>
@@ -384,6 +386,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
