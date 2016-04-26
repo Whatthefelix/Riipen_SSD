@@ -26,7 +26,7 @@ namespace Riipen_SSD.ViewModels
         public class CriteriaVVM
         {
             public string Description { get; set; }
-            public string Criteria { get; set; }
+            public string Name { get; set; }
 
 
         }
