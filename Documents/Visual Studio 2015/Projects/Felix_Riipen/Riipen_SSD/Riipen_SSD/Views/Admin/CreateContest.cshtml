@@ -61,6 +61,12 @@
                 $('#excelPreview').show();
             });
 
+            /*
+                      $("#ContestForm").submit(function(e){
+                e.preventDefault();
+                var criteriaColumn = $('.multi-field', this);
+                
+            }*/
 
         });
 
@@ -93,7 +99,7 @@
         </div>
         <div class="multi-field-wrapper">
             <div class="multi-fields">
-                <div class="multi-field">
+                <div class="multi-field" id="judge-multi-field">
                     <input type="text" name="judges[0].firstname" placeholder="Judge First Name" />
                     <input type="text" name="judges[0].lastname" placeholder="Judge Last Name" />
                     <input type="text" name="judges[0].email" placeholder="Judge Email" />
