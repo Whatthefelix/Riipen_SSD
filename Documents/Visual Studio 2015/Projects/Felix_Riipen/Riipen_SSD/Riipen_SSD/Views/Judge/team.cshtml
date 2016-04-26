@@ -4,11 +4,16 @@
     ViewBag.Title = "team";
 }
 
-<h2>team</h2>
+<h2>@if(ViewBag.TeamName !=null){
+    
+    @ViewBag.TeamName 
+    }
+    
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
+</h2>
+
+
 <table class="table">
     <tr>
         <th>
@@ -33,21 +38,24 @@
 
             @Html.ActionLink(item.Criteria, "EditCriteriaScore", new { teamId=ViewBag.TeamID, CriteriaID = item.CriteriaID })
             
-            @Html.DisplayFor(modelItem => item.Criteria)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Score)
+
+           
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Comment)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @if(item.Score==null){
+            @Html.ActionLink("Edit", "EditCriteriaScore", new { teamId=ViewBag.TeamID, CriteriaID = item.CriteriaID })
+            }
+           
+          
         </td>
     </tr>
 }

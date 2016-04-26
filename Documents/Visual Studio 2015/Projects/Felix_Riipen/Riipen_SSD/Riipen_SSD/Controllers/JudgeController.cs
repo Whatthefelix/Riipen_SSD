@@ -15,8 +15,10 @@ namespace Riipen_SSD.Controllers
 
         private IUnitOfWork _unitOfWork;
 
+      
         public JudgeController()
         {
+          
 
             _unitOfWork = new UnitOfWork(new SSD_RiipenEntities());
 
@@ -24,7 +26,9 @@ namespace Riipen_SSD.Controllers
 
         // GET: Judge
         public ActionResult Index()
+
         {
+         
             string UserID = User.Identity.GetUserId();
             var contestJudges = (from c in context.ContestJudges where c.JudgeUserId == UserID select c).ToList();
             List<Contest> contestList = new List<Contest>();
@@ -48,51 +52,43 @@ namespace Riipen_SSD.Controllers
 
         public ActionResult team(int teamID)
         {
-
+            string UserID = User.Identity.GetUserId();
             int contestID = _unitOfWork.Teams.Get(teamID).ContestId;
+            string TeamName = _unitOfWork.Teams.Get(teamID).Name;
             List<Criterion> getContestCriteria = _unitOfWork.Contests.Get(contestID).Criteria.ToList();
-
-            List<CriteriaScore> getCriteriaScores = _unitOfWork.CriteriaScores.Find(cs => cs.TeamId == teamID & cs.ContestId == contestID).ToList();
+            List<CriteriaScore> getCriteriaScores = _unitOfWork.CriteriaScores.Find(cs => cs.TeamId == teamID & cs.ContestId == contestID && cs.Judge_ID == UserID).ToList();
             List<CriteriaScoreVM> CriteriaScoreVMList = new List<CriteriaScoreVM>();
 
             if (getCriteriaScores.Count() != 0)
             {
-                var CriteriaScores = from g in getContestCriteria
-                                     from cs in getCriteriaScores
-                                     where g.ContestId == cs.ContestId && cs.TeamId == teamID && g.Id == cs.ContestId
-                                     select new
-                                     {
-                                         CriteriaId = g.ContestId,
-                                         Name = g.Name,
-                                         Desciption = g.Description,
-                                         Score = cs.Score,
-                                         Comment = cs.Comment
-                                     };
+                foreach (var item in getContestCriteria) {
+                    CriteriaScore criteriaScore = context.CriteriaScores.Where(cs => cs.TeamId == teamID && cs.CriteriaId == item.Id && cs.Judge_ID == UserID).FirstOrDefault();
 
+                    double? AverageScore = null;
+                    if (criteriaScore.Score!= null) { 
+                        List<CriteriaScore> getAllScoresForOneCriteria = context.CriteriaScores.Where(cs => cs.TeamId == teamID && cs.CriteriaId == item.Id).ToList();
+                       AverageScore = getAllScoresForOneCriteria.Average(s => s.Score);
+                    }
+
+                    CriteriaScoreVMList.Add(new CriteriaScoreVM(item.Id, item.Name, item.Description, AverageScore, criteriaScore.Comment));
+                }
             }
             else {
-                var CriteriaScores = from g in getContestCriteria
-                                     select new
-                                     {
-                                         CriteriaId = g.ContestId,
-                                         Name = g.Name,
-                                         Desciption = g.Description,
-                                         Score = 0,
-                                         Comment = ""
-                                     };
-
-
-
-
-                foreach (var CriteriaScore in CriteriaScores)
+                foreach (var item in getContestCriteria)
                 {
-                    CriteriaScoreVMList.Add(new CriteriaScoreVM(CriteriaScore.CriteriaId, CriteriaScore.Name, CriteriaScore.Desciption, CriteriaScore.Score, CriteriaScore.Comment));
+                    CriteriaScore newCriteriaScore = new CriteriaScore();
+                    newCriteriaScore.TeamId = teamID;
+                    newCriteriaScore.CriteriaId = item.Id;
+                    newCriteriaScore.ContestId = contestID;
+                    newCriteriaScore.Judge_ID = User.Identity.GetUserId();
+                    context.CriteriaScores.Add(newCriteriaScore);
+                    CriteriaScoreVMList.Add(new CriteriaScoreVM(item.Id, item.Name, item.Description, null, null));
+                    context.SaveChanges();
                 }
-
-
             }
 
             ViewBag.TeamID = teamID;
+            ViewBag.TeamName = TeamName;
             return View(CriteriaScoreVMList);
 
         }
@@ -100,32 +96,26 @@ namespace Riipen_SSD.Controllers
 
         public ActionResult EditCriteriaScore(int teamID, int criteriaID)
         {
-            CriteriaScoreVM criteriaScoreItem = new CriteriaScoreVM();
-
-            CriteriaScore criteriaScore = context.CriteriaScores.Where(cs => cs.TeamId == teamID && cs.CriteriaId == criteriaID).FirstOrDefault();
+            string UserID = User.Identity.GetUserId();
+            CriteriaScore criteriaScore = context.CriteriaScores.Where(cs => cs.TeamId == teamID && cs.CriteriaId == criteriaID && cs.Judge_ID == UserID).FirstOrDefault();
             Criterion criterion = _unitOfWork.Criteria.Get(criteriaID);
-
-
-            if (criteriaScore != null)
-            {
-                criteriaScoreItem.Criteria = criterion.Name;
-                criteriaScoreItem.Score = criteriaScore.Score;
-                criteriaScoreItem.Description = criterion.Description;
-                criteriaScoreItem.Comment = criteriaScore.Comment;
-            }
-            else {
-                criteriaScoreItem.Criteria = criterion.Name;
-                criteriaScoreItem.Score = 0;
-                criteriaScoreItem.Description = criterion.Description;
-                criteriaScoreItem.Comment = "";
-            }
-
-
-
-
+            CriteriaScoreVM criteriaScoreItem = new CriteriaScoreVM(criterion.Id, criterion.Name, criterion.Description, criteriaScore.Score, criteriaScore.Comment);
+            ViewBag.TeamID = teamID;
             return View(criteriaScoreItem);
 
-
         }
+
+        [HttpPost]
+        public ActionResult EditCriteriaScore(int teamID, int criteriaID,string Comment, int Score) {
+            string UserID = User.Identity.GetUserId();
+            CriteriaScore criteriaScore = context.CriteriaScores.Where(cs => cs.TeamId == teamID && cs.CriteriaId == criteriaID && cs.Judge_ID == UserID).FirstOrDefault();
+            criteriaScore.Score = Score;
+            criteriaScore.Comment = Comment;
+            context.SaveChanges();
+            return RedirectToAction("Team", new { teamID= teamID });
+        }
+
+        
+
     }
 }

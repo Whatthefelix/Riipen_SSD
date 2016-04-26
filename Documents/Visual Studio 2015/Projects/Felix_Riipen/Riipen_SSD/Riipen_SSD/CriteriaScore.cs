@@ -18,10 +18,10 @@ namespace Riipen_SSD
         public int TeamId { get; set; }
         public int CriteriaId { get; set; }
         public int ContestId { get; set; }
-        public int Score { get; set; }
+        public Nullable<int> Score { get; set; }
         public string Comment { get; set; }
         public bool PubliclyViewable { get; set; }
-        public string User_ID { get; set; }
+        public string Judge_ID { get; set; }
     
         public virtual Criterion Criterion { get; set; }
         public virtual Team Team { get; set; }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SSD_RiipenModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SSD_RiipenModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -103,10 +103,10 @@
           <Property Name="TeamId" Type="int" Nullable="false" />
           <Property Name="CriteriaId" Type="int" Nullable="false" />
           <Property Name="ContestId" Type="int" Nullable="false" />
-          <Property Name="Score" Type="int" Nullable="false" />
+          <Property Name="Score" Type="int" />
           <Property Name="Comment" Type="varchar(max)" />
           <Property Name="PubliclyViewable" Type="bit" Nullable="false" />
-          <Property Name="User_ID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Judge_ID" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <EntityType Name="Feedback">
           <Key>
@@ -182,7 +182,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CriteriaS__Crite__5E74FADA">
+        <Association Name="FK__CriteriaS__Crite__7187CF4E">
           <End Role="Criteria" Type="Self.Criteria" Multiplicity="1" />
           <End Role="CriteriaScores" Type="Self.CriteriaScores" Multiplicity="*" />
           <ReferentialConstraint>
@@ -194,7 +194,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CriteriaS__TeamI__5D80D6A1">
+        <Association Name="FK__CriteriaS__TeamI__7093AB15">
           <End Role="Teams" Type="Self.Teams" Multiplicity="1" />
           <End Role="CriteriaScores" Type="Self.CriteriaScores" Multiplicity="*" />
           <ReferentialConstraint>
@@ -351,11 +351,11 @@
             <End Role="Contests" EntitySet="Contests" />
             <End Role="Criteria" EntitySet="Criteria" />
           </AssociationSet>
-          <AssociationSet Name="FK__CriteriaS__Crite__5E74FADA" Association="Self.FK__CriteriaS__Crite__5E74FADA">
+          <AssociationSet Name="FK__CriteriaS__Crite__7187CF4E" Association="Self.FK__CriteriaS__Crite__7187CF4E">
             <End Role="Criteria" EntitySet="Criteria" />
             <End Role="CriteriaScores" EntitySet="CriteriaScores" />
           </AssociationSet>
-          <AssociationSet Name="FK__CriteriaS__TeamI__5D80D6A1" Association="Self.FK__CriteriaS__TeamI__5D80D6A1">
+          <AssociationSet Name="FK__CriteriaS__TeamI__7093AB15" Association="Self.FK__CriteriaS__TeamI__7093AB15">
             <End Role="Teams" EntitySet="Teams" />
             <End Role="CriteriaScores" EntitySet="CriteriaScores" />
           </AssociationSet>
@@ -396,8 +396,7 @@
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SSD_RiipenModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -507,12 +506,12 @@
           <Property Name="TeamId" Type="Int32" Nullable="false" />
           <Property Name="CriteriaId" Type="Int32" Nullable="false" />
           <Property Name="ContestId" Type="Int32" Nullable="false" />
-          <Property Name="Score" Type="Int32" Nullable="false" />
+          <Property Name="Score" Type="Int32" />
           <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="PubliclyViewable" Type="Boolean" Nullable="false" />
-          <Property Name="User_ID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Criterion" Relationship="Self.FK__CriteriaS__Crite__5E74FADA" FromRole="CriteriaScores" ToRole="Criteria" />
           <NavigationProperty Name="Team" Relationship="Self.FK__CriteriaS__TeamI__5D80D6A1" FromRole="CriteriaScores" ToRole="Teams" />
+          <Property Name="Judge_ID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Feedback">
           <Key>
@@ -841,6 +840,7 @@
           <EntitySetMapping Name="CriteriaScores">
             <EntityTypeMapping TypeName="SSD_RiipenModel.CriteriaScore">
               <MappingFragment StoreEntitySet="CriteriaScores">
+                <ScalarProperty Name="Judge_ID" ColumnName="Judge_ID" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="TeamId" ColumnName="TeamId" />
                 <ScalarProperty Name="CriteriaId" ColumnName="CriteriaId" />
@@ -848,7 +848,6 @@
                 <ScalarProperty Name="Score" ColumnName="Score" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="PubliclyViewable" ColumnName="PubliclyViewable" />
-                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
