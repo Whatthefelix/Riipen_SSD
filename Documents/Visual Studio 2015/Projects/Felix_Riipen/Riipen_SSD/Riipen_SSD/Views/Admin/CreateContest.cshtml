@@ -19,11 +19,6 @@
                 $(".add-criteria", $(this)).click(function (e) {
                     i++;
                     var criteria = $('.multi-field:first-child', $wrapper).clone(true);
-
-                    var children = criteria.children('input');
-
-                    $(children[0]).attr('name', 'criteria[' + i + '].criteria');
-                    $(children[1]).attr('name', 'criteria[' + i + '].description');
                     criteria.appendTo($wrapper).find('input').val('').focus();
                 });
 
@@ -41,35 +36,45 @@
                     $(".add-judge", $(this)).click(function (e) {
                         k++;
                         var judge = $('.multi-field:first-child', $judgeWrapper).clone(true);
-                        var children = judge.children('input');
-
-                        $(children[0]).attr('name', 'judges[' + k + '].firstname');
-                        $(children[1]).attr('name', 'judges[' + k + '].lastname');
-                        $(children[2]).attr('name', 'judges[' + k + '].email');
                         judge.appendTo($judgeWrapper).find('input').val('').focus();
                     });
-                    $('.multi-field .remove-field', $judgeWrapper).click(function () {
-                        if ($('.multi-field', $judgeWrapper).length > 1)
-                            $(this).parent('.multi-field').remove();
-                        k--;
-                    });
+
+                    
+                     $('.multi-field .remove-field', $judgeWrapper).click(function () {
+                         if ($('.multi-field', $judgeWrapper).length > 1)
+                             $(this).parent('.multi-field').remove();     
+                         k--;
+                     });
+                 });
                 });
-            });
 
 
-            $('#uploadExcel').click(function () {
-                $('#excelPreview').show();
-            });
+                $('#uploadExcel').click(function () {
+                    $('#excelPreview').show();
+                });
 
-            /*
-                      $("#ContestForm").submit(function(e){
-                e.preventDefault();
-                var criteriaColumn = $('.multi-field', this);
+                $("#ContestForm").submit(function (e) {
+                    e.preventDefault();
+                    var judgeListItems = $('.judge-list-item');
+                    $(judgeListItems).each(function (index, element) {
+                        var children = $(element).children();
+                        $(children[0]).attr('name', 'judges[' + index + '].firstname');
+                        $(children[1]).attr('name', 'judges[' + index + '].lastname');
+                        $(children[2]).attr('name', 'judges[' + index + '].email');    
+                    })
+                    var criteriaListItems = $('.criteria-list-item');
+                    $(criteriaListItems).each(function (index, element) {
+                        var children = $(element).children();
+                        $(children[0]).attr('name', 'criteria[' + index + '].name');
+                        $(children[1]).attr('name', 'criteria[' + index + '].description');   
+                    });
+                    this.submit();
+                });
+
                 
-            }*/
 
-        });
-
+            })
+       
     </script>
 }
 <h2>Add Contest</h2>
@@ -88,9 +93,9 @@
             <input type="text" name="Location" id="location" />
         </div>
         <div class="multi-field-wrapper">
-            <div class="multi-fields">
-                <div class="multi-field">
-                    <input type="text" name="criteria[0].criteria" placeholder="New Criteria" />
+            <div class="multi-fields" id="criteria-list">
+                <div class="multi-field criteria-list-item">
+                    <input type="text" name="criteria[0].name" placeholder="New Criteria" />
                     <input type="text" name="criteria[0].description" placeholder="Criteria Description" />
                     <button type="button" class="remove-field"> Remove </button>
                 </div>
@@ -99,7 +104,7 @@
         </div>
         <div class="multi-field-wrapper">
             <div class="multi-fields">
-                <div class="multi-field" id="judge-multi-field">
+                <div class="multi-field judge-list-item">
                     <input type="text" name="judges[0].firstname" placeholder="Judge First Name" />
                     <input type="text" name="judges[0].lastname" placeholder="Judge Last Name" />
                     <input type="text" name="judges[0].email" placeholder="Judge Email" />

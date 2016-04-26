@@ -48,7 +48,7 @@ namespace Riipen_SSD.Controllers
         [HttpPost]
         public ActionResult CreateContest(ContestVM contest)
         {
-            ICollection<Criterion> criteriaList = contest.Criteria.Select(x => new Criterion() { Description = x.Description, Name = x.Criteria }).ToList();
+            ICollection<Criterion> criteriaList = contest.Criteria.Select(x => new Criterion() { Description = x.Description, Name = x.Name }).ToList();
 
             var newContest = new Contest()
             {
