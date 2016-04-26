@@ -26,8 +26,8 @@ namespace Riipen_SSD.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=Brown.mysitehosted.com;Initial Catalog=Riipen_SSD;User ID=Riipen_SSD_" +
-            "User;Password=Pa$$w0rd")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=brown.mysitehosted.com;Initial Catalog=SSD_Riipen;User ID=ssd_riipen_" +
+            "user;Password=Pa$$w0rd")]
         public string Setting {
             get {
                 return ((string)(this["Setting"]));

@@ -48,7 +48,10 @@
     <caption>Judges</caption>
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Judges.FirstOrDefault().Name)
+            @Html.DisplayNameFor(model => model.Judges.FirstOrDefault().FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Judges.FirstOrDefault().LastName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Judges.FirstOrDefault().Email)
@@ -61,7 +64,10 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(x=>item.Name)
+                @Html.DisplayFor(x=>item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(x => item.LastName)
             </td>
             <td>
                 @Html.DisplayFor(x=>item.Email)

@@ -8,7 +8,7 @@ namespace Riipen_SSD.DAL.Repositories.Concrete_Implementations
 {
     public class TeamRepository : Repository<Team>, ITeamRepository
     {
-        public TeamRepository(Riipen_SSDEntities context) : base(context)
+        public TeamRepository(SSD_RiipenEntities context) : base(context)
         {
         }
     }

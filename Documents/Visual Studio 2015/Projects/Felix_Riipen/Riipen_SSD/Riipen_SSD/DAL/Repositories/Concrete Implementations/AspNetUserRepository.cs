@@ -8,18 +8,18 @@ namespace Riipen_SSD.DAL.Repositories.Concrete_Implementations
 {
     public class AspNetUserRepository : Repository<AspNetUser>, IAspNetUserRepository
     {
-        public AspNetUserRepository(Riipen_SSDEntities context) : base(context)
+        public AspNetUserRepository(SSD_RiipenEntities context) : base(context)
         {
         }
 
-        public Riipen_SSDEntities Riipen_SSDEntities
+        public SSD_RiipenEntities SSD_RiipenEntities
         {
-            get { return Context as Riipen_SSDEntities; }
+            get { return Context as SSD_RiipenEntities; }
         }
 
         public bool CheckIfUserExists(string email)
         {
-            return Riipen_SSDEntities.AspNetUsers.Any(x => x.Email == email);
+            return SSD_RiipenEntities.AspNetUsers.Any(x => x.Email == email);
         }
     }
     

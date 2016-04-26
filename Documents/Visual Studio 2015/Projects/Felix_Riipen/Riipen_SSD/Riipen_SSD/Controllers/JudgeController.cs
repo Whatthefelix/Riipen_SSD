@@ -11,14 +11,14 @@ namespace Riipen_SSD.Controllers
 {
     public class JudgeController : Controller
     {
-        Riipen_SSDEntities context = new Riipen_SSDEntities();
+        SSD_RiipenEntities context = new SSD_RiipenEntities();
 
         private IUnitOfWork _unitOfWork;
 
         public JudgeController()
         {
 
-            _unitOfWork = new UnitOfWork(new Riipen_SSDEntities());
+            _unitOfWork = new UnitOfWork(new SSD_RiipenEntities());
 
         }
 

@@ -8,13 +8,13 @@ namespace Riipen_SSD.DAL.Repositories.Concrete_Implementations
 {
     public class ContestJudgeRepository : Repository<ContestJudge>, IContestJudgeRepository
     {
-        public ContestJudgeRepository(Riipen_SSDEntities context) : base(context)
+        public ContestJudgeRepository(SSD_RiipenEntities context) : base(context)
         {
         }
 
-        public Riipen_SSDEntities Riipen_SSDEntities
+        public SSD_RiipenEntities SSD_RiipenEntities
         {
-            get { return Context as Riipen_SSDEntities; }
+            get { return Context as SSD_RiipenEntities; }
         }
     }
 }

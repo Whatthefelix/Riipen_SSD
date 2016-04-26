@@ -13,10 +13,10 @@ namespace Riipen_SSD
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class Riipen_SSDEntities : DbContext
+    public partial class SSD_RiipenEntities : DbContext
     {
-        public Riipen_SSDEntities()
-            : base("name=Riipen_SSDEntities")
+        public SSD_RiipenEntities()
+            : base("name=SSD_RiipenEntities")
         {
         }
     

@@ -31,7 +31,7 @@ namespace Riipen_SSD.Controllers
         private IUnitOfWork _unitOfWork;
         public AdminController()
         {
-            _unitOfWork = new UnitOfWork(new Riipen_SSDEntities());
+            _unitOfWork = new UnitOfWork(new SSD_RiipenEntities());
         }
         // GET: Admin
         public ActionResult Index()
@@ -65,7 +65,7 @@ namespace Riipen_SSD.Controllers
 
                 if (newJudgeUser == null)
                 {
-                    var user = new ApplicationUser { UserName = judge.Email, Email = judge.Email };
+                    var user = new ApplicationUser { UserName = judge.Email, Email = judge.Email, FirstName = judge.FirstName, LastName = judge.LastName };
                     var result = UserManager.Create(user, "Pa$$w0rd");
                     judgeIds.Add(user.Id);
                 }
@@ -88,13 +88,14 @@ namespace Riipen_SSD.Controllers
             var contest = _unitOfWork.Contests.Get(contestID);
             var judges = contest.ContestJudges.Select(x => new AdminViewModels.JudgeVM()
             {
-                Name = x.AspNetUser.Name,
+                FirstName = x.AspNetUser.FirstName,
+                LastName = x.AspNetUser.LastName,
                 Email = x.AspNetUser.Email
             });
             var participants = new List<AdminViewModels.ParticipantVM>();
             foreach (var team in contest.Teams)
             {
-                var participantsFromTeam = team.AspNetUsers.Select(x => new AdminViewModels.ParticipantVM() { Email = x.Email, Name = x.Name, TeamName = team.Name });
+                var participantsFromTeam = team.AspNetUsers.Select(x => new AdminViewModels.ParticipantVM() { Email = x.Email, Name = x.FirstName, TeamName = team.Name });
                 participants.AddRange(participantsFromTeam);
             }
 

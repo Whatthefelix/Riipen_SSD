@@ -8,7 +8,7 @@ namespace Riipen_SSD.DAL.Repositories.Concrete_Implementations
 {
     public class CriteriaScoreRepository : Repository<CriteriaScore>, ICriteriaScoreRepository
     {
-        public CriteriaScoreRepository(Riipen_SSDEntities context) : base(context)
+        public CriteriaScoreRepository(SSD_RiipenEntities context) : base(context)
         {
         }
     }

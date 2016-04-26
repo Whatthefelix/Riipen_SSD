@@ -8,7 +8,7 @@ namespace Riipen_SSD.DAL.Repositories.Concrete_Implementations
 {
     public class FeedbackRepository : Repository<Feedback>, IFeedbackRepository
     {
-        public FeedbackRepository(Riipen_SSDEntities context) : base(context)
+        public FeedbackRepository(SSD_RiipenEntities context) : base(context)
         {
         }
     }

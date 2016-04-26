@@ -9,7 +9,7 @@ namespace Riipen_SSD.DAL
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly Riipen_SSDEntities _context;
+        private readonly SSD_RiipenEntities _context;
 
         public IContestRepository Contests { get; private set; }
         public ICriteriaScoreRepository CriteriaScores { get; private set; }
@@ -19,7 +19,7 @@ namespace Riipen_SSD.DAL
         public IAspNetUserRepository Users { get; private set; }
         public IContestJudgeRepository ContestJudges { get; private set; }
 
-        public UnitOfWork(Riipen_SSDEntities context)
+        public UnitOfWork(SSD_RiipenEntities context)
         {
             _context = context;
 

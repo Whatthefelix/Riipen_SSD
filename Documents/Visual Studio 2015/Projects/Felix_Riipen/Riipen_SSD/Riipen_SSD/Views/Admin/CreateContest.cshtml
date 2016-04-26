@@ -39,17 +39,19 @@
                     var $judgeWrapper = $('.multi-fields', this);
 
                     $(".add-judge", $(this)).click(function (e) {
-                        i++;
+                        k++;
                         var judge = $('.multi-field:first-child', $judgeWrapper).clone(true);
                         var children = judge.children('input');
 
-                        $(children[0]).attr('name', 'judge[' + k + '].name');
-                        $(children[1]).attr('name', 'judge[' + k + '].email');
+                        $(children[0]).attr('name', 'judges[' + k + '].firstname');
+                        $(children[1]).attr('name', 'judges[' + k + '].lastname');
+                        $(children[2]).attr('name', 'judges[' + k + '].email');
                         judge.appendTo($judgeWrapper).find('input').val('').focus();
                     });
                     $('.multi-field .remove-field', $judgeWrapper).click(function () {
                         if ($('.multi-field', $judgeWrapper).length > 1)
                             $(this).parent('.multi-field').remove();
+                        k--;
                     });
                 });
             });
@@ -92,7 +94,8 @@
         <div class="multi-field-wrapper">
             <div class="multi-fields">
                 <div class="multi-field">
-                    <input type="text" name="judges[0].name" placeholder="Judge Name" />
+                    <input type="text" name="judges[0].firstname" placeholder="Judge First Name" />
+                    <input type="text" name="judges[0].lastname" placeholder="Judge Last Name" />
                     <input type="text" name="judges[0].email" placeholder="Judge Email" />
                     <button type="button" class="remove-field">Remove</button>
                 </div>
