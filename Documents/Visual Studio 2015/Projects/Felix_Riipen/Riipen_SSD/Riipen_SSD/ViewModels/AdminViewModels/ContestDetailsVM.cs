@@ -7,7 +7,7 @@ using System.Web;
 namespace Riipen_SSD.AdminViewModels
 {
     public class ContestDetailsVM
-    {
+    {   public int ContestID { get; set; }
         public string Name { get; set; }
         public string StartTime { get; set; }
         public string Location { get; set; }

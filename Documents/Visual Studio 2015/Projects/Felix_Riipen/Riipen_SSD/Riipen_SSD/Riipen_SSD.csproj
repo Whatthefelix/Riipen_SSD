@@ -277,6 +277,8 @@
     <Compile Include="Team.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\AdminViewModels\CriteriaVM.cs" />
+    <Compile Include="ViewModels\AdminViewModels\EditContestVM.cs" />
     <Compile Include="ViewModels\CriteriaScoreVM.cs" />
     <Compile Include="ViewModels\AdminViewModels\IndexContestVM.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -389,6 +391,7 @@
     <Content Include="Views\Admin\CreateContest.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\ContestDetails.cshtml" />
+    <Content Include="Views\Admin\EditContest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

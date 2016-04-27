@@ -101,6 +101,7 @@ namespace Riipen_SSD.Controllers
 
             var contestDetailVM = new AdminViewModels.ContestDetailsVM()
             {
+                ContestID = contestID,
                 Name = contest.Name,
                 StartTime = contest.StartTime.ToString(),
                 Location = contest.Location,
@@ -110,6 +111,40 @@ namespace Riipen_SSD.Controllers
             };
 
             return View(contestDetailVM);
+        }
+        public ActionResult EditContest(int contestID)
+        {
+            var contest = _unitOfWork.Contests.Get(contestID); //get contest ID
+
+            var judges = contest.ContestJudges.Select(x => new AdminViewModels.JudgeVM() 
+            {
+                FirstName = x.AspNetUser.FirstName,
+                LastName = x.AspNetUser.LastName,
+                Email = x.AspNetUser.Email
+            });
+            var criteria = contest.Criteria.Select(x => new AdminViewModels.CriteriaVM()
+            {
+                //criteria name
+                Description = x.Description,
+                Name = x.Name,
+            
+            });
+
+
+                
+            
+            var editContestVM = new AdminViewModels.EditContestVM()
+            {   
+                
+                ContestID = contestID,
+                Judges = judges,
+                Criteria = criteria,
+                ContestName = contest.Name,
+                Date = contest.StartTime,
+                Location = contest.Location,
+            };           
+
+            return View(editContestVM);
         }
         
     }

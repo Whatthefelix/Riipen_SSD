@@ -3,28 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Riipen_SSD.ViewModels
+namespace Riipen_SSD.AdminViewModels
 {
-    public class ContestVM
+    public class EditContestVM
     {
-        //felix
+        public int ContestID { get; set; }
         public String ContestName { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
         public String Location { get; set; }
 
-        public List<AdminViewModels.CriteriaVM> Criteria
+        public IEnumerable<CriteriaVM> Criteria
         {
             get; set;
         }
 
-        public List<AdminViewModels.JudgeVM> Judges
+        public IEnumerable<JudgeVM> Judges
         {
             get; set;
         }
-
-        }
-        
 
     }
+
+}
