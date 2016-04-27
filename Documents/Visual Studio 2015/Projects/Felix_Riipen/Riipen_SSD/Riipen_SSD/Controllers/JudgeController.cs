@@ -89,6 +89,7 @@ namespace Riipen_SSD.Controllers
 
             ViewBag.TeamID = teamID;
             ViewBag.TeamName = TeamName;
+            ViewBag.ContestName = _unitOfWork.Contests.Get(_unitOfWork.Teams.Get(teamID).ContestId).Name;
             return View(CriteriaScoreVMList);
 
         }
@@ -101,6 +102,8 @@ namespace Riipen_SSD.Controllers
             Criterion criterion = _unitOfWork.Criteria.Get(criteriaID);
             CriteriaScoreVM criteriaScoreItem = new CriteriaScoreVM(criterion.Id, criterion.Name, criterion.Description, criteriaScore.Score, criteriaScore.Comment);
             ViewBag.TeamID = teamID;
+            ViewBag.TeamName = _unitOfWork.Teams.Get(teamID).Name;
+            ViewBag.ContestName = _unitOfWork.Contests.Get(_unitOfWork.Teams.Get(teamID).ContestId).Name;
             return View(criteriaScoreItem);
 
         }

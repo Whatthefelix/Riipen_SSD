@@ -4,12 +4,24 @@
     ViewBag.Title = "EditCriteriaScore";
 }
 
-<h2>EditCriteriaScore</h2>
+
 
 <div>
-    <h4>CriteriaScoreVM</h4>
-   
+    @if (ViewBag.ContestName != null)
+    {
+        <p>Contest Name: @ViewBag.ContestName</p>
+    }
+
+    @if (ViewBag.TeamName != null)
+    {
+        <p>Team Name: @ViewBag.TeamName</p>
+    }
+    
+    <h4>Enter score for criteria</h4>
     <form class="form" action="EditCriteriaScore" method="post">
+        <input name="criteriaID" value="@Model.CriteriaID" hidden />
+        <input name="teamID" value="@ViewBag.TeamID" hidden />
+        
         <dl class="dl-horizontal">
             <dt>
                 @Html.DisplayNameFor(model => model.Criteria)
@@ -32,35 +44,43 @@
             </dt>
 
             <dd>
-              
-                <select name="Score" required>
-                    @for(int i=0;i<=7;i++){
-                
+                <div class="form-group">
+                    <select class="form-control" name="Score" required>
+                        <option value="">please enter a score</option>
+                        @for (int i = 0; i <= 7; i++)
+                        {
 
-                    <option value="@i">@i</option>
-                    }
-                </select>
-            </dd>
+
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </div>
+</dd>
 
             <dt>
                 @Html.DisplayNameFor(model => model.Comment)
             </dt>
 
             <dd>
-                <textarea name="Comment" required>@Html.DisplayFor(model => model.Comment)</textarea>
+                <div class="form-group">
+                    <textarea class="form-control input-sm" rows="5" name="Comment" required>@Html.DisplayFor(model => model.Comment)</textarea>
+                </div>
             </dd>
 
+           
+            <dt>
+                &nbsp;
+            </dt>
+            <dd>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary btn-sm form-control" />
+                </div>
+            </dd>
         </dl>
-        <input name="criteriaID" value="@Model.CriteriaID" hidden/>
-        <input name="teamID" value="@ViewBag.TeamID" hidden />
-        <input type="submit" value="Save"/>
+        
 
 
         
     </form>
 
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

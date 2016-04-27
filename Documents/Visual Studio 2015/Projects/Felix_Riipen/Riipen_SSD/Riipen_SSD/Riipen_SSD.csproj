@@ -392,11 +392,14 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\ContestDetails.cshtml" />
     <Content Include="Views\Admin\EditContest.cshtml" />
+    <Content Include="Views\Judge\contest.cshtml" />
+    <Content Include="Views\Judge\EditCriteriaScore.cshtml" />
+    <Content Include="Views\Judge\Index.cshtml" />
+    <Content Include="Views\Judge\team.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\ViewModels\" />
-    <Folder Include="Views\Judge\" />
     <Folder Include="Views\Participant\" />
   </ItemGroup>
   <ItemGroup>
