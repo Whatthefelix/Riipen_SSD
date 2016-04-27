@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace Riipen_SSD.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private ApplicationUserManager UserManager;
