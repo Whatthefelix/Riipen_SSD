@@ -4,27 +4,28 @@
     ViewBag.Title = "EditCriteriaScore";
 }
 
-
+<h2>EditCriteriaScore</h2>
 
 <div>
-    @if (ViewBag.ContestName != null)
-    {
-        <p>Contest Name: @ViewBag.ContestName</p>
-    }
+    <h4>CriteriaScoreVM</h4>
+    <hr />
 
-    @if (ViewBag.TeamName != null)
-    {
-        <p>Team Name: @ViewBag.TeamName</p>
-    }
-    
-    <h4>Enter score for criteria</h4>
-    <form class="form" action="EditCriteriaScore" method="post">
-        <input name="criteriaID" value="@Model.CriteriaID" hidden />
+
+    <form action="EditCriteriaScore" method="post">
+        <input name="criteriaID" value="@Model.CriteriaID" hidden/>
         <input name="teamID" value="@ViewBag.TeamID" hidden />
-        
+
         <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Criteria)
+            @*<dt>
+        @Html.DisplayNameFor(model => model.CriteriaID)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.CriteriaID)
+    </dd>*@
+
+                <dt>
+            @Html.DisplayNameFor(model => model.Criteria)
             </dt>
 
             <dd>
@@ -40,22 +41,36 @@
             </dd>
 
             <dt>
-              Score:
+                @Html.DisplayNameFor(model => model.YourScore)
             </dt>
 
             <dd>
+                @{
+                    var checkValue = "";
+
+                 }
                 <div class="form-group">
-                    <select class="form-control" name="Score" required>
-                        <option value="">please enter a score</option>
-                        @for (int i = 0; i <= 7; i++)
+                    <select name="Score" required class="form-control">
+                        <option value="">Please enter a score</option>
+                        @for (int i = 1; i <= 7; i++)
                         {
-
-
-                            <option value="@i">@i</option>
+                            if (i == Model.YourScore) {
+                                checkValue = "selected";
+                            }
+                            <option value="@i"  @checkValue>@i</option>
+                            checkValue = "";
                         }
                     </select>
                 </div>
-</dd>
+            </dd>
+
+            @*<dt>
+                    @Html.DisplayNameFor(model => model.CurrentScore)
+                </dt>*@
+
+            @*<dd>
+                    @Html.DisplayFor(model => model.CurrentScore)
+                </dd>*@
 
             <dt>
                 @Html.DisplayNameFor(model => model.Comment)
@@ -63,24 +78,47 @@
 
             <dd>
                 <div class="form-group">
-                    <textarea class="form-control input-sm" rows="5" name="Comment" required>@Html.DisplayFor(model => model.Comment)</textarea>
+                    <textarea class="form-control input-sm" name="Comment" rows="5" required>@Html.DisplayFor(model => model.Comment)</textarea>
                 </div>
             </dd>
 
-           
+            @*<dt>
+                    @Html.DisplayNameFor(model => model.JudgesNotSubmitted)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.JudgesNotSubmitted)
+                </dd>*@
+
+            @*<dt>
+                @Html.DisplayNameFor(model => model.Submitted)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Submitted)
+            </dd>*@
             <dt>
                 &nbsp;
             </dt>
+
+            <dd>
+               <div class="form-group">
+                   <input type="submit" name="Click" value="Save" class="form-control btn btn-primary btn-sm" />
+               </div>
+            </dd>
+            <dt>
+                &nbsp;
+            </dt>
+
             <dd>
                 <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-primary btn-sm form-control" />
+                    <input type="submit" name="Click" value="Submit" class="form-control btn btn-success btn-sm" />
                 </div>
             </dd>
         </dl>
-        
-
-
-        
     </form>
-
 </div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -107,6 +107,7 @@
           <Property Name="Comment" Type="varchar(max)" />
           <Property Name="PubliclyViewable" Type="bit" Nullable="false" />
           <Property Name="Judge_ID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Submitted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Feedback">
           <Key>
@@ -182,7 +183,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CriteriaS__Crite__7187CF4E">
+        <Association Name="FK__CriteriaS__Crite__7834CCDD">
           <End Role="Criteria" Type="Self.Criteria" Multiplicity="1" />
           <End Role="CriteriaScores" Type="Self.CriteriaScores" Multiplicity="*" />
           <ReferentialConstraint>
@@ -194,7 +195,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CriteriaS__TeamI__7093AB15">
+        <Association Name="FK__CriteriaS__TeamI__7740A8A4">
           <End Role="Teams" Type="Self.Teams" Multiplicity="1" />
           <End Role="CriteriaScores" Type="Self.CriteriaScores" Multiplicity="*" />
           <ReferentialConstraint>
@@ -351,11 +352,11 @@
             <End Role="Contests" EntitySet="Contests" />
             <End Role="Criteria" EntitySet="Criteria" />
           </AssociationSet>
-          <AssociationSet Name="FK__CriteriaS__Crite__7187CF4E" Association="Self.FK__CriteriaS__Crite__7187CF4E">
+          <AssociationSet Name="FK__CriteriaS__Crite__7834CCDD" Association="Self.FK__CriteriaS__Crite__7834CCDD">
             <End Role="Criteria" EntitySet="Criteria" />
             <End Role="CriteriaScores" EntitySet="CriteriaScores" />
           </AssociationSet>
-          <AssociationSet Name="FK__CriteriaS__TeamI__7093AB15" Association="Self.FK__CriteriaS__TeamI__7093AB15">
+          <AssociationSet Name="FK__CriteriaS__TeamI__7740A8A4" Association="Self.FK__CriteriaS__TeamI__7740A8A4">
             <End Role="Teams" EntitySet="Teams" />
             <End Role="CriteriaScores" EntitySet="CriteriaScores" />
           </AssociationSet>
@@ -512,6 +513,7 @@
           <NavigationProperty Name="Criterion" Relationship="Self.FK__CriteriaS__Crite__5E74FADA" FromRole="CriteriaScores" ToRole="Criteria" />
           <NavigationProperty Name="Team" Relationship="Self.FK__CriteriaS__TeamI__5D80D6A1" FromRole="CriteriaScores" ToRole="Teams" />
           <Property Name="Judge_ID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Submitted" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Feedback">
           <Key>
@@ -840,6 +842,7 @@
           <EntitySetMapping Name="CriteriaScores">
             <EntityTypeMapping TypeName="SSD_RiipenModel.CriteriaScore">
               <MappingFragment StoreEntitySet="CriteriaScores">
+                <ScalarProperty Name="Submitted" ColumnName="Submitted" />
                 <ScalarProperty Name="Judge_ID" ColumnName="Judge_ID" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="TeamId" ColumnName="TeamId" />

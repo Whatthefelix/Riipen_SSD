@@ -22,6 +22,7 @@ namespace Riipen_SSD
         public string Comment { get; set; }
         public bool PubliclyViewable { get; set; }
         public string Judge_ID { get; set; }
+        public bool Submitted { get; set; }
     
         public virtual Criterion Criterion { get; set; }
         public virtual Team Team { get; set; }

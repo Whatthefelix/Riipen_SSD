@@ -414,7 +414,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Judge\" />
     <Folder Include="Views\Participant\" />
   </ItemGroup>
   <ItemGroup>

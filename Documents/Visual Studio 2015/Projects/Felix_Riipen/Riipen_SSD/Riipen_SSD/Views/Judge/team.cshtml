@@ -4,27 +4,16 @@
     ViewBag.Title = "team";
 }
 
-<div class="Header">
-    @if (ViewBag.TeamName != null)
-    {
+<h2>team</h2>
 
-        <p>Team:&nbsp;&nbsp;@ViewBag.TeamName</p>
-    }
-    
-    @if (ViewBag.ContestName != null)
-    {
-        <p>Contest:&nbsp;&nbsp;@ViewBag.ContestName</p>
-    }    
-
-</div>
-    
-
-
-
-
-
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
 <table class="table">
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CriteriaID)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Criteria)
         </th>
@@ -32,39 +21,51 @@
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Score)
+            @Html.DisplayNameFor(model => model.YourScore)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CurrentScore)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Comment)
         </th>
-
+        <th>
+            @Html.DisplayNameFor(model => model.JudgesNotSubmitted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Submitted)
+        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.CriteriaID)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Criteria)
-           
-            
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Score)
-
-           
+            @Html.DisplayFor(modelItem => item.YourScore)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CurrentScore)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Comment)
         </td>
         <td>
-            @if(item.Score==null){
-            @Html.ActionLink("Edit", "EditCriteriaScore", new { teamId=ViewBag.TeamID, CriteriaID = item.CriteriaID }, new { @class = "btn btn-default btn-sm" })
-            }
-           
-          
+            @Html.DisplayFor(modelItem => item.JudgesNotSubmitted)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Submitted)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditCriteriaScore", new { teamID = ViewBag.TeamID, criteriaID = item.CriteriaID })
         </td>
     </tr>
 }

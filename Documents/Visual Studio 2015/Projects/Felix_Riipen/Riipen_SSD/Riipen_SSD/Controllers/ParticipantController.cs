@@ -8,9 +8,11 @@ namespace Riipen_SSD.Controllers
 {
     public class ParticipantController : Controller
     {
-        // GET: Participant
         public ActionResult Index()
         {
+
+
+
             return View();
         }
     }
