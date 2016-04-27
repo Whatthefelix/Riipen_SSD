@@ -132,6 +132,30 @@ namespace Riipen_SSD.Controllers
 
             return View(editContestVM);
         }
+        [HttpPost]
+        public ActionResult Editcontest(AdminViewModels.EditContestVM edit, int contestID)
+        {
+            if (ModelState.IsValid)
+            {
+                var contest = UnitOfWork.Contests.Get(contestID);
+                contest.Name = edit.ContestName;
+                contest.Location = edit.Location;
+                contest.StartTime = edit.Date;
+                contest.Criteria = edit.Criteria.Select(x => new Criterion()
+                {
+                    Name = x.Name,
+                    Description = x.Description,
+                }).ToList();
+                //contest.ContestJudges = edit.Judges.Select(x => new ContestJudge()
+                //{
+                    
+                //});         
+              
+                UnitOfWork.Complete();
+            }
+
+            return View();
+        }
         
     }
 }
