@@ -1,5 +1,6 @@
 ﻿using Microsoft.Owin;
 using Owin;
+using Riipen_SSD.App_Start;
 
 [assembly: OwinStartupAttribute(typeof(Riipen_SSD.Startup))]
 namespace Riipen_SSD
@@ -8,7 +9,8 @@ namespace Riipen_SSD
     {
         public void Configuration(IAppBuilder app)
         {
-            ConfigureAuth(app);
+            var container = SimpleInjectorInitializer.Initialize(app);
+            ConfigureAuth(app, container);
         }
     }
 }

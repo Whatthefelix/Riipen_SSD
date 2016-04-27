@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 using Riipen_SSD.DAL;
 using Riipen_SSD.Models;
 using Riipen_SSD.ViewModels;
@@ -13,30 +12,18 @@ namespace Riipen_SSD.Controllers
 {
     public class AdminController : Controller
     {
-        private ApplicationUserManager _userManager;
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-                 //aa
+        private ApplicationUserManager UserManager;
+        private IUnitOfWork UnitOfWork;
 
-            }
-        }
-
-        private IUnitOfWork _unitOfWork;
-        public AdminController()
+        public AdminController(ApplicationUserManager userManager, IUnitOfWork unitOfWork)
         {
-            _unitOfWork = new UnitOfWork(new SSD_RiipenEntities());
+            UserManager = userManager;
+            UnitOfWork = unitOfWork;
         }
         // GET: Admin
         public ActionResult Index()
         {
-           IEnumerable<AdminViewModels.IndexContestVM> adminContests = _unitOfWork.Contests.GetAll().Select(x => new AdminViewModels.IndexContestVM() { Name = x.Name, StartTime = x.StartTime.ToString(), Location = x.Location, Published = true, ContestID = x.Id });
+           IEnumerable<AdminViewModels.IndexContestVM> adminContests = UnitOfWork.Contests.GetAll().Select(x => new AdminViewModels.IndexContestVM() { Name = x.Name, StartTime = x.StartTime.ToString(), Location = x.Location, Published = true, ContestID = x.Id });
 
             return View(adminContests);
         }
@@ -61,31 +48,32 @@ namespace Riipen_SSD.Controllers
             var judgeIds = new List<String>();
             foreach (var judge in contest.Judges)
             {
-                var newJudgeUser = _unitOfWork.Users.SingleOrDefault(x => x.Email == judge.Email);
+                var judgeApplicationUser = UserManager.FindByEmail(judge.Email);
 
-                if (newJudgeUser == null)
+                if (judgeApplicationUser == null)
                 {
-                    var user = new ApplicationUser { UserName = judge.Email, Email = judge.Email, FirstName = judge.FirstName, LastName = judge.LastName };
-                    var result = UserManager.Create(user, "Pa$$w0rd");
-                    judgeIds.Add(user.Id);
+                    judgeApplicationUser = new ApplicationUser { UserName = judge.Email, Email = judge.Email, FirstName = judge.FirstName, LastName = judge.LastName };
+                    var result = UserManager.Create(judgeApplicationUser, "Pa$$w0rd");
                 }
+                judgeIds.Add(judgeApplicationUser.Id);
             }
 
-            newContest = _unitOfWork.Contests.Add(newContest);
-            _unitOfWork.Complete();
+            newContest = UnitOfWork.Contests.Add(newContest);
+            UnitOfWork.Complete();
 
-            _unitOfWork.ContestJudges.AddRange(judgeIds.Select(x => new ContestJudge()
+            UnitOfWork.ContestJudges.AddRange(judgeIds.Select(x => new ContestJudge()
             {
                 ContestId = newContest.Id,
                 JudgeUserId = x
             }));
-            _unitOfWork.Complete();
+
+            UnitOfWork.Complete();
 
             return View();
         }
         public ActionResult ContestDetails(int contestID)
         {
-            var contest = _unitOfWork.Contests.Get(contestID);
+            var contest = UnitOfWork.Contests.Get(contestID);
             var judges = contest.ContestJudges.Select(x => new AdminViewModels.JudgeVM()
             {
                 FirstName = x.AspNetUser.FirstName,
@@ -114,7 +102,7 @@ namespace Riipen_SSD.Controllers
         }
         public ActionResult EditContest(int contestID)
         {
-            var contest = _unitOfWork.Contests.Get(contestID); //get contest ID
+            var contest = UnitOfWork.Contests.Get(contestID); //get contest ID
 
             var judges = contest.ContestJudges.Select(x => new AdminViewModels.JudgeVM() 
             {
@@ -130,9 +118,6 @@ namespace Riipen_SSD.Controllers
             
             });
 
-
-                
-            
             var editContestVM = new AdminViewModels.EditContestVM()
             {   
                 
