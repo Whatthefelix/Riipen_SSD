@@ -39,7 +39,7 @@
             </div>
         </div>
 
-        <div class="form-group monkey">
+        <div class="form-group">
             @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
@@ -56,16 +56,20 @@
         <div class="form-group">
             <h3>Criteria</h3>
         </div>
-        <div class="form-group">
+        <div class="form-group multi-field-wrapper">
+            <button type="button" class="add-criteria"> Add Criteria</button>
+            <div class="multi-fields criteria-list-item">
             @foreach (var item in Model.Criteria)
             {
-                <div class="col-md-10">
+                <div class="col-md-10 multi-field criteria-list-item-list-item">
                     @Html.LabelFor(model => model.Criteria)
                     @Html.EditorFor(x => item.Name, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.LabelFor(model => item.Description)
                     @Html.EditorFor(x => item.Description, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
+                    <button type="button" class="remove-field">Remove</button>
+                 </div>
             }
+            </div>
         </div>
         <div class="form-group">
             <h3>Judges</h3>
@@ -84,7 +88,7 @@
                         @Html.EditorFor(x => item.LastName, new { htmlAttributes = new { @class = "form-control", @name = "judges[0].lastname" } })
                         @Html.LabelFor(x => item.Email)
                         @Html.EditorFor(x => item.Email, new { htmlAttributes = new { @class = "form-control", @name = "judges[0].email" } })
-                        <button type="button" class="remove-field">Remove</button>
+                        <button type="button" class="judge-remove-field">Remove</button>
                     </div>
 
                 }
