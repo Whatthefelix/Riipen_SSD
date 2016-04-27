@@ -8,41 +8,57 @@
 
 <div>
     <h4>CriteriaScoreVM</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Criteria)
-        </dt>
+   
+    <form class="form" action="EditCriteriaScore" method="post">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Criteria)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Criteria)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Criteria)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Score)
-        </dt>
+            <dt>
+              Score:
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Score)
-        </dd>
+            <dd>
+              
+                <select name="Score" required>
+                    @for(int i=0;i<=7;i++){
+                
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Comment)
-        </dt>
+                    <option value="@i">@i</option>
+                    }
+                </select>
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Comment)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Comment)
+            </dt>
 
-    </dl>
+            <dd>
+                <textarea name="Comment" required>@Html.DisplayFor(model => model.Comment)</textarea>
+            </dd>
+
+        </dl>
+        <input name="criteriaID" value="@Model.CriteriaID" hidden/>
+        <input name="teamID" value="@ViewBag.TeamID" hidden />
+        <input type="submit" value="Save"/>
+
+
+        
+    </form>
+
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |

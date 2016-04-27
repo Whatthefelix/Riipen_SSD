@@ -4,21 +4,21 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>All contests</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            contest name
+            @*@Html.DisplayNameFor(model => model.Name)*@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Location)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.StartTime)
+            start time
+            @*@Html.DisplayNameFor(model => model.StartTime)*@
         </th>
         <th></th>
     </tr>
@@ -26,10 +26,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            
-            <a href="contest/?contestId=@item.Id">
-                @Html.DisplayFor(modelItem => item.Name)
-            </a>
+            @Html.ActionLink(item.Name, "contest", new { contestId=item.Id })          
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Location)
