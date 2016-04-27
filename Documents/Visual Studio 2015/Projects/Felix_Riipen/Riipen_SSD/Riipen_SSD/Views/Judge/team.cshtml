@@ -4,14 +4,23 @@
     ViewBag.Title = "team";
 }
 
-<h2>@if(ViewBag.TeamName !=null){
-    
-    @ViewBag.TeamName 
+<div class="Header">
+    @if (ViewBag.TeamName != null)
+    {
+
+        <p>Team:&nbsp;&nbsp;@ViewBag.TeamName</p>
     }
     
+    @if (ViewBag.ContestName != null)
+    {
+        <p>Contest:&nbsp;&nbsp;@ViewBag.ContestName</p>
+    }    
+
+</div>
+    
 
 
-</h2>
+
 
 
 <table class="table">
@@ -35,8 +44,8 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-
-            @Html.ActionLink(item.Criteria, "EditCriteriaScore", new { teamId=ViewBag.TeamID, CriteriaID = item.CriteriaID })
+            @Html.DisplayFor(modelItem => item.Criteria)
+           
             
         </td>
         <td>
@@ -52,7 +61,7 @@
         </td>
         <td>
             @if(item.Score==null){
-            @Html.ActionLink("Edit", "EditCriteriaScore", new { teamId=ViewBag.TeamID, CriteriaID = item.CriteriaID })
+            @Html.ActionLink("Edit", "EditCriteriaScore", new { teamId=ViewBag.TeamID, CriteriaID = item.CriteriaID }, new { @class = "btn btn-default btn-sm" })
             }
            
           
