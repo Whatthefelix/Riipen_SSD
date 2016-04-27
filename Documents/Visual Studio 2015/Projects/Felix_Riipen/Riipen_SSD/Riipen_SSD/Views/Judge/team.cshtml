@@ -24,17 +24,17 @@
             @Html.DisplayNameFor(model => model.YourScore)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CurrentScore)
+          Final score
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Comment)
+            Your comment
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.JudgesNotSubmitted)
+           Status
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.Submitted)
-        </th>
+        </th>*@
         <th></th>
     </tr>
 
@@ -50,22 +50,54 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
+
             @Html.DisplayFor(modelItem => item.YourScore)
+            @if (item.YourScore != null)
+            {<span>/7</span>
+            }
+           
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.CurrentScore)
+
+
+
+@if (item.CurrentScore != null) {<span>/7</span>
+}
+else {
+    <span>Not available</span>
+}
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Comment)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.JudgesNotSubmitted)
+            @if (item.JudgesNotSubmitted == 0)
+            {
+              <span>Final</span>
+            }
+            else {
+                if (item.JudgesNotSubmitted == 1 && !item.Submitted)
+                {
+                    <span>waiting for you to submit  </span>
+                }
+                else
+                {
+                    <span>Waiting for @item.JudgesNotSubmitted judge</span>
+                }
+
+
+            }
+
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.Submitted)
-        </td>
+        </td>*@
         <td>
-            @Html.ActionLink("Edit", "EditCriteriaScore", new { teamID = ViewBag.TeamID, criteriaID = item.CriteriaID })
+            @if (!item.Submitted)
+            {   @Html.ActionLink("Edit", "EditCriteriaScore", new { teamID = ViewBag.TeamID, criteriaID = item.CriteriaID })}
+           
+         
         </td>
     </tr>
 }

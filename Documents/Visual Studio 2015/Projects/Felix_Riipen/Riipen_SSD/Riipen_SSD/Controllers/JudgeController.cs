@@ -55,7 +55,6 @@ namespace Riipen_SSD.Controllers
             List<CriteriaScoreVM> CriteriaScoreVMList = new List<CriteriaScoreVM>();
 
             int? JudgesNotSumbbitted  = null;
-            bool Submitted = false;
             if (getCriteriaScores.Count() != 0)
             {
                 foreach (var item in getContestCriteria) {
@@ -63,31 +62,28 @@ namespace Riipen_SSD.Controllers
 
                     double? YourScore = null;
                     double? CurrentScore = null;
-                   
 
                     //get the number of judges not submit the score
+                    int judgesNumber = _unitOfWork.ContestJudges.Find(cj => cj.ContestId == item.ContestId).Count();
                     List<CriteriaScore> getJudgesNotSubmitted = context.CriteriaScores.Where(cs => cs.TeamId == teamID
                   && cs.CriteriaId == item.Id
-                  && (bool)cs.Submitted == false).ToList();
+                  && (bool)cs.Submitted).ToList();
 
-                    JudgesNotSumbbitted = getJudgesNotSubmitted.Count();
+                    JudgesNotSumbbitted = judgesNumber - getJudgesNotSubmitted.Count();
 
 
                     // get the current Score for one Criteria
                     List<CriteriaScore> getCurrentScoresForOneCriteria = context.CriteriaScores.Where(cs => cs.TeamId == teamID
                     && cs.CriteriaId == item.Id
                     && (bool)cs.Submitted == true).ToList();
-                    if (getCurrentScoresForOneCriteria.Count()!=0)
-                    { CurrentScore = Math.Round((double)getCurrentScoresForOneCriteria.Average(s => s.Score), 2); }
-                   
-
-                    if (criteriaScore.Score!= null && criteriaScore.Submitted == true) {
-
-                        YourScore = criteriaScore.Score;
-                        Submitted = true;
+                    if (getCurrentScoresForOneCriteria.Count()!=0 && JudgesNotSumbbitted == 0)
+                    { 
+                            CurrentScore = Math.Round((double)getCurrentScoresForOneCriteria.Average(s => s.Score), 2);
                     }
+                   
+                    YourScore = criteriaScore.Score;
 
-                    CriteriaScoreVMList.Add(new CriteriaScoreVM(item.Id, item.Name, item.Description, YourScore, CurrentScore, criteriaScore.Comment, JudgesNotSumbbitted, Submitted));
+                    CriteriaScoreVMList.Add(new CriteriaScoreVM(item.Id, item.Name, item.Description, YourScore, CurrentScore, criteriaScore.Comment, JudgesNotSumbbitted, criteriaScore.Submitted));
                 }
             }
             else {
@@ -101,11 +97,12 @@ namespace Riipen_SSD.Controllers
                     context.CriteriaScores.Add(newCriteriaScore);
 
                     //get the number of judges not submit the score
+                    int judgesNumber = _unitOfWork.ContestJudges.Find(cj => cj.ContestId == item.ContestId).Count();
                     List<CriteriaScore> getJudgesNotSubmitted = context.CriteriaScores.Where(cs => cs.TeamId == teamID
                   && cs.CriteriaId == item.Id
                   &&(bool)cs.Submitted == false).ToList();
 
-                    JudgesNotSumbbitted = getJudgesNotSubmitted.Count();
+                    JudgesNotSumbbitted = judgesNumber - getJudgesNotSubmitted.Count();
                     CriteriaScoreVMList.Add(new CriteriaScoreVM(item.Id, item.Name, item.Description, null, null, null, JudgesNotSumbbitted, false));
                     context.SaveChanges();
                 }
