@@ -41,7 +41,7 @@ namespace Riipen_SSD.Controllers
         }
 
 
-        public ActionResult contest(int contestID)
+        public ActionResult Contest(int contestID)
         {
             //get the number of team in this contest
             List<Team> teams = _unitOfWork.Contests.Get(contestID).Teams.ToList();
@@ -120,7 +120,7 @@ namespace Riipen_SSD.Controllers
         }
 
 
-        public ActionResult team(int teamID)
+        public ActionResult Team(int teamID)
         {
 
             //get your all criteria Score mark for a team 

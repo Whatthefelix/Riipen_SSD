@@ -319,6 +319,8 @@
     <Compile Include="ViewModels\AdminViewModels\JudgeVM.cs" />
     <Compile Include="ViewModels\AdminViewModels\ParticipantVM.cs" />
     <Compile Include="ViewModels\ContestVM.cs" />
+    <Compile Include="ViewModels\ParticipantViewModels\ContestTeamVM.cs" />
+    <Compile Include="ViewModels\ParticipantViewModels\ParticipantContestVM.cs" />
     <Compile Include="ViewModels\SingleCriteriaScoreVM.cs" />
     <Compile Include="ViewModels\SingleJudgeCriteriaScoreVM.cs" />
     <Compile Include="ViewModels\TeamCriteriaScoreVM.cs" />
@@ -415,10 +417,11 @@
     <Content Include="Views\Judge\EditCriteriaScore.cshtml" />
     <Content Include="Views\Judge\Index.cshtml" />
     <Content Include="Views\Judge\team.cshtml" />
+    <Content Include="Views\Participant\Index.cshtml" />
+    <Content Include="Views\Participant\Contests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Participant\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
