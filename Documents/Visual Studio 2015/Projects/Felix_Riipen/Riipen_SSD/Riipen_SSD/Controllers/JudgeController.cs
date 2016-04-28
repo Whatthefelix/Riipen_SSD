@@ -115,7 +115,7 @@ namespace Riipen_SSD.Controllers
             }
 
             ViewBag.ContestName = _unitOfWork.Contests.Get(contestID).Name;
-           rreturn View(teamCriteriaScoreVMList);
+           return View(teamCriteriaScoreVMList);
 
         }
 
