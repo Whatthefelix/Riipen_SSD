@@ -26,7 +26,7 @@
             {
             <tr>
                 <td>
-                    @item.CriteriaName
+                    @Html.ActionLink(item.CriteriaName, "CriteriaDetials", new {teamID=ViewBag.TeamID, contestID=ViewBag.ContestID,criteriaID =item.CriteriaID }) 
                 </td>
 
                 <td>
@@ -58,7 +58,4 @@
 
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+

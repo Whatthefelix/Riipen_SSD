@@ -44,9 +44,6 @@ namespace Riipen_SSD.Controllers
 
                 
             }
-
-
-
             return View(contestList);
         }
 
@@ -118,7 +115,7 @@ namespace Riipen_SSD.Controllers
                     }
                 }
 
-                teamCriteriaScoreVMList.Add(new TeamCriteriaScoreVM(team.Id, contestID,team.Name,YourScore,FinalScore,judgeNotSubmit,Submitted));
+                teamCriteriaScoreVMList.Add(new TeamCriteriaScoreVM(team.Id, contestID, team.Name, YourScore, FinalScore, judgeNotSubmit, Submitted));
                 YourScore = null;
                 FinalScore = null;
                 Submitted = false;

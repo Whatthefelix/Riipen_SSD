@@ -76,6 +76,8 @@ namespace Riipen_SSD.Controllers
 
             ViewBag.ContestID = contestID;
 
+            ViewBag.ContestName = context.Contests.Find(contestID).Name;
+
             return View(ContestTeamVMList);
 
         }
@@ -123,7 +125,56 @@ namespace Riipen_SSD.Controllers
                 teamCriteriaVMListComplete.Feedback = feeback.Comment;
             }
 
+
+            ViewBag.TeamID = teamID;
+            ViewBag.ContestID = contestID;
             return View(teamCriteriaVMListComplete);
+        }
+
+
+        public ActionResult CriteriaDetials(int teamID, int contestID, int criteriaID) {
+
+            //get all scores for one criteria from all judges
+            var getAllScoresForOneCriteria = context.CriteriaScores.Where(cs => cs.TeamId == teamID && cs.ContestId == contestID && cs.CriteriaId == criteriaID).ToList();
+            List<CriteriaDetailVM> criteriaDetailVMList = new List<CriteriaDetailVM>();
+
+            foreach (var item in getAllScoresForOneCriteria) {
+                //get judge name for a contest
+                string judgeName = context.AspNetUsers.Find(item.Judge_ID).UserName;
+
+
+                //get score and comment from this judge 
+                double? Score = null;
+                string Comment = null;
+
+                if (item.Submitted) {
+                    Score = item.Score;
+                    Comment = item.Comment;
+                                    }
+                criteriaDetailVMList.Add(new CriteriaDetailVM(item.Score, judgeName, Comment));
+            }
+
+            //get contest name
+            ViewBag.ContestName = context.Contests.Find(contestID).Name;
+
+            //get team name
+            ViewBag.TeamName = context.Teams.Find(teamID).Name;
+           
+            //get criteria name
+            ViewBag.CriteriaName = context.Criteria.Find(criteriaID).Name;
+
+          
+            //get the numbers of judges who haven't submitted
+            int? JudgesNotSubmitted = criteriaDetailVMList.Where(x => x.Score == null).ToList().Count();
+
+            if (JudgesNotSubmitted != 0)
+            {
+                ViewBag.JudgesNotSubmitted = JudgesNotSubmitted;
+
+            }
+
+
+            return View(criteriaDetailVMList);
         }
     }
 }

@@ -4,11 +4,15 @@
     ViewBag.Title = "Contests";
 }
 
-<h2>Contests</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+    @if (ViewBag.ContestName != null) {
+        <span> All teams for @ViewBag.ContestName</span>
+    }
+
+
+   
+  </p>
 <table class="table">
     <tr>
         <th>
@@ -21,7 +25,7 @@
             @Html.DisplayNameFor(model => model.Score)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.JudgeNotSubmitted)
+         @Html.DisplayNameFor(model => model.JudgeNotSubmitted)
         </th>
         <th></th>
     </tr>
@@ -33,19 +37,24 @@
         </td>
         <td>
             @Html.ActionLink(item.TeamName, "TeamScores", new { teamID=item.TeamID,contestID = ViewBag.ContestID })
-            
-            @Html.DisplayFor(modelItem => item.TeamName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Score)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.JudgeNotSubmitted)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @if (item.JudgeNotSubmitted==0)
+            {
+
+                <span>Final</span>
+
+            }
+            else
+            {
+
+                <span>Waiting for @Html.DisplayFor(modelItem => item.JudgeNotSubmitted) Judges</span>
+            }
+
+            
         </td>
     </tr>
 }

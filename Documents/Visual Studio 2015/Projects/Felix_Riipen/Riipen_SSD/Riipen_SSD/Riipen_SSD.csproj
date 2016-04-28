@@ -320,6 +320,7 @@
     <Compile Include="ViewModels\AdminViewModels\ParticipantVM.cs" />
     <Compile Include="ViewModels\ContestVM.cs" />
     <Compile Include="ViewModels\ParticipantViewModels\ContestTeamVM.cs" />
+    <Compile Include="ViewModels\ParticipantViewModels\CriteriaDetailVM.cs" />
     <Compile Include="ViewModels\ParticipantViewModels\ParticipantContestVM.cs" />
     <Compile Include="ViewModels\ParticipantViewModels\TeamCriteriaVM.cs" />
     <Compile Include="ViewModels\ParticipantViewModels\TeamCriteriaVMList.cs" />
@@ -423,6 +424,7 @@
     <Content Include="Views\Participant\Index.cshtml" />
     <Content Include="Views\Participant\Contests.cshtml" />
     <Content Include="Views\Participant\TeamScores.cshtml" />
+    <Content Include="Views\Participant\CriteriaDetials.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
