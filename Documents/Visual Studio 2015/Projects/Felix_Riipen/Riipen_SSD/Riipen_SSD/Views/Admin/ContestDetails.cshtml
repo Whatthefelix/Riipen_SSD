@@ -4,10 +4,9 @@
     ViewBag.Title = "ContestDetails";
 }
 
-<h2>ContestDetails</h2>
+<h2>ContestDetails</h2>                                                                             
 
 <div>
-    <h4>ContestDetailsVM</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -44,6 +43,9 @@
 
     </dl>
 </div>
+        <div class="contestScores">
+            @Html.ActionLink("View Scores", "contestScores", "Admin")
+        </div>
 <table class="table">
     <caption>Judges</caption>
     <tr>

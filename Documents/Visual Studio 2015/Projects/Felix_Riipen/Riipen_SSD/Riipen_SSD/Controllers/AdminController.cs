@@ -135,27 +135,17 @@ namespace Riipen_SSD.Controllers
         [HttpPost]
         public ActionResult Editcontest(AdminViewModels.EditContestVM edit, int contestID)
         {
-            if (ModelState.IsValid)
-            {
-                var contest = UnitOfWork.Contests.Get(contestID);
-                contest.Name = edit.ContestName;
-                contest.Location = edit.Location;
-                contest.StartTime = edit.Date;
-                contest.Criteria = edit.Criteria.Select(x => new Criterion()
-                {
-                    Name = x.Name,
-                    Description = x.Description,
-                }).ToList();
-                //contest.ContestJudges = edit.Judges.Select(x => new ContestJudge()
-                //{
-                    
-                //});         
-              
-                UnitOfWork.Complete();
-            }
-
             return View();
         }
         
+        public ActionResult contestScores(int contestID)
+        {   //need to get TeamID, TeamName, FinalScore, 
+            double? FinalScore = null;
+            
+            List<Team> teams = UnitOfWork.Contests.Get(contestID).Teams.ToList(); //get all the teams
+            List<TeamCriteriaScoreVM> teamCriteriaScoreVMList = new List<TeamCriteriaScoreVM>(); //get all the criteriascoreVMs as list
+            
+            return View();
+        }
     }
 }

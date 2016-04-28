@@ -6,9 +6,8 @@
 
 <h2>contest</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
+
 <table class="table">
     <tr>
         <th>
@@ -20,10 +19,17 @@
         <th>
             @Html.DisplayNameFor(model => model.TeamName)
         </th>
+
         <th>
-            @Html.DisplayNameFor(model => model.YourCurrentScore)
+            @if (!User.IsInRole("Admin"))
+            {
+                @Html.DisplayNameFor(model => model.YourCurrentScore)
+            }
+            
+
         </th>
         <th>
+
             @Html.DisplayNameFor(model => model.FinalScore)
         </th>
         <th>
@@ -46,7 +52,11 @@
         <td>            
             @if (item.YourCurrentScore == null)
             {
+                if (!User.IsInRole("Admin"))
+                {
+
                 @Html.ActionLink("Judge Now", "Team", new { teamID = item.TeamID })
+                }
             }
             else {
                 @Html.DisplayFor(modelItem => item.YourCurrentScore)<span>/7</span>
