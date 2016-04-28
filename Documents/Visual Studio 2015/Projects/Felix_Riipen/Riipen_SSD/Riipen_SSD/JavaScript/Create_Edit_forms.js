@@ -22,8 +22,8 @@ $(function () {
             }
             
             else if ($('.multi-field', $wrapper).length == 1) {
-                $('input[name="item.Name"]').val("");
-                $('input[name="item.Description"]').val("");
+                $('input[name="criteria[0].name"]').val("");
+                $('input[name="criteria[0].description"]').val("");
             }
         });
         $('.multi-field .judge-remove-field', $wrapper).click(function () {
@@ -32,9 +32,9 @@ $(function () {
             }
 
             else if ($('.multi-field', $wrapper).length == 1) {
-                $('input[name="item.FirstName"]').val("");
-                $('input[name="item.LastName"]').val("");
-                $('input[name="item.Email"]').val("");
+                $('input[name="judges[0].firstname"]').val("");
+                $('input[name="judges[0].lastname"]').val("");
+                $('input[name="judges[0].email"]').val("");
             }
         });
 
