@@ -52,15 +52,7 @@ namespace Riipen_SSD.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    if (Roles.IsUserInRole("Admin"))
-                    {
-                        return RedirectToAction("Index", "Admin");
-                    }
-                    else if (Roles.IsUserInRole("Judge"))
-                    {
-                        return RedirectToAction("Index", "Judge");
-                    }
-                    return RedirectToAction("Index", "Participant");
+                    return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

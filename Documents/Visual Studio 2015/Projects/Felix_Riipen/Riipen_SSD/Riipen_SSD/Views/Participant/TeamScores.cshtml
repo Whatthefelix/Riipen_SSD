@@ -1,0 +1,64 @@
+﻿@model Riipen_SSD.ViewModels.ParticipantViewModels.TeamCriteriaVMList
+
+@{
+    ViewBag.Title = "TeamScores";
+}
+
+<h2>TeamScores</h2>
+
+<div>
+    <h4>TeamCriteriaVMList</h4>
+
+    <table class="table">
+        <tr>
+            <th>
+                Criteria
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Score
+            </th>
+        </tr>
+
+        @foreach (var item in Model.teamCriteriaVMlist)
+            {
+            <tr>
+                <td>
+                    @item.CriteriaName
+                </td>
+
+                <td>
+                    @item.Description
+                </td>
+                <td>
+                 @item.Score                  
+                </td>
+            </tr>}
+    </table>
+
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PubliclyViewable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PubliclyViewable)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Feedback)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Feedback)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -74,14 +74,56 @@ namespace Riipen_SSD.Controllers
 
             }
 
+            ViewBag.ContestID = contestID;
+
             return View(ContestTeamVMList);
 
         }
-        public ActionResult TeamScores(int teamID)
+
+        public ActionResult TeamScores(int teamID, int contestID)
         {
-            List<TeamCriteriaScoreVM> myTeamScore = new List<TeamCriteriaScoreVM>();
-            var myScores = (from cs in context.CriteriaScores where cs.TeamId == teamID select cs).ToList();
-            return View();
+            TeamCriteriaVMList teamCriteriaVMListComplete = new TeamCriteriaVMList();
+
+            List<TeamCriteriaVM> teamCriterVMlist = new List<TeamCriteriaVM>();
+
+            double? CurrentScore = null;
+
+            //get all criteria for a team 
+            List<Criterion> getContestCriteria = _unitOfWork.Contests.Get(contestID).Criteria.ToList();
+
+            //get all submitted criteria scores for one team
+            List<CriteriaScore> getAllCriteriaScoreForOneTeam = context.CriteriaScores.Where(cs => cs.TeamId == teamID && cs.ContestId == contestID&&(bool)cs.Submitted).ToList();
+
+            //get the current score (overall) of all criteria for a team in a contest
+            if (getAllCriteriaScoreForOneTeam.Count() != 0) {
+                CurrentScore = getAllCriteriaScoreForOneTeam.Average(x => x.Score);
+            }
+
+            //get each score for each criteria 
+            foreach (var item in getContestCriteria) {
+                //ge all scores for one criteria
+                var getAllScoreForOneCriteria = getAllCriteriaScoreForOneTeam.Where(x => x.CriteriaId == item.Id).ToList();
+
+                double? getAverageScoreForEachCriteria = null;
+
+                if (getAllScoreForOneCriteria.Count() != 0) {
+                    getAverageScoreForEachCriteria = Math.Round((double)getAllScoreForOneCriteria.Average(x => x.Score), 2);
+                }
+
+                teamCriterVMlist.Add(new TeamCriteriaVM(item.Id,item.Name,item.Description,getAverageScoreForEachCriteria));                
+            }
+
+           //get the feedback for a team in contest
+           Feedback feeback = context.Feedbacks.Where(f=>f.ContestId==contestID && f.TeamId == teamID).FirstOrDefault();
+
+            teamCriteriaVMListComplete.teamCriteriaVMlist = teamCriterVMlist;
+
+            if (feeback != null) {
+                teamCriteriaVMListComplete.PubliclyViewable = feeback.PubliclyViewable;
+                teamCriteriaVMListComplete.Feedback = feeback.Comment;
+            }
+
+            return View(teamCriteriaVMListComplete);
         }
     }
 }

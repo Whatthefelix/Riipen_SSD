@@ -31,7 +31,6 @@ namespace Riipen_SSD.Controllers
             //get the numbers of contest which the judge can judge
             var contestJudges = (from c in context.ContestJudges where c.JudgeUserId == UserID select c).ToList();
 
-            //if() 
 
             List<Contest> contestList = new List<Contest>();
 
