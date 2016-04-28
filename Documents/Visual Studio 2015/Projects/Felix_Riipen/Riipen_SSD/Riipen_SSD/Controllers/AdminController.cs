@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using CsvHelper;
+using Microsoft.AspNet.Identity;
 using Riipen_SSD.DAL;
+using Riipen_SSD.ExtensionMethods;
 using Riipen_SSD.Models;
 using Riipen_SSD.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -34,101 +37,69 @@ namespace Riipen_SSD.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult CreateContest(ContestVM contest)
+        public ActionResult CreateContest(ContestVM editContestVM, HttpPostedFileBase file)
         {
-            ICollection<Criterion> criteriaList = contest.Criteria.Select(x => new Criterion() { Description = x.Description, Name = x.Name }).ToList();
-
-            var newContest = new Contest()
+            // THIS SEEMS TO WORK BUT NEEDS MAJOR REFACTORING 
+            var contest = new Contest()
             {
-                Criteria = criteriaList,
-                StartTime = contest.Date,
-                Location = contest.Location,
-                Name = contest.ContestName,
+                StartTime = editContestVM.Date,
+                Location = editContestVM.Location,
+                Name = editContestVM.ContestName,
             };
 
-            var judgeIds = new List<String>();
-            foreach (var judge in contest.Judges)
+            var participants = new List<AspNetUser>();
+            using (StreamReader streamReader = new StreamReader(file.InputStream))
             {
-                var judgeApplicationUser = UserManager.FindByEmail(judge.Email);
-
-                if (judgeApplicationUser == null)
+                var csv = new CsvReader(streamReader);
+                while (csv.Read())
                 {
-                    judgeApplicationUser = new ApplicationUser { UserName = judge.Email, Email = judge.Email, FirstName = judge.FirstName, LastName = judge.LastName };
-                    var result = UserManager.Create(judgeApplicationUser, "Pa$$w0rd");
+                    var name = csv.GetField<string>("Name");
+                    var firstName = name.Split(' ')[0];
+                    var lastName = name.Split(' ')[1];
+                    var email = csv.GetField<string>("Email");
+                    var teamName = csv.GetField<string>("Team Name");
+
+                    var participant = UnitOfWork.Users.SingleOrDefault(x => x.Email == email);
+                    if (participant == null)
+                    {
+                        var participantApplicationUser = new ApplicationUser { UserName = email, Email = email, FirstName = firstName, LastName = lastName, PhoneNumberConfirmed = true };
+                        UserManager.Create(participantApplicationUser, "Pa$$w0rd");
+                        participant = AutoMapper.Mapper.Map<ApplicationUser, AspNetUser>(participantApplicationUser);
+                    }
+                    participants.Add(participant);
+
+                    var team = contest.Teams.FirstOrDefault(t => t.Name == teamName);
+                    if (team == null)
+                    {
+                        team = new Team() { Name = teamName };
+                        contest.Teams.Add(team);
+                    }
+                    team.AspNetUsers.Add(participant);
                 }
-                judgeIds.Add(judgeApplicationUser.Id);
             }
-
-            newContest = UnitOfWork.Contests.Add(newContest);
-            UnitOfWork.Complete();
-
-            UnitOfWork.ContestJudges.AddRange(judgeIds.Select(x => new ContestJudge()
-            {
-                ContestId = newContest.Id,
-                JudgeUserId = x
-            }));
 
             UnitOfWork.Complete();
 
-            return View();
-        }
-        public ActionResult ContestDetails(int contestID)
-        {
-            var contest = UnitOfWork.Contests.Get(contestID);
-            var judges = contest.ContestJudges.Select(x => new AdminViewModels.JudgeVM()
+            var judges = new List<ContestJudge>();
+            foreach (var judge in editContestVM.Judges)
             {
-                FirstName = x.AspNetUser.FirstName,
-                LastName = x.AspNetUser.LastName,
-                Email = x.AspNetUser.Email
-            });
-            var participants = new List<AdminViewModels.ParticipantVM>();
-            foreach (var team in contest.Teams)
-            {
-                var participantsFromTeam = team.AspNetUsers.Select(x => new AdminViewModels.ParticipantVM() { Email = x.Email, Name = x.FirstName, TeamName = team.Name });
-                participants.AddRange(participantsFromTeam);
+                var judgeUser = UnitOfWork.Users.SingleOrDefault(x => x.Email == judge.Email);
+
+                if (judgeUser == null)
+                {
+                    var judgeApplicationUser = new ApplicationUser { UserName = judge.Email, Email = judge.Email, FirstName = judge.FirstName, LastName = judge.LastName };
+                    UserManager.Create(judgeApplicationUser, "Pa$$w0rd");
+                    judgeUser = AutoMapper.Mapper.Map<ApplicationUser, AspNetUser>(judgeApplicationUser);
+                }
+                judges.Add(new ContestJudge()
+                {
+                    JudgeUserId = judgeUser.Id,
+                });
             }
-
-            var contestDetailVM = new AdminViewModels.ContestDetailsVM()
-            {
-                ContestID = contestID,
-                Name = contest.Name,
-                StartTime = contest.StartTime.ToString(),
-                Location = contest.Location,
-                Published = true,
-                Participants = participants,
-                Judges = judges,
-            };
-
-            return View(contestDetailVM);
-        }
-        public ActionResult EditContest(int contestID)
-        {
-            var contest = UnitOfWork.Contests.Get(contestID); //get contest ID
-
-            var judges = contest.ContestJudges.Select(x => new AdminViewModels.JudgeVM() 
-            {
-                FirstName = x.AspNetUser.FirstName,
-                LastName = x.AspNetUser.LastName,
-                Email = x.AspNetUser.Email
-            });
-            var criteria = contest.Criteria.Select(x => new AdminViewModels.CriteriaVM()
-            {
-                //criteria name
-                Description = x.Description,
-                Name = x.Name,
-            
-            });
-
-            var editContestVM = new AdminViewModels.EditContestVM()
-            {   
-                
-                ContestID = contestID,
-                Judges = judges,
-                Criteria = criteria,
-                ContestName = contest.Name,
-                Date = contest.StartTime,
-                Location = contest.Location,
-            };           
+            contest.Criteria.AddRange(editContestVM.Criteria.Select(x => new Criterion() { Description = x.Description, Name = x.Name }));
+            contest.ContestJudges.AddRange(judges);
+            contest = UnitOfWork.Contests.Add(contest);
+            UnitOfWork.Complete();
 
             return View(editContestVM);
         }

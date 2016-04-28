@@ -13,7 +13,7 @@
 
 }
 <h2>Add Contest</h2>
-<form id="ContestForm" role="form" method="post">
+<form id="ContestForm" role="form" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <div class="contestName">
             <label for="contestName">Contest Name</label>
@@ -49,53 +49,10 @@
             <button type="button" class="add-judge"> Add Judge</button>
         </div>
 
-        <p>Add teams and judges</p>
-        <button type="button" class="uploadExcel" id="uploadExcel"> Upload</button>
-        <div id="excelPreview">
-            <table class="table table-striped">
-                <caption>Judges</caption>
-                <tr>
-                    <td>Name</td>
-                    <td>Email</td>
-                </tr>
-                <tr>
-                    <td>Andrew</td>
-                    <td>AndrewJudge@judgetruddy.com</td>
-                </tr>
-            </table>
-            <table class="table table-striped">
-                <caption>Teams</caption>
-                <tr>
-                    <td>Team Name</td>
-                    <td> Members</td>
-                    <td> Email</td>
-                </tr>
-                <tr>
-                    <td>Team Awesome</td>
-                    <td>Jack</td>
-                    <td>Daniel</td>
-                    <td>jd@jd.com</td>
-                </tr>
-                <tr>
-                    <td>Team Awesome</td>
-                    <td>Jacob</td>
-                    <td>Kenny</td>
-                    <td>jdk@jdk.com</td>
-                </tr>
-                <tr>
-                    <td>Team Awesome</td>
-                    <td>Joseph</td>
-                    <td>Daniel</td>
-                    <td>josephd@jd.com</td>
-                </tr>
-                <tr>
-                    <td>Team Awesome</td>
-                    <td>Miles</td>
-                    <td>McLeod</td>
-                    <td>runningMiles@miles.com</td>
-                </tr>
-            </table>
-        </div>
+        <label>
+            Add teams and judges
+            <input type="file" accept="csv" name="file" data-val="true" data-val-required="File is required" />
+        </label>
         <button type="submit"> Create Contest</button>
     </div>
 </form>
