@@ -67,22 +67,32 @@
                             counter++;
 
                         }
+                       
+
                     <input name="@criteriaIdName" value="@item.CriteriaID" hidden/>    
-                        <select name="@scoreName">
-                            <option value="">make your section</option>
+                         <div style="position:relative">
+                             <span style="float:left">Rotten</span>
                             @for (int i = 1; i < 8; i++)
                             {
 
                                 if (item.Score == i)
                                 {
-                                    checkValue = "selected";
+                                    checkValue = "checked";
                                 }
-                                <option @checkValue value="@i">@i</option>
+                                <div class="scoreDiv" style="float:left">
+                                    <span>@i</span><br />
+                                    <input type="radio" name="@scoreName" value="@i" @checkValue>
+                                </div>
                                 checkValue = "";
 
 
+
+
                             }
-                        </select>
+                            <span>Riipe</span>
+                        </div>   
+
+
                     </td>
                     <td>
                        
