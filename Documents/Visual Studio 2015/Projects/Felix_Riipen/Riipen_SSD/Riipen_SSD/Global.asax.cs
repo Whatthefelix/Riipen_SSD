@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Riipen_SSD.Models;
+using Riipen_SSD.App_Start;
 
 namespace Riipen_SSD
 {
@@ -18,6 +19,7 @@ namespace Riipen_SSD
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            MappingConfig.RegisterMaps();
         }
 
         protected void Application_BeginRequest()
