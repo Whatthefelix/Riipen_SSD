@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Riipen_SSD.Models;
+using System.Web.Security;
 
 namespace Riipen_SSD.Controllers
 {
@@ -51,7 +52,15 @@ namespace Riipen_SSD.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    if (Roles.IsUserInRole("Admin"))
+                    {
+                        return RedirectToAction("Index", "Admin");
+                    }
+                    else if (Roles.IsUserInRole("Judge"))
+                    {
+                        return RedirectToAction("Index", "Judge");
+                    }
+                    return RedirectToAction("Index", "Participant");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

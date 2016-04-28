@@ -10,6 +10,7 @@ using Riipen_SSD.ViewModels;
 
 namespace Riipen_SSD.Controllers
 {
+    [Authorize(Roles ="Admin, Judge")]
     public class JudgeController : Controller
     {
         SSD_RiipenEntities context = new SSD_RiipenEntities();
@@ -30,12 +31,22 @@ namespace Riipen_SSD.Controllers
             //get the numbers of contest which the judge can judge
             var contestJudges = (from c in context.ContestJudges where c.JudgeUserId == UserID select c).ToList();
 
+            //if() 
+
             List<Contest> contestList = new List<Contest>();
+
 
             foreach (var contestJudge in contestJudges)
             {
                 contestList.Add(_unitOfWork.Contests.Get(contestJudge.ContestId));
             }
+                        if (User.IsInRole("Admin")){
+                 contestList = _unitOfWork.Contests.GetAll().ToList();
+
+                
+            }
+
+
 
             return View(contestList);
         }

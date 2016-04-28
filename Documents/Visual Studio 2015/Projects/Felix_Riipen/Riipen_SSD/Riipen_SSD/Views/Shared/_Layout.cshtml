@@ -21,9 +21,20 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @{
+                        if (Request.IsAuthenticated && (User.IsInRole("Admin")))
+                        {
+                            <li>@Html.ActionLink("Contests", "Index", "Admin")</li>
+                        }
+                        else if (Request.IsAuthenticated && (User.IsInRole("Judge")))
+                        {
+                            <li>@Html.ActionLink("Contests", "Index", "Judge")</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Contests", "Index", "Participant")</li>
+                        }
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
