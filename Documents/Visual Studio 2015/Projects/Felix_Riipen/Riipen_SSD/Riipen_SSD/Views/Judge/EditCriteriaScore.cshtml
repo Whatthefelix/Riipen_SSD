@@ -7,10 +7,15 @@
 <h2>EditCriteriaScore</h2>
 
 <div>
-    <h4>CriteriaScoreVM</h4>
-    <hr />
+   @if (ViewBag.ContestName != null) {
+       <p>Contest name: @ViewBag.ContestName</p>
+   }
 
 
+    @if (ViewBag.TeamName != null)
+    {
+        <p>Team name: @ViewBag.TeamName</p>
+    }
     <form action="EditCriteriaScore" method="post">
         <input name="criteriaID" value="@Model.CriteriaID" hidden/>
         <input name="teamID" value="@ViewBag.TeamID" hidden />

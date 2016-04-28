@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Riipen_SSD.DAL;
 using Microsoft.AspNet.Identity;
 using Riipen_SSD.Models.ViewModels;
+using Riipen_SSD.ViewModels;
 
 namespace Riipen_SSD.Controllers
 {
@@ -39,79 +40,105 @@ namespace Riipen_SSD.Controllers
         public ActionResult contest(int contestID)
         {
             List<Team> teams = _unitOfWork.Contests.Get(contestID).Teams.ToList();
+            List <TeamCriteriaScoreVM> teamCriteriaScoreVMList = new List<TeamCriteriaScoreVM>();
+            double? YourScore = null;
+            double? FinalScore = null;
+
+            //get judge number for a contest
+            int judgesNumber = _unitOfWork.ContestJudges.Find(cj => cj.ContestId == contestID).Count();
+            int? judgeNotSubmit = null;
+         
+            foreach (var team in teams) {
+                //get unsubmitted judge number for a team
+                List<CriteriaScore> getSubmitJudges = context.CriteriaScores.Where(ci=>ci.ContestId==contestID && ci.TeamId == team.Id && (bool)ci.Submitted).ToList();
+                judgeNotSubmit = judgesNumber - getSubmitJudges.Count();
+
+                //get your score for a team
+                string UserID = User.Identity.GetUserId();
+
+                
+                List<CriteriaScore> getYourCriteriaScoreForATeam = context.CriteriaScores.Where(ci => ci.ContestId == contestID && ci.TeamId == team.Id &&ci.Judge_ID==UserID).ToList();
+                
+
+                if (getYourCriteriaScoreForATeam.Count() != 0)
+                {
+                    getYourCriteriaScoreForATeam = getYourCriteriaScoreForATeam.Where(x => x.Score != null).ToList();
+
+                    if (getYourCriteriaScoreForATeam.Count() != 0)
+                    {
+                        YourScore = Math.Round((double)getYourCriteriaScoreForATeam.Average(g => g.Score), 2);
+                    }
+                   
+                  
+                }
+                else {
+                    List<Criterion> getContestCriteria = _unitOfWork.Contests.Get(contestID).Criteria.ToList();
+
+                    foreach (var item in getContestCriteria)
+                    {
+                        CriteriaScore newCriteriaScore = new CriteriaScore();
+                        newCriteriaScore.TeamId = team.Id;
+                        newCriteriaScore.CriteriaId = item.Id;
+                        newCriteriaScore.ContestId = contestID;
+                        newCriteriaScore.Judge_ID = User.Identity.GetUserId();
+                        context.CriteriaScores.Add(newCriteriaScore);
+                        context.SaveChanges();
+                    }
+                }
+
+                //get final score for a team
+                if (judgeNotSubmit == 0) {
+                    List<CriteriaScore> getFinalCriteriaScoreForATeam = context.CriteriaScores.Where(ci => ci.ContestId == contestID && ci.TeamId == team.Id).ToList();
+                    if (getFinalCriteriaScoreForATeam.Count() != 0) {
+                        FinalScore = Math.Round((double)getFinalCriteriaScoreForATeam.Average(g => g.Score), 2);
+                    }
+                }
+
+                teamCriteriaScoreVMList.Add(new TeamCriteriaScoreVM(team.Id, contestID,team.Name,YourScore,FinalScore,judgeNotSubmit));
+
+            }
+
             ViewBag.ContestName = _unitOfWork.Contests.Get(contestID).Name;
-            return View(teams);
+            return View(teamCriteriaScoreVMList);
 
         }
 
 
         public ActionResult team(int teamID)
         {
+
+            //get your all criteria Score mark for a team 
             string UserID = User.Identity.GetUserId();
             int contestID = _unitOfWork.Teams.Get(teamID).ContestId;
             string TeamName = _unitOfWork.Teams.Get(teamID).Name;
-            List<Criterion> getContestCriteria = _unitOfWork.Contests.Get(contestID).Criteria.ToList();
-            List<CriteriaScore> getCriteriaScores = _unitOfWork.CriteriaScores.Find(cs => cs.TeamId == teamID & cs.ContestId == contestID && cs.Judge_ID == UserID).ToList();
-            List<CriteriaScoreVM> CriteriaScoreVMList = new List<CriteriaScoreVM>();
 
-            int? JudgesNotSumbbitted  = null;
-            if (getCriteriaScores.Count() != 0)
-            {
-                foreach (var item in getContestCriteria) {
-                    CriteriaScore criteriaScore = context.CriteriaScores.Where(cs => cs.TeamId == teamID && cs.CriteriaId == item.Id && cs.Judge_ID == UserID).FirstOrDefault();
+            List<SingleCriteriaScoreVM> singleCriteriaScoreVMList = new List<SingleCriteriaScoreVM>();
+            SingleJudgeCriteriaScoreVM singleJudgeCriteriaScoreVM = new SingleJudgeCriteriaScoreVM();
+            List<CriteriaScore> getYourAllCriteriaScore = context.CriteriaScores.Where(cs => cs.TeamId == teamID && cs.ContestId == contestID && cs.Judge_ID == UserID).ToList();
+           
 
-                    double? YourScore = null;
-                    double? CurrentScore = null;
-
-                    //get the number of judges not submit the score
-                    int judgesNumber = _unitOfWork.ContestJudges.Find(cj => cj.ContestId == item.ContestId).Count();
-                    List<CriteriaScore> getJudgesNotSubmitted = context.CriteriaScores.Where(cs => cs.TeamId == teamID
-                  && cs.CriteriaId == item.Id
-                  && (bool)cs.Submitted).ToList();
-
-                    JudgesNotSumbbitted = judgesNumber - getJudgesNotSubmitted.Count();
-
-
-                    // get the current Score for one Criteria
-                    List<CriteriaScore> getCurrentScoresForOneCriteria = context.CriteriaScores.Where(cs => cs.TeamId == teamID
-                    && cs.CriteriaId == item.Id
-                    && (bool)cs.Submitted == true).ToList();
-                    if (getCurrentScoresForOneCriteria.Count()!=0 && JudgesNotSumbbitted == 0)
-                    { 
-                            CurrentScore = Math.Round((double)getCurrentScoresForOneCriteria.Average(s => s.Score), 2);
-                    }
-                   
-                    YourScore = criteriaScore.Score;
-
-                    CriteriaScoreVMList.Add(new CriteriaScoreVM(item.Id, item.Name, item.Description, YourScore, CurrentScore, criteriaScore.Comment, JudgesNotSumbbitted, criteriaScore.Submitted));
-                }
+            foreach (var item in getYourAllCriteriaScore) {
+                Criterion criteria = _unitOfWork.Criteria.Get(item.CriteriaId);
+                string CriteriaName = criteria.Name;
+                string Desciption = criteria.Description;
+                double? Score = item.Score;
+                string Comment = item.Comment;
+                singleCriteriaScoreVMList.Add(new SingleCriteriaScoreVM(item.CriteriaId, CriteriaName, Desciption, Score, Comment));
             }
-            else {
-                foreach (var item in getContestCriteria)
-                {
-                    CriteriaScore newCriteriaScore = new CriteriaScore();
-                    newCriteriaScore.TeamId = teamID;
-                    newCriteriaScore.CriteriaId = item.Id;
-                    newCriteriaScore.ContestId = contestID;
-                    newCriteriaScore.Judge_ID = User.Identity.GetUserId();
-                    context.CriteriaScores.Add(newCriteriaScore);
 
-                    //get the number of judges not submit the score
-                    int judgesNumber = _unitOfWork.ContestJudges.Find(cj => cj.ContestId == item.ContestId).Count();
-                    List<CriteriaScore> getJudgesNotSubmitted = context.CriteriaScores.Where(cs => cs.TeamId == teamID
-                  && cs.CriteriaId == item.Id
-                  &&(bool)cs.Submitted == false).ToList();
-
-                    JudgesNotSumbbitted = judgesNumber - getJudgesNotSubmitted.Count();
-                    CriteriaScoreVMList.Add(new CriteriaScoreVM(item.Id, item.Name, item.Description, null, null, null, JudgesNotSumbbitted, false));
-                    context.SaveChanges();
-                }
+            String Feedback = null;
+            Feedback getFeedback = context.Feedbacks.Find(contestID, UserID, teamID);
+            if (getFeedback != null) {
+                Feedback = getFeedback.Comment;
             }
+
+            singleJudgeCriteriaScoreVM.singleCriteriaScoreVMLlist = singleCriteriaScoreVMList;
+            singleJudgeCriteriaScoreVM.Feedback = Feedback;
 
             ViewBag.TeamID = teamID;
             ViewBag.TeamName = TeamName;
             ViewBag.ContestName = _unitOfWork.Contests.Get(_unitOfWork.Teams.Get(teamID).ContestId).Name;
-            return View(CriteriaScoreVMList);
+            return View(singleJudgeCriteriaScoreVM);
 
         }
 

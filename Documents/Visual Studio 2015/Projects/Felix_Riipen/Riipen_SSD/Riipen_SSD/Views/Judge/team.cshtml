@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Riipen_SSD.Models.ViewModels.CriteriaScoreVM>
+﻿@model Riipen_SSD.ViewModels.SingleJudgeCriteriaScoreVM
 
 @{
     ViewBag.Title = "team";
@@ -6,100 +6,21 @@
 
 <h2>team</h2>
 
+<div>
+    <h4>SingleJudgeCriteriaScoreVM</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Feedback)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Feedback)
+        </dd>
+
+    </dl>
+</div>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.CriteriaID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Criteria)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.YourScore)
-        </th>
-        <th>
-          Final score
-        </th>
-        <th>
-            Your comment
-        </th>
-        <th>
-           Status
-        </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.Submitted)
-        </th>*@
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.CriteriaID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Criteria)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-
-            @Html.DisplayFor(modelItem => item.YourScore)
-            @if (item.YourScore != null)
-            {<span>/7</span>
-            }
-           
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CurrentScore)
-
-
-
-@if (item.CurrentScore != null) {<span>/7</span>
-}
-else {
-    <span>Not available</span>
-}
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Comment)
-        </td>
-        <td>
-            @if (item.JudgesNotSubmitted == 0)
-            {
-              <span>Final</span>
-            }
-            else {
-                if (item.JudgesNotSubmitted == 1 && !item.Submitted)
-                {
-                    <span>waiting for you to submit  </span>
-                }
-                else
-                {
-                    <span>Waiting for @item.JudgesNotSubmitted judge</span>
-                }
-
-
-            }
-
-        </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.Submitted)
-        </td>*@
-        <td>
-            @if (!item.Submitted)
-            {   @Html.ActionLink("Edit", "EditCriteriaScore", new { teamID = ViewBag.TeamID, criteriaID = item.CriteriaID })}
-           
-         
-        </td>
-    </tr>
-}
-
-</table>

@@ -319,6 +319,9 @@
     <Compile Include="ViewModels\AdminViewModels\JudgeVM.cs" />
     <Compile Include="ViewModels\AdminViewModels\ParticipantVM.cs" />
     <Compile Include="ViewModels\ContestVM.cs" />
+    <Compile Include="ViewModels\SingleCriteriaScoreVM.cs" />
+    <Compile Include="ViewModels\SingleJudgeCriteriaScoreVM.cs" />
+    <Compile Include="ViewModels\TeamCriteriaScoreVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
