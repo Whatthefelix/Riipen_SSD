@@ -15,7 +15,7 @@
             @Html.DisplayNameFor(model => model.TeamID)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CriteriaID)
+            @Html.DisplayNameFor(model => model.ContestID)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.TeamName)
@@ -38,22 +38,51 @@
             @Html.DisplayFor(modelItem => item.TeamID)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CriteriaID)
+            @Html.DisplayFor(modelItem => item.ContestID)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TeamName)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.YourCurrentScore)
+        <td>            
+            @if (item.YourCurrentScore == null)
+            {
+                @Html.ActionLink("Judge Now", "Team", new { teamID = item.TeamID })
+            }
+            else {
+                @Html.DisplayFor(modelItem => item.YourCurrentScore)<span>/7</span>
+            }
+                
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.FinalScore)
+            @if (item.FinalScore == null)
+            {
+               <span>Not available</span>
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.FinalScore)<span>/7</span>
+            }
+           
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.JudgeNotSubmitted)
+            @if (item.JudgeNotSubmitted == 0)
+            {
+               <span>Final</span>
+            }
+            else
+            {
+                <span>Waiting for @Html.DisplayFor(modelItem => item.JudgeNotSubmitted) judges</span>
+            }
+           
+
         </td>
         <td>
-            @Html.ActionLink("View", "Team", new { teamID = item.TeamID}) 
+            @if (item.YourCurrentScore != null && !item.Submitted)
+            {
+                @Html.ActionLink("Submit Now", "Team", new { teamID = item.TeamID })
+
+            }
+            
         </td>
     </tr>
 }

@@ -8,19 +8,121 @@
 
 <div>
     <h4>SingleJudgeCriteriaScoreVM</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Feedback)
-        </dt>
+    @if (ViewBag.TeamName != null)
+    {
+        @ViewBag.TeamName;
+    }
 
-        <dd>
-            @Html.DisplayFor(model => model.Feedback)
-        </dd>
+    @if (ViewBag.ContestName != null)
+    {
+        @ViewBag.ContestName;
+    }
+   
+    
 
-    </dl>
+    <form class="form" method="post" action="EditCriteriaScore">
+        <input name="teamID" value="@ViewBag.TeamID" hidden/>
+        <input name="contestID" value="@ViewBag.ContestID" hidden />
+       
+
+        <table class="table">
+            <tr>
+                <th>
+                    Criteria
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Score
+                </th>
+                <th>
+                    Comment
+                </th>
+            </tr>
+
+            @{
+                var counter = 0;
+                var name = "";
+            }
+            @foreach (var item in Model.singleCriteriaScoreVMLlist)
+            {
+                <tr>
+                    <td>
+                        @item.CriteriaName
+                    </td>
+                    
+                    <td>
+                        @item.Description
+                    </td>
+                    <td>
+                        @{
+                            name = "singleJugeCriteriaScoreVM.singleCriteriaScoreVMLlist[";
+                            var checkValue = "";
+                            var scoreName = name + counter.ToString() + "].Score";
+                            var commentName = name + counter.ToString() + "].Comment";
+                            var criteriaIdName = name + counter.ToString() + "].CriteriaID";
+                            var teamIdName = name + counter.ToString() + "].TeamID";
+
+                            counter++;
+
+                        }
+                    <input name="@criteriaIdName" value="@item.CriteriaID" hidden/>    
+                        <select name="@scoreName">
+                            <option value="">make your section</option>
+                            @for (int i = 1; i < 8; i++)
+                            {
+
+                                if (item.Score == i)
+                                {
+                                    checkValue = "selected";
+                                }
+                                <option @checkValue value="@i">@i</option>
+                                checkValue = "";
+
+
+                            }
+                        </select>
+                    </td>
+                    <td>
+                       
+                            <textarea name="@commentName" class="form-control">@item.Comment</textarea>
+                    
+                        
+
+                    </td>
+
+                </tr>}
+        </table>
+
+        <div class="dl-horizontal">
+            @{
+
+                var PublicView = "Checked";
+                var PrivateView = "";
+                if (ViewBag.PubliclyViewable != null && !ViewBag.PubliclyViewable)
+                {
+                    PublicView = "";
+                    PrivateView = "checked";
+                }
+            }
+                       
+            <div class="form-group">
+                <input type="radio" name="viewAvailability" value="public" @PublicView>Public<br>
+                <input type="radio" name="viewAvailability" value="private" @PrivateView> Private<br>
+            </div>
+            <div>
+                @Html.DisplayNameFor(model => model.Feedback)
+            </div>
+
+            @{ string feedbackname = "singleJugeCriteriaScoreVM.Feedback";
+            }
+            <div>
+                <textarea name=@feedbackname class="form-control">@Html.DisplayFor(model => model.Feedback)</textarea>
+            </div>
+
+        </div>
+        <input name="SubmitOrSave" type="submit" value="Save"/>
+        <input name="SubmitOrSave" type="submit" value="Submit"/>
+    </form>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
