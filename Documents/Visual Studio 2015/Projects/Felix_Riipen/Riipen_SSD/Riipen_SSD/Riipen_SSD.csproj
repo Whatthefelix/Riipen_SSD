@@ -334,6 +334,7 @@
     <Compile Include="ViewModels\ParticipantViewModels\ParticipantContestVM.cs" />
     <Compile Include="ViewModels\ParticipantViewModels\TeamCriteriaVM.cs" />
     <Compile Include="ViewModels\ParticipantViewModels\TeamCriteriaVMList.cs" />
+    <Compile Include="ViewModels\ParticipantViewModels\TeamFeedbackVM.cs" />
     <Compile Include="ViewModels\SingleCriteriaScoreVM.cs" />
     <Compile Include="ViewModels\SingleJudgeCriteriaScoreVM.cs" />
     <Compile Include="ViewModels\TeamCriteriaScoreVM.cs" />

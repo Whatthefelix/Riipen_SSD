@@ -9,15 +9,14 @@ namespace Riipen_SSD.ViewModels.ParticipantViewModels
     {
 
         public List<TeamCriteriaVM> teamCriteriaVMlist = new List<TeamCriteriaVM>();
-        public bool? PubliclyViewable { get; set; }
-        public string Feedback { get; set; }
+//        public bool? PubliclyViewable { get; set; }
+        public List<TeamFeedbackVM> teamFeedbackVMList{ get; set; }
 
         public TeamCriteriaVMList() { }
 
-        public TeamCriteriaVMList(List<TeamCriteriaVM> teamCriteriaVMlist, bool? PubliclyViewable, string Feedback) {
+        public TeamCriteriaVMList(List<TeamCriteriaVM> teamCriteriaVMlist, List<TeamFeedbackVM> teamFeedbackVMList) {
             this.teamCriteriaVMlist = teamCriteriaVMlist;
-            this.PubliclyViewable = PubliclyViewable;
-            this.Feedback = Feedback;
+            this.teamFeedbackVMList = teamFeedbackVMList;
         }
     }
 }

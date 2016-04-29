@@ -38,24 +38,36 @@
             </tr>}
     </table>
 
+    @if (Model.teamFeedbackVMList.Count() > 0)
+    {
 
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.PubliclyViewable)
-        </dt>
+        <table class="table">
+            <tr>
+                <th>
+                    Judge name
+                </th>
+                <th>
+                    Feedback
+                </th>
 
-        <dd>
-            @Html.DisplayFor(model => model.PubliclyViewable)
-        </dd>
+            </tr>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Feedback)
-        </dt>
+            @foreach (var item in Model.teamFeedbackVMList)
+            {
+                <tr>
+                    <td>
+                       @item.JudgeName
+                    </td>
 
-        <dd>
-            @Html.DisplayFor(model => model.Feedback)
-        </dd>
+                    <td>
+                       @item.Feedback
+                    </td>        
+                </tr>
+            }
+        </table>
 
-    </dl>
+    }
+
+   
 </div>
 
