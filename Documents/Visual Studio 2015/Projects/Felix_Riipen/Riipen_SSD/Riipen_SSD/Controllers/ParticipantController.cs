@@ -22,7 +22,6 @@ namespace Riipen_SSD.Controllers
         }
 
 
-
         public ActionResult Index()
         {
             string UserID = User.Identity.GetUserId();
@@ -49,6 +48,19 @@ namespace Riipen_SSD.Controllers
             //Get all teams in one contest
             var teams = context.Teams.Where(t => t.ContestId == contestID).ToList();
 
+            string UserID = User.Identity.GetUserId();
+
+            var yourteams = (from t in teams
+                             from u in t.AspNetUsers
+                             where u.Id == UserID && t.ContestId == contestID
+                             select t).FirstOrDefault();
+
+            int teamID = yourteams.Id;
+
+            //put your team at the top of team list
+            teams = teams.OrderByDescending(t => t.Id == teamID).ThenBy(t=>t.Name).ToList();
+
+   
             //get judge number for one contest
             int judgesNumber = _unitOfWork.ContestJudges.Find(cj => cj.ContestId == contestID).Count();
 
