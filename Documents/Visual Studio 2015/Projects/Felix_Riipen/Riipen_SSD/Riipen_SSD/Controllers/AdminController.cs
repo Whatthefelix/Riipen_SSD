@@ -64,6 +64,7 @@ namespace Riipen_SSD.Controllers
                     {
                         var participantApplicationUser = new ApplicationUser { UserName = email, Email = email, FirstName = firstName, LastName = lastName, PhoneNumberConfirmed = true };
                         UserManager.Create(participantApplicationUser, "Pa$$w0rd");
+                        UserManager.AddToRoles(participantApplicationUser.Id, new string[] { "Participant" });
                         participant = AutoMapper.Mapper.Map<ApplicationUser, AspNetUser>(participantApplicationUser);
                     }
                     participants.Add(participant);
@@ -89,6 +90,7 @@ namespace Riipen_SSD.Controllers
                 {
                     var judgeApplicationUser = new ApplicationUser { UserName = judge.Email, Email = judge.Email, FirstName = judge.FirstName, LastName = judge.LastName };
                     UserManager.Create(judgeApplicationUser, "Pa$$w0rd");
+                    UserManager.AddToRoles(judgeApplicationUser.Id, new string[] { "Judge" });
                     judgeUser = AutoMapper.Mapper.Map<ApplicationUser, AspNetUser>(judgeApplicationUser);
                 }
                 judges.Add(new ContestJudge()
@@ -97,8 +99,14 @@ namespace Riipen_SSD.Controllers
                 });
             }
             contest.Criteria.AddRange(editContestVM.Criteria.Select(x => new Criterion() { Description = x.Description, Name = x.Name }));
+
+            UnitOfWork.Complete();
+
             contest.ContestJudges.AddRange(judges);
-            contest = UnitOfWork.Contests.Add(contest);
+
+            UnitOfWork.Complete();
+
+            UnitOfWork.Contests.Add(contest);
             UnitOfWork.Complete();
 
             return View(editContestVM);

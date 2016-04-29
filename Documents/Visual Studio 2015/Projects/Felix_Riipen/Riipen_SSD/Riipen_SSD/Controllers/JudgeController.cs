@@ -41,8 +41,6 @@ namespace Riipen_SSD.Controllers
             }
                         if (User.IsInRole("Admin")){
                  contestList = _unitOfWork.Contests.GetAll().ToList();
-
-                
             }
             return View(contestList);
         }
