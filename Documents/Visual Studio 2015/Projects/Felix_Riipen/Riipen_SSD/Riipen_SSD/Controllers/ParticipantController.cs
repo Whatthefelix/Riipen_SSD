@@ -22,7 +22,6 @@ namespace Riipen_SSD.Controllers
         }
 
 
-
         public ActionResult Index()
         {
             string UserID = User.Identity.GetUserId();
@@ -49,6 +48,19 @@ namespace Riipen_SSD.Controllers
             //Get all teams in one contest
             var teams = context.Teams.Where(t => t.ContestId == contestID).ToList();
 
+            string UserID = User.Identity.GetUserId();
+
+            var yourteams = (from t in teams
+                             from u in t.AspNetUsers
+                             where u.Id == UserID && t.ContestId == contestID
+                             select t).FirstOrDefault();
+
+            int teamID = yourteams.Id;
+
+            //put your team at the top of team list
+            teams = teams.OrderByDescending(t => t.Id == teamID).ThenBy(t=>t.Name).ToList();
+
+   
             //get judge number for one contest
             int judgesNumber = _unitOfWork.ContestJudges.Find(cj => cj.ContestId == contestID).Count();
 
@@ -115,15 +127,29 @@ namespace Riipen_SSD.Controllers
                 teamCriterVMlist.Add(new TeamCriteriaVM(item.Id,item.Name,item.Description,getAverageScoreForEachCriteria));                
             }
 
-           //get the feedback for a team in contest
-           Feedback feeback = context.Feedbacks.Where(f=>f.ContestId==contestID && f.TeamId == teamID).FirstOrDefault();
+            //get the feedbacks for a team in contest
+            List<TeamFeedbackVM> teamFeedbackVMList = new List<TeamFeedbackVM>();
+            var getAllFeedbacskForATeamInAContest = context.Feedbacks.Where(f => f.ContestId == contestID && f.TeamId == teamID && f.PubliclyViewable).ToList();
 
-            teamCriteriaVMListComplete.teamCriteriaVMlist = teamCriterVMlist;
-
-            if (feeback != null) {
-                teamCriteriaVMListComplete.PubliclyViewable = feeback.PubliclyViewable;
-                teamCriteriaVMListComplete.Feedback = feeback.Comment;
+            //only display feedbacks when it is public and the judge has submitted the score
+            foreach(var item in getAllFeedbacskForATeamInAContest)
+            {
+                //check if this judge has submitted his score
+                if (context.CriteriaScores.Where(cs => cs.TeamId == teamID && cs.Judge_ID == item.JudgeUserId && cs.Submitted).ToList().Count() > 0) {
+                    
+                    //check if this judge write comment or not
+                    if(item.Comment!=null && item.Comment != "")
+                    { //get the judge name for this feedback 
+                        string JudgeName = context.AspNetUsers.Find(item.JudgeUserId).UserName;
+                        string Feedback = item.Comment;
+                        teamFeedbackVMList.Add(new TeamFeedbackVM(JudgeName, Feedback));
+                    }
+                   
+                };
             }
+          
+            teamCriteriaVMListComplete.teamCriteriaVMlist = teamCriterVMlist;
+            teamCriteriaVMListComplete.teamFeedbackVMList = teamFeedbackVMList;
 
 
             ViewBag.TeamID = teamID;

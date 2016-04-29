@@ -24,7 +24,7 @@
 
 
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -44,7 +44,7 @@
                             <img src="@Url.Content("~/Images/logo-orange.png")" />
                         </a>
                     }
-                    else if (Request.IsAuthenticated)
+                    else
                     {
                         <a class="navbar-brand" href='@Url.Action("Index", "Judge")'>
                             <img src="@Url.Content("~/Images/logo-orange.png")" />
@@ -66,7 +66,7 @@
                         {
                             <li>@Html.ActionLink("Contests", "Index", "Judge")</li>
                         }
-                        else
+                        else if (Request.IsAuthenticated )
                         {
                             <li>@Html.ActionLink("Contests", "Index", "Participant")</li>
                         }
@@ -80,7 +80,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Riipen Judge-a-thon</p>
         </footer>
     </div>
 
