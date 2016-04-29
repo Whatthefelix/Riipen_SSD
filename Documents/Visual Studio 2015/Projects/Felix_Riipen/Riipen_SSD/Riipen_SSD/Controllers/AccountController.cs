@@ -52,7 +52,17 @@ namespace Riipen_SSD.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    //if (Roles.IsUserInRole(model.Email, "Admin"))
+                    //{
+                    //    return RedirectToAction("Index", "Admin");
+                    //}else if (User.IsInRole("Judge"))
+                    //{
+                    //    return RedirectToAction("Index", "Judge");
+                    //}else
+                    //{
+                    //    return RedirectToAction("Index", "Participant");
+                    //}
+                    return RedirectToAction("Index", "Participant");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
