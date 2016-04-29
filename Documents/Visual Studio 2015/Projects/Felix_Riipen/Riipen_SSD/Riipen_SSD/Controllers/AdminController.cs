@@ -1,5 +1,6 @@
 ﻿using CsvHelper;
 using Microsoft.AspNet.Identity;
+using Riipen_SSD.AdminViewModels;
 using Riipen_SSD.DAL;
 using Riipen_SSD.ExtensionMethods;
 using Riipen_SSD.Models;
@@ -36,15 +37,31 @@ namespace Riipen_SSD.Controllers
         {
             return View();
         }
+
+        public ActionResult ContestDetails(int contestId)
+        {
+            var contest = UnitOfWork.Contests.Get(contestId);
+            var contestVM = new ContestVM()
+            {
+                ContestName = contest.Name,
+                Date = contest.StartTime,
+                Location = contest.Location,
+                Criteria = contest.Criteria.Select(c => new CriteriaVM() { Id = c.Id, Name = c.Name, Description = c.Description }),
+                Judges = contest.ContestJudges.Select(c => new JudgeVM() { Email = c.AspNetUser.Email, FirstName = c.AspNetUser.FirstName, LastName = c.AspNetUser.LastName }),
+            };
+
+            return View(contestVM);
+    }
+
         [HttpPost]
-        public ActionResult CreateContest(ContestVM editContestVM, HttpPostedFileBase file)
+        public ActionResult CreateContest(ContestVM contestVM, HttpPostedFileBase file)
         {
             // THIS SEEMS TO WORK BUT NEEDS MAJOR REFACTORING 
             var contest = new Contest()
             {
-                StartTime = editContestVM.Date,
-                Location = editContestVM.Location,
-                Name = editContestVM.ContestName,
+                StartTime = contestVM.Date,
+                Location = contestVM.Location,
+                Name = contestVM.ContestName,
             };
 
             var participants = new List<AspNetUser>();
@@ -81,7 +98,7 @@ namespace Riipen_SSD.Controllers
             UnitOfWork.Complete();
 
             var judges = new List<ContestJudge>();
-            foreach (var judge in editContestVM.Judges)
+            foreach (var judge in contestVM.Judges)
             {
                 var judgeUser = UnitOfWork.Users.SingleOrDefault(x => x.Email == judge.Email);
 
@@ -96,19 +113,46 @@ namespace Riipen_SSD.Controllers
                     JudgeUserId = judgeUser.Id,
                 });
             }
-            contest.Criteria.AddRange(editContestVM.Criteria.Select(x => new Criterion() { Description = x.Description, Name = x.Name }));
+            contest.Criteria.AddRange(contestVM.Criteria.Select(x => new Criterion() { Description = x.Description, Name = x.Name }));
             contest.ContestJudges.AddRange(judges);
             contest = UnitOfWork.Contests.Add(contest);
             UnitOfWork.Complete();
 
-            return View(editContestVM);
+            return View(contestVM);
         }
-        [HttpPost]
-        public ActionResult Editcontest(AdminViewModels.EditContestVM edit, int contestID)
+
+        // GET: EditContest
+        [HttpGet]
+        public ActionResult EditContest(int contestId)
         {
+            var contest = UnitOfWork.Contests.Get(contestId);
+            var contestVM = new ContestVM()
+            {
+                ContestName = contest.Name,
+                Date = contest.StartTime,
+                Location = contest.Location,
+                Criteria = contest.Criteria.Select(c => new CriteriaVM() { Id = c.Id, Name = c.Name, Description = c.Description }),
+                Judges = contest.ContestJudges.Select(c => new JudgeVM() { Email = c.AspNetUser.Email, FirstName = c.AspNetUser.FirstName, LastName = c.AspNetUser.LastName }),
+            };
+
+            return View(contestVM);
+    }
+
+    // POST: EditContest
+    [HttpPost]
+        public ActionResult EditContest(EditContestVM editContestVM, HttpPostedFileBase file)
+        {
+            var contest = UnitOfWork.Contests.Get(editContestVM.ContestID);
+            contest.Name = editContestVM.ContestName;
+            contest.Location = editContestVM.Location;
+            contest.StartTime = editContestVM.Date;
+
+            editContestVM.Criteria.Select(c => new Criterion() { Id = c.Id });
+
             return View();
         }
         
+    //
         public ActionResult contestScores(int contestID)
         {   //need to get TeamID, TeamName, FinalScore, 
             double? FinalScore = null;
