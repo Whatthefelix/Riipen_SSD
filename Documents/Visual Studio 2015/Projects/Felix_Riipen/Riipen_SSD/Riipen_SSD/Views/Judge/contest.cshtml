@@ -4,9 +4,39 @@
     ViewBag.Title = "contest";
 }
 
-<h2>contest</h2>
+<p>Contest: @ViewBag.contestName</p>
+
+@using (Html.BeginForm("Contest", "Judge", FormMethod.Get))
+{
+    @Html.AntiForgeryToken()
+    <input name="contestID" value="@ViewBag.contestId" hidden/>
+    <input type="text" name="searchATeam" value="@ViewBag.searchStringValue" placeholder="Search a team" style="border:1px solid #ddd;margin-top:10px">
+    <button type="submit">Submit</button>
+}
 
 
+
+@if (ViewBag.searchStringValue == "")
+{
+    <h2>All teams</h2>
+}
+else
+{
+    <h2>Result for: @ViewBag.searchStringValue</h2> 
+    <p>@Html.ActionLink("Get all teams","Contest", new { contestID=ViewBag.contestId})</p>
+}
+
+
+<div class="dropdown" style="margin-top:10px;margin-bottom:10px;float:right">
+    Sort: <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="sortMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        @ViewBag.sortStringValue
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="sortMenu">
+        <li>@Html.ActionLink("Status", "Contest", new {contestID= ViewBag.contestId, searchATeam = ViewBag.searchStringValue, sortTeams = "Status" })</li>
+        <li>@Html.ActionLink("Name", "Contest", new { contestID = ViewBag.contestId,searchATeam = ViewBag.searchStringValue, sortTeams = "Name" })</li>
+    </ul>
+</div>
 
 <table class="table">
     <tr>

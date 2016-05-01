@@ -22,31 +22,69 @@ namespace Riipen_SSD.Controllers
         }
 
 
-        public ActionResult Index()
+        public ActionResult Index(String searchAContest, String sortContests)
         {
+            string searchStringValue = "";
+            string sortStringValue = "Latest contests";
+
             string UserID = User.Identity.GetUserId();
             List<ParticipantContestVM> participantVMList = new List<ParticipantContestVM>();
             var teamList = context.AspNetUsers.Find(UserID).Teams.ToList();
+
             foreach (var item in teamList)
             {
-
                 var getContest = context.Contests.Where(c => c.Id == item.ContestId).FirstOrDefault();
                 participantVMList.Add(new ParticipantContestVM(item.Id, getContest.Id, getContest.Name, getContest.StartTime, getContest.Location));
 
             }
 
+            //get search result
+            if (!String.IsNullOrEmpty(searchAContest))
+            {
+                participantVMList = participantVMList.Where(p => p.ContestName.ToUpper().Contains(searchAContest.ToUpper())).ToList();
+                searchStringValue = searchAContest;
+            }
+
+            //sort result (default sort by start time)
+            if (sortContests=="Name")
+            {
+                participantVMList = participantVMList.OrderBy(p => p.ContestName).ToList();
+                sortStringValue = "Name";
+            }
+            else if(sortContests=="Location")
+            {
+                participantVMList = participantVMList.OrderBy(p => p.Location).ToList();
+                sortStringValue = "Location";
+            }
+            else
+            {
+                participantVMList = participantVMList.OrderByDescending(p => p.Date).ToList();
+            }
+
+
+            ViewBag.SearchStringValue = searchStringValue;
+            ViewBag.SortStringValue = sortStringValue;
+
             return View(participantVMList);
         }
 
-        public ActionResult Contests(int contestID)
+
+
+        public ActionResult Contests(int contestID, String searchATeam, String sortTeams)
         {
             List<ContestTeamVM> ContestTeamVMList = new List<ContestTeamVM>();
+
+            string searchStringValue = "";
+            string sortStringValue = "Status";
 
             //get all criteria for one contset
             List<Criterion> getContestCriteria = _unitOfWork.Contests.Get(contestID).Criteria.ToList();
 
             //Get all teams in one contest
             var teams = context.Teams.Where(t => t.ContestId == contestID).ToList();
+            
+            
+           
 
             string UserID = User.Identity.GetUserId();
 
@@ -55,23 +93,22 @@ namespace Riipen_SSD.Controllers
                              where u.Id == UserID && t.ContestId == contestID
                              select t).FirstOrDefault();
 
-            int teamID = yourteams.Id;
+            int yourTeamID = yourteams.Id;
 
-            //put your team at the top of team list
-            teams = teams.OrderByDescending(t => t.Id == teamID).ThenBy(t=>t.Name).ToList();
+         
 
-   
             //get judge number for one contest
             int judgesNumber = _unitOfWork.ContestJudges.Find(cj => cj.ContestId == contestID).Count();
 
             double? CurrentScore = null;
             int? judgeNotSubmit = null;
 
+           
             foreach (var team in teams)
             {
                 //get current score for a team
                 List<CriteriaScore> getAllAvailableScoreForATeam = context.CriteriaScores.Where(cs => cs.ContestId == contestID && cs.TeamId == team.Id && cs.Submitted).ToList();
-               
+
 
                 if (getAllAvailableScoreForATeam.Count() != 0)
                 {
@@ -80,19 +117,50 @@ namespace Riipen_SSD.Controllers
 
                 //get number of judges not submitted
                 List<CriteriaScore> getSubmitJudges = context.CriteriaScores.Where(ci => ci.ContestId == contestID && ci.TeamId == team.Id && ci.Submitted).ToList();
-                judgeNotSubmit = judgesNumber - (getSubmitJudges.Count()) / getContestCriteria.Count();
+                if (getContestCriteria.Count() != 0)
+                {
+                    judgeNotSubmit = judgesNumber - (getSubmitJudges.Count()) / getContestCriteria.Count();
+                }
+                else
+                {
+                    judgeNotSubmit = judgesNumber;
+                }
 
-                ContestTeamVMList.Add(new ContestTeamVM(team.Id, team.Name,CurrentScore,judgeNotSubmit));
+                ContestTeamVMList.Add(new ContestTeamVM(team.Id, team.Name, CurrentScore, judgeNotSubmit));
+                CurrentScore = null;
+                judgeNotSubmit = null;
+            }
+
+
+            //search a team 
+            if (!String.IsNullOrEmpty(searchATeam))
+            {
+                ContestTeamVMList = ContestTeamVMList.Where(c => c.TeamName.ToUpper().Contains(searchATeam.ToUpper())).ToList();
+                searchStringValue = searchATeam;
+            }
+
+            //put your team at the top of team list and sort by status, then by sore
+            if (sortTeams == "Name")
+            {
+                ContestTeamVMList = ContestTeamVMList.OrderByDescending(c => c.TeamID == yourTeamID).ThenBy(c=>c.TeamName).ToList();
+                sortStringValue = "Name";
+            }
+            else
+            {
+                ContestTeamVMList = ContestTeamVMList.OrderByDescending(c => c.TeamID == yourTeamID).ThenBy(c=>c.JudgeNotSubmitted).ThenBy(c=>c.Score).ToList();
 
             }
 
+            ViewBag.searchStringValue = searchStringValue;
+            ViewBag.sortStringValue = sortStringValue;
             ViewBag.ContestID = contestID;
-
             ViewBag.ContestName = context.Contests.Find(contestID).Name;
 
             return View(ContestTeamVMList);
 
         }
+
+
 
         public ActionResult TeamScores(int teamID, int contestID)
         {

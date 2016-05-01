@@ -18,14 +18,41 @@
     }
 </style>
 
-<p>
-    @if (ViewBag.ContestName != null) {
-        <span> All teams for @ViewBag.ContestName</span>
-    }
+<p>Contest: @ViewBag.contestName</p>
+
+@using (Html.BeginForm("Contests", "Participant", FormMethod.Get))
+{
+    @Html.AntiForgeryToken()
+  
+    <input name="contestID" value="@ViewBag.contestId" hidden />
+    <input type="text" name="searchATeam" value="@ViewBag.searchStringValue" placeholder="Search a team" style="border:1px solid #ddd;margin-top:10px">
+    <button type="submit">Submit</button>
+}
 
 
-   
-  </p>
+
+@if (ViewBag.searchStringValue == "")
+{
+    <h2>All teams</h2>
+}
+else
+{
+    <h2>Result for: @ViewBag.searchStringValue</h2>
+    <p>@Html.ActionLink("Get all teams", "Contests", new { contestID = ViewBag.contestId })</p>
+}
+
+
+<div class="dropdown" style="margin-top:10px;margin-bottom:10px;float:right">
+    Sort: <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="sortMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        @ViewBag.sortStringValue
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="sortMenu">
+        <li>@Html.ActionLink("Status", "Contests", new { contestID = ViewBag.contestId, searchATeam = ViewBag.searchStringValue, sortTeams = "Status" })</li>
+        <li>@Html.ActionLink("Name", "Contests", new { contestID = ViewBag.contestId, searchATeam = ViewBag.searchStringValue, sortTeams = "Name" })</li>
+    </ul>
+</div>
+
 <table class="table">
     <tr>
         <th>
@@ -52,7 +79,16 @@
             @Html.ActionLink(item.TeamName, "TeamScores", new { teamID=item.TeamID,contestID = ViewBag.ContestID })
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Score)
+            @if (item.Score == null)
+            {
+                <span>Not available</span>
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.Score)
+            }
+           
+
         </td>
         <td>
             @if (item.JudgeNotSubmitted==0)

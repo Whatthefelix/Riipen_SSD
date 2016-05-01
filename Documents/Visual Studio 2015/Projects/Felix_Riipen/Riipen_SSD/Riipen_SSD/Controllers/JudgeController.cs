@@ -24,32 +24,81 @@ namespace Riipen_SSD.Controllers
 
         }
 
-        public ActionResult Index()
+        public ActionResult Index(String searchAContest, String sortContests)
         {
+            string searchStringValue = "";
+            string sortStringValue = "Latests contests";
             string UserID = User.Identity.GetUserId();
             
             //get the numbers of contest which the judge can judge
             var contestJudges = (from c in context.ContestJudges where c.JudgeUserId == UserID select c).ToList();
-
-
+            contestJudges = contestJudges.OrderByDescending(cj=>cj.Contest.StartTime).ToList(); 
             List<Contest> contestList = new List<Contest>();
-
 
             foreach (var contestJudge in contestJudges)
             {
-                contestList.Add(_unitOfWork.Contests.Get(contestJudge.ContestId));
+                // if search input is not null or empty
+                if (!String.IsNullOrEmpty(searchAContest))
+                {
+                    if (contestJudge.Contest.Name.ToUpper().Contains(searchAContest.ToUpper()))
+                    {
+                        contestList.Add(_unitOfWork.Contests.Get(contestJudge.ContestId));
+                    }
+
+                   searchStringValue =searchAContest;
+                }
+                else
+                {
+                    contestList.Add(_unitOfWork.Contests.Get(contestJudge.ContestId));
+                }                    
             }
-                        if (User.IsInRole("Admin")){
+
+            //get all the contests for the admin account
+            if (User.IsInRole("Admin")){
                  contestList = _unitOfWork.Contests.GetAll().ToList();
+
+                if (!String.IsNullOrEmpty(searchAContest))
+                {
+                   contestList= contestList.Where(c => c.Name.ToUpper().Contains(searchAContest.ToUpper())).ToList();
+                }
+                
             }
+            
+            if (!String.IsNullOrEmpty(sortContests))
+            {
+                if (sortContests == "Name")
+                {
+                    contestList = contestList.OrderBy(c => c.Name).ToList();
+                    sortStringValue = "Name";
+
+                }else if (sortContests=="Location")
+                {
+                    contestList = contestList.OrderBy(c => c.Location).ToList();
+                    sortStringValue = "Location";
+                }
+            }
+
+            ViewBag.SearchStringValue = searchStringValue;
+            ViewBag.SortStringValue = sortStringValue;
             return View(contestList);
         }
 
 
-        public ActionResult Contest(int contestID)
+        public ActionResult Contest(int contestID, String searchATeam, String sortTeams)
         {
+
+            string searchStringValue = "";
+            string sortStringValue = "Status";
+            
             //get the number of team in this contest
             List<Team> teams = _unitOfWork.Contests.Get(contestID).Teams.ToList();
+
+            if (!String.IsNullOrEmpty(searchATeam))
+            {
+                teams = teams.Where(t => t.Name.ToUpper().Contains(searchATeam.ToUpper())).ToList();
+                searchStringValue = searchATeam;
+            }
+
             List<TeamCriteriaScoreVM> teamCriteriaScoreVMList = new List<TeamCriteriaScoreVM>();
             List<Criterion> getContestCriteria = _unitOfWork.Contests.Get(contestID).Criteria.ToList();
 
@@ -64,11 +113,18 @@ namespace Riipen_SSD.Controllers
          
             foreach (var team in teams) {
                 //get unsubmitted judge number for a team
-                //get the number of criteria for a contest
-               
+                //get the number of criteria for a contest               
                 List<CriteriaScore> getSubmitJudges = context.CriteriaScores.Where(ci=>ci.ContestId==contestID && ci.TeamId == team.Id && (bool)ci.Submitted).ToList();
-                
-                judgeNotSubmit = judgesNumber - (getSubmitJudges.Count())/ getContestCriteria.Count();
+
+                if (getContestCriteria.Count()!=0)
+                {
+                    judgeNotSubmit = judgesNumber - (getSubmitJudges.Count()) / getContestCriteria.Count();
+                }
+                else
+                {
+                    judgeNotSubmit = judgesNumber;
+                }
+              
 
                 //get your score for a team
                 string UserID = User.Identity.GetUserId();
@@ -98,11 +154,8 @@ namespace Riipen_SSD.Controllers
                         newCriteriaScore.ContestId = contestID;
                         newCriteriaScore.Judge_ID = User.Identity.GetUserId();
                         context.CriteriaScores.Add(newCriteriaScore);
-                        context.SaveChanges();
-                        
-                    }
-                   
-                   
+                        context.SaveChanges();                       
+                    }                                      
                 }
 
                 //get final score for a team
@@ -118,16 +171,29 @@ namespace Riipen_SSD.Controllers
                 FinalScore = null;
                 Submitted = false;
             }
+           
+            if (sortTeams == "Name")
+            {
+                teamCriteriaScoreVMList = teamCriteriaScoreVMList.OrderBy(t => t.TeamName).ToList();
+                sortStringValue = "Name";
 
-            ViewBag.ContestName = _unitOfWork.Contests.Get(contestID).Name;
-           return View(teamCriteriaScoreVMList);
+            }else
+            {
+                teamCriteriaScoreVMList = teamCriteriaScoreVMList.OrderByDescending(t => t.JudgeNotSubmitted).ThenBy(t=>t.TeamName).ToList();
+            }
+
+            ViewBag.searchStringValue = searchStringValue;
+            ViewBag.sortStringValue = sortStringValue;
+            ViewBag.contestName = _unitOfWork.Contests.Get(contestID).Name;
+            ViewBag.contestId = contestID;
+
+            return View(teamCriteriaScoreVMList);
 
         }
 
 
         public ActionResult Team(int teamID)
         {
-
             //get your all criteria Score mark for a team 
             string UserID = User.Identity.GetUserId();
             int contestID = _unitOfWork.Teams.Get(teamID).ContestId;
@@ -206,7 +272,6 @@ namespace Riipen_SSD.Controllers
                 context.SaveChanges();
 
             }
-
 
             return RedirectToAction("Contest",new { contestID=contestID});
 

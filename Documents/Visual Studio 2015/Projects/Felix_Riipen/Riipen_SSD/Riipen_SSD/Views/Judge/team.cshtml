@@ -4,18 +4,17 @@
     ViewBag.Title = "team";
 }
 
-<h2>team</h2>
 
 <div>
-    <h4>SingleJudgeCriteriaScoreVM</h4>
+  
     @if (ViewBag.TeamName != null)
     {
-        @ViewBag.TeamName;
+       <span>Team: </span> @ViewBag.TeamName <br />
     }
 
     @if (ViewBag.ContestName != null)
     {
-        @ViewBag.ContestName;
+    <span>Contest: </span>    @ViewBag.ContestName;
     }
    
     
