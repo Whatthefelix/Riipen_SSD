@@ -8,13 +8,16 @@ namespace Riipen_SSD.ViewModels.ParticipantViewModels
     public class TeamFeedbackVM
     {
        public string JudgeName { get; set; }
-       public string Feedback { get; set; }
+       public string PublicFeedback { get; set; }
+       public string PrivateFeedback { get; set; }
 
         public TeamFeedbackVM() { }
 
-        public TeamFeedbackVM(string JudgeName, string Feedback) {
+        public TeamFeedbackVM(string JudgeName, string PublicFeedback, string PrivateFeedback) {
             this.JudgeName = JudgeName;
-            this.Feedback = Feedback;
+            this.PublicFeedback = PublicFeedback;
+            this.PrivateFeedback = PrivateFeedback;
+
 
         }
 

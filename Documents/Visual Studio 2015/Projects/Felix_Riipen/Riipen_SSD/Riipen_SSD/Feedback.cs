@@ -17,8 +17,8 @@ namespace Riipen_SSD
         public int ContestId { get; set; }
         public string JudgeUserId { get; set; }
         public int TeamId { get; set; }
-        public string Comment { get; set; }
-        public bool PubliclyViewable { get; set; }
+        public string PublicComment { get; set; }
+        public string PrivateComment { get; set; }
     
         public virtual ContestJudge ContestJudge { get; set; }
         public virtual Team Team { get; set; }

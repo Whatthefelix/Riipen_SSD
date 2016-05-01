@@ -105,30 +105,27 @@
         </table>
 
         <div class="dl-horizontal">
-            @{
-
-                var PublicView = "Checked";
-                var PrivateView = "";
-                if (ViewBag.PubliclyViewable != null && !ViewBag.PubliclyViewable)
-                {
-                    PublicView = "";
-                    PrivateView = "checked";
-                }
+          
+            @{ string PublicFeedback = "singleJugeCriteriaScoreVM.PublicFeedback";
+                string PrivateFeedback = "singleJugeCriteriaScoreVM.PrivateFeedback";
             }
-                       
+            <div class="form-group">              
+                <label>Public Feedback</label>
+               
+                <div>
+                    <textarea name=@PublicFeedback class="form-control">@Html.DisplayFor(model => model.PublicFeedback)</textarea>
+                </div>
+            </div>
+            
             <div class="form-group">
-                <input type="radio" name="viewAvailability" value="public" @PublicView>Public<br>
-                <input type="radio" name="viewAvailability" value="private" @PrivateView> Private<br>
-            </div>
-            <div>
-                @Html.DisplayNameFor(model => model.Feedback)
+                <label>Private Feedback</label>
+
+                <div>
+                    <textarea name=@PrivateFeedback class="form-control">@Html.DisplayFor(model => model.PrivateFeedback)</textarea>
+                </div>
             </div>
 
-            @{ string feedbackname = "singleJugeCriteriaScoreVM.Feedback";
-            }
-            <div>
-                <textarea name=@feedbackname class="form-control">@Html.DisplayFor(model => model.Feedback)</textarea>
-            </div>
+          
 
         </div>
         <input name="SubmitOrSave" type="submit" value="Save"/>

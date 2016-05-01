@@ -213,11 +213,14 @@ namespace Riipen_SSD.Controllers
                 singleCriteriaScoreVMList.Add(new SingleCriteriaScoreVM(item.CriteriaId, CriteriaName, Desciption, Score, Comment));
             }
 
-            String Feedback = null;
+            String PublicFeedback = null;
+            String PrivateFeedback = null;
             Feedback getFeedback = context.Feedbacks.Find(contestID, UserID, teamID);
             if (getFeedback != null) {
-                Feedback = getFeedback.Comment;
-                ViewBag.PubliclyViewable = getFeedback.PubliclyViewable;
+
+                PublicFeedback = getFeedback.PublicComment;
+                PrivateFeedback = getFeedback.PrivateComment;
+               
             }
             else
             {
@@ -230,7 +233,8 @@ namespace Riipen_SSD.Controllers
             }
 
             singleJudgeCriteriaScoreVM.singleCriteriaScoreVMLlist = singleCriteriaScoreVMList;
-            singleJudgeCriteriaScoreVM.Feedback = Feedback;
+            singleJudgeCriteriaScoreVM.PublicFeedback = PublicFeedback;
+            singleJudgeCriteriaScoreVM.PrivateFeedback = PrivateFeedback;
 
             ViewBag.TeamID = teamID;
             ViewBag.TeamName = TeamName;
@@ -241,20 +245,18 @@ namespace Riipen_SSD.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditCriteriaScore(SingleJudgeCriteriaScoreVM singleJugeCriteriaScoreVM, string viewAvailability, int teamID, int contestID, string SubmitOrSave)
+        public ActionResult EditCriteriaScore(SingleJudgeCriteriaScoreVM singleJugeCriteriaScoreVM, int teamID, int contestID, string SubmitOrSave)
         {
             string UserID = User.Identity.GetUserId();
             Feedback getFeedback = context.Feedbacks.Find(contestID, UserID, teamID);
 
             if (getFeedback != null)
             {
-                getFeedback.Comment = singleJugeCriteriaScoreVM.Feedback;
-                if(viewAvailability=="public")
-                getFeedback.PubliclyViewable = true;
+                getFeedback.PublicComment = singleJugeCriteriaScoreVM.PublicFeedback;
+                getFeedback.PrivateComment = singleJugeCriteriaScoreVM.PrivateFeedback;
             }
 
-            //save criteriaScore
-            
+            //save criteriaScore            
             foreach(var item in singleJugeCriteriaScoreVM.singleCriteriaScoreVMLlist)
             {
                 CriteriaScore getCriteriaScore = context.CriteriaScores.Where(cs => cs.Judge_ID == UserID

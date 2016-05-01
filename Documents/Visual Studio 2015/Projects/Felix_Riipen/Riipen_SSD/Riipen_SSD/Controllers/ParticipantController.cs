@@ -83,9 +83,6 @@ namespace Riipen_SSD.Controllers
             //Get all teams in one contest
             var teams = context.Teams.Where(t => t.ContestId == contestID).ToList();
             
-            
-           
-
             string UserID = User.Identity.GetUserId();
 
             var yourteams = (from t in teams
@@ -94,8 +91,6 @@ namespace Riipen_SSD.Controllers
                              select t).FirstOrDefault();
 
             int yourTeamID = yourteams.Id;
-
-         
 
             //get judge number for one contest
             int judgesNumber = _unitOfWork.ContestJudges.Find(cj => cj.ContestId == contestID).Count();
@@ -155,14 +150,14 @@ namespace Riipen_SSD.Controllers
             ViewBag.sortStringValue = sortStringValue;
             ViewBag.ContestID = contestID;
             ViewBag.ContestName = context.Contests.Find(contestID).Name;
-
+            ViewBag.YourTeamID = yourTeamID;
             return View(ContestTeamVMList);
 
         }
 
 
 
-        public ActionResult TeamScores(int teamID, int contestID)
+        public ActionResult TeamScores(int teamID, int contestID, int yourTeamID)
         {
             TeamCriteriaVMList teamCriteriaVMListComplete = new TeamCriteriaVMList();
 
@@ -197,20 +192,31 @@ namespace Riipen_SSD.Controllers
 
             //get the feedbacks for a team in contest
             List<TeamFeedbackVM> teamFeedbackVMList = new List<TeamFeedbackVM>();
-            var getAllFeedbacskForATeamInAContest = context.Feedbacks.Where(f => f.ContestId == contestID && f.TeamId == teamID && f.PubliclyViewable).ToList();
+            var getAllFeedbacskForATeamInAContest = context.Feedbacks.Where(f => f.ContestId == contestID && f.TeamId == teamID).ToList();
 
             //only display feedbacks when it is public and the judge has submitted the score
-            foreach(var item in getAllFeedbacskForATeamInAContest)
+            foreach (var item in getAllFeedbacskForATeamInAContest)
             {
                 //check if this judge has submitted his score
                 if (context.CriteriaScores.Where(cs => cs.TeamId == teamID && cs.Judge_ID == item.JudgeUserId && cs.Submitted).ToList().Count() > 0) {
                     
                     //check if this judge write comment or not
-                    if(item.Comment!=null && item.Comment != "")
-                    { //get the judge name for this feedback 
+                    if(!String.IsNullOrEmpty(item.PublicComment)||!String.IsNullOrEmpty(item.PrivateComment))
+                    { 
+                        //get the judge name for this feedback 
                         string JudgeName = context.AspNetUsers.Find(item.JudgeUserId).UserName;
-                        string Feedback = item.Comment;
-                        teamFeedbackVMList.Add(new TeamFeedbackVM(JudgeName, Feedback));
+                        
+                        //check if this is your team, if so show you private feedback
+                        if(teamID == yourTeamID)
+                        {
+                            teamFeedbackVMList.Add(new TeamFeedbackVM(JudgeName, item.PublicComment, item.PrivateComment));
+                            ViewBag.YourTeam = true;
+                        }
+                        else
+                        {
+                            teamFeedbackVMList.Add(new TeamFeedbackVM(JudgeName, item.PublicComment, null));
+                            ViewBag.YourTeam = false;
+                        }
                     }
                    
                 };
@@ -219,7 +225,8 @@ namespace Riipen_SSD.Controllers
             teamCriteriaVMListComplete.teamCriteriaVMlist = teamCriterVMlist;
             teamCriteriaVMListComplete.teamFeedbackVMList = teamFeedbackVMList;
 
-
+            ViewBag.TeamName = _unitOfWork.Teams.Get(teamID).Name;
+            ViewBag.ContestName = _unitOfWork.Contests.Get(contestID).Name;
             ViewBag.TeamID = teamID;
             ViewBag.ContestID = contestID;
             return View(teamCriteriaVMListComplete);
@@ -235,7 +242,6 @@ namespace Riipen_SSD.Controllers
             foreach (var item in getAllScoresForOneCriteria) {
                 //get judge name for a contest
                 string judgeName = context.AspNetUsers.Find(item.Judge_ID).UserName;
-
 
                 //get score and comment from this judge 
                 double? Score = null;
@@ -264,9 +270,7 @@ namespace Riipen_SSD.Controllers
             if (JudgesNotSubmitted != 0)
             {
                 ViewBag.JudgesNotSubmitted = JudgesNotSubmitted;
-
             }
-
 
             return View(criteriaDetailVMList);
         }

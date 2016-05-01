@@ -76,7 +76,7 @@ else
             @Html.DisplayFor(modelItem => item.TeamID)
         </td>
         <td>
-            @Html.ActionLink(item.TeamName, "TeamScores", new { teamID=item.TeamID,contestID = ViewBag.ContestID })
+            @Html.ActionLink(item.TeamName, "TeamScores", new { teamID=item.TeamID,contestID = ViewBag.ContestID, yourTeamID = ViewBag.YourTeamID })
         </td>
         <td>
             @if (item.Score == null)

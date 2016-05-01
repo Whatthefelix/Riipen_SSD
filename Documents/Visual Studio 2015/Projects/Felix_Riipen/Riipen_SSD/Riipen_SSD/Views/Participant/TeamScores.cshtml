@@ -4,11 +4,22 @@
     ViewBag.Title = "TeamScores";
 }
 
-<h2>TeamScores</h2>
+
+
+<div class="header">
+    @if (ViewBag.TeamName != null) {
+
+        <p>Team: @ViewBag.TeamName</p>
+    }
+
+    @if (ViewBag.ContestName != null)
+    {
+
+        <p>Contest: @ViewBag.ContestName</p>
+    }
+</div>
 
 <div>
-    <h4>TeamCriteriaVMList</h4>
-
     <table class="table">
         <tr>
             <th>
@@ -33,7 +44,15 @@
                     @item.Description
                 </td>
                 <td>
-                 @item.Score                  
+                    @if (item.Score == null)
+                    {
+                        <span>Not available</span>
+                    }
+                    else
+                    { @item.Score
+
+                    }
+                               
                 </td>
             </tr>}
     </table>
@@ -47,9 +66,15 @@
                     Judge name
                 </th>
                 <th>
-                    Feedback
+                    Public Feedback
                 </th>
+                @if(ViewBag.YourTeam)
+                {
+                    <th>
+                        Private Feedback
+                    </th>
 
+                }
             </tr>
 
             @foreach (var item in Model.teamFeedbackVMList)
@@ -60,8 +85,15 @@
                     </td>
 
                     <td>
-                       @item.Feedback
-                    </td>        
+                       @item.PublicFeedback
+                    </td>   
+                    @if (ViewBag.YourTeam)
+                    {
+                        <td>
+                            @item.PrivateFeedback
+                        </td>
+
+                    }     
                 </tr>
             }
         </table>

@@ -119,7 +119,7 @@ else
         <td>
             @if (item.YourCurrentScore != null && !item.Submitted)
             {
-                @Html.ActionLink("Submit Now", "Team", new { teamID = item.TeamID })
+                @Html.ActionLink("Edit Now", "Team", new { teamID = item.TeamID })
 
             }
             

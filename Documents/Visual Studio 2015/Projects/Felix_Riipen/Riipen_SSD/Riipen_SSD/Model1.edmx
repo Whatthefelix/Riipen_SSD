@@ -118,8 +118,8 @@
           <Property Name="ContestId" Type="int" Nullable="false" />
           <Property Name="JudgeUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="TeamId" Type="int" Nullable="false" />
-          <Property Name="Comment" Type="varchar(max)" />
-          <Property Name="PubliclyViewable" Type="bit" Nullable="false" />
+          <Property Name="PublicComment" Type="varchar(max)" />
+          <Property Name="PrivateComment" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -183,7 +183,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CriteriaS__Crite__7834CCDD">
+        <Association Name="FK__CriteriaS__Crite__7DEDA633">
           <End Role="Criteria" Type="Self.Criteria" Multiplicity="1" />
           <End Role="CriteriaScores" Type="Self.CriteriaScores" Multiplicity="*" />
           <ReferentialConstraint>
@@ -195,7 +195,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CriteriaS__TeamI__7740A8A4">
+        <Association Name="FK__CriteriaS__TeamI__7CF981FA">
           <End Role="Teams" Type="Self.Teams" Multiplicity="1" />
           <End Role="CriteriaScores" Type="Self.CriteriaScores" Multiplicity="*" />
           <ReferentialConstraint>
@@ -207,7 +207,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Feedback__62458BBE">
+        <Association Name="FK__Feedback__11007AA7">
           <End Role="ContestJudges" Type="Self.ContestJudges" Multiplicity="1" />
           <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
           <ReferentialConstraint>
@@ -221,7 +221,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Feedback__TeamId__6339AFF7">
+        <Association Name="FK__Feedback__TeamId__11F49EE0">
           <End Role="Teams" Type="Self.Teams" Multiplicity="1" />
           <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
           <ReferentialConstraint>
@@ -352,19 +352,19 @@
             <End Role="Contests" EntitySet="Contests" />
             <End Role="Criteria" EntitySet="Criteria" />
           </AssociationSet>
-          <AssociationSet Name="FK__CriteriaS__Crite__7834CCDD" Association="Self.FK__CriteriaS__Crite__7834CCDD">
+          <AssociationSet Name="FK__CriteriaS__Crite__7DEDA633" Association="Self.FK__CriteriaS__Crite__7DEDA633">
             <End Role="Criteria" EntitySet="Criteria" />
             <End Role="CriteriaScores" EntitySet="CriteriaScores" />
           </AssociationSet>
-          <AssociationSet Name="FK__CriteriaS__TeamI__7740A8A4" Association="Self.FK__CriteriaS__TeamI__7740A8A4">
+          <AssociationSet Name="FK__CriteriaS__TeamI__7CF981FA" Association="Self.FK__CriteriaS__TeamI__7CF981FA">
             <End Role="Teams" EntitySet="Teams" />
             <End Role="CriteriaScores" EntitySet="CriteriaScores" />
           </AssociationSet>
-          <AssociationSet Name="FK__Feedback__62458BBE" Association="Self.FK__Feedback__62458BBE">
+          <AssociationSet Name="FK__Feedback__11007AA7" Association="Self.FK__Feedback__11007AA7">
             <End Role="ContestJudges" EntitySet="ContestJudges" />
             <End Role="Feedback" EntitySet="Feedback" />
           </AssociationSet>
-          <AssociationSet Name="FK__Feedback__TeamId__6339AFF7" Association="Self.FK__Feedback__TeamId__6339AFF7">
+          <AssociationSet Name="FK__Feedback__TeamId__11F49EE0" Association="Self.FK__Feedback__TeamId__11F49EE0">
             <End Role="Teams" EntitySet="Teams" />
             <End Role="Feedback" EntitySet="Feedback" />
           </AssociationSet>
@@ -524,10 +524,10 @@
           <Property Name="ContestId" Type="Int32" Nullable="false" />
           <Property Name="JudgeUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TeamId" Type="Int32" Nullable="false" />
-          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="PubliclyViewable" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="ContestJudge" Relationship="Self.FK__Feedback__62458BBE" FromRole="Feedback" ToRole="ContestJudges" />
           <NavigationProperty Name="Team" Relationship="Self.FK__Feedback__TeamId__6339AFF7" FromRole="Feedback" ToRole="Teams" />
+          <Property Name="PublicComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PrivateComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -857,12 +857,12 @@
           <EntitySetMapping Name="Feedbacks">
             <EntityTypeMapping TypeName="SSD_RiipenModel.Feedback">
               <MappingFragment StoreEntitySet="Feedback">
+                <ScalarProperty Name="PrivateComment" ColumnName="PrivateComment" />
+                <ScalarProperty Name="PublicComment" ColumnName="PublicComment" />
                 <ScalarProperty Name="ContestId" ColumnName="ContestId" />
                 <ScalarProperty Name="JudgeUserId" ColumnName="JudgeUserId" />
                 <ScalarProperty Name="TeamId" ColumnName="TeamId" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="PubliclyViewable" ColumnName="PubliclyViewable" />
-              </MappingFragment>
+                </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
