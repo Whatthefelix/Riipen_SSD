@@ -16,10 +16,7 @@ namespace Riipen_SSD.Controllers
     public class JudgeController : Controller
     {
         SSD_RiipenEntities context = new SSD_RiipenEntities();
-
         private IUnitOfWork _unitOfWork;
-
-      
         public JudgeController()
         {
             _unitOfWork = new UnitOfWork(new SSD_RiipenEntities());
@@ -62,7 +59,6 @@ namespace Riipen_SSD.Controllers
                 if (!String.IsNullOrEmpty(searchAContest))
                 {
                    contestList = contestList.Where(c => c.Name.ToUpper().Contains(searchAContest.ToUpper())).ToList();
-                   page = 1;
                 }
                 
             }
@@ -92,7 +88,7 @@ namespace Riipen_SSD.Controllers
         }
 
 
-        public ActionResult Contest(int contestID, String searchATeam, String sortTeams)
+        public ActionResult Contest(int contestID, String searchATeam, String sortTeams, int? page)
         {
 
             string searchStringValue = "";
@@ -195,7 +191,13 @@ namespace Riipen_SSD.Controllers
             ViewBag.contestName = _unitOfWork.Contests.Get(contestID).Name;
             ViewBag.contestId = contestID;
 
-            return View(teamCriteriaScoreVMList);
+
+            const int PAGE_SIZE = 10;
+            int pageNumber = (page ?? 1);
+            IEnumerable<TeamCriteriaScoreVM> newTeamCriteriaScoreVMList = teamCriteriaScoreVMList;
+            newTeamCriteriaScoreVMList = teamCriteriaScoreVMList.ToPagedList(pageNumber, PAGE_SIZE);
+
+            return View(newTeamCriteriaScoreVMList);
 
         }
 
@@ -248,6 +250,7 @@ namespace Riipen_SSD.Controllers
             ViewBag.TeamName = TeamName;
             ViewBag.ContestID = contestID;
             ViewBag.ContestName = _unitOfWork.Contests.Get(_unitOfWork.Teams.Get(teamID).ContestId).Name;
+
             return View(singleJudgeCriteriaScoreVM);
 
         }

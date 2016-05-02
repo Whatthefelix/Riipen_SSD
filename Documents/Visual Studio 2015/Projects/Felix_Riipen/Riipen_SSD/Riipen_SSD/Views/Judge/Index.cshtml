@@ -1,5 +1,4 @@
-﻿
-@model PagedList.IPagedList<Riipen_SSD.Contest>
+﻿@model PagedList.IPagedList<Riipen_SSD.Contest>
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
@@ -25,7 +24,7 @@ else if (User.IsInRole("Judge"))
 
 @if (ViewBag.searchStringValue == "")
 {
-    <h2>All contests</h2>
+    <h2>All Contests</h2>
 }
 else
 {

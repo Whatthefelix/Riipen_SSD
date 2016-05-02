@@ -1,4 +1,7 @@
-﻿@model IEnumerable<Riipen_SSD.AdminViewModels.IndexContestVM>
+﻿@*@model IEnumerable<Riipen_SSD.AdminViewModels.IndexContestVM>*@
+@model PagedList.IPagedList<Riipen_SSD.AdminViewModels.IndexContestVM>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "DashBoard";
@@ -47,16 +50,16 @@ else
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.First().Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StartTime)
+                @Html.DisplayNameFor(model => model.First().StartTime)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Location)
+                @Html.DisplayNameFor(model => model.First().Location)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Published)
+                @Html.DisplayNameFor(model => model.First().Published)
             </th>
         </tr>
     </thead>
@@ -80,3 +83,9 @@ else
         }
     </tbody>
 </table>
+
+
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+new { page, searchAContest = ViewBag.searchAContest, sortContests = ViewBag.sortContests }))
+    <span class="page-number">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </span>
