@@ -1,4 +1,7 @@
-﻿@model IEnumerable<Riipen_SSD.Contest>
+﻿
+@model PagedList.IPagedList<Riipen_SSD.Contest>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Index";
@@ -38,13 +41,13 @@ else
 <table class="table">
     <tr>
         <th>
-           @Html.DisplayNameFor(model => model.Name)
+           @Html.DisplayNameFor(model => model.First().Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Location)
+            @Html.DisplayNameFor(model => model.First().Location)
         </th>
         <th>
-          @Html.DisplayNameFor(model => model.StartTime)
+          @Html.DisplayNameFor(model => model.First().StartTime)
         </th>
         <th></th>
     </tr>
@@ -65,3 +68,8 @@ else
 }
 
 </table>
+
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+new { page, searchAContest = ViewBag.searchAContest, sortContests = ViewBag.sortContests }))
+    <span class="page-number">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </span>
