@@ -1,9 +1,9 @@
-﻿@model Riipen_SSD.ViewModels.ContestVM
+﻿@model Riipen_SSD.AdminViewModels.ContestDetailsVM
 
 @{
     ViewBag.Title = "ContestDetails";
 }
-
+<link href="~/Styles/ContestDetailResponsiveTables.css" type="text/css" rel="stylesheet"/>
 <h2>ContestDetails</h2>                                                                             
 
 <div>
@@ -44,67 +44,79 @@
     </dl>
 </div>
         <div class="contestScores">
-            @Html.ActionLink("View Scores", "contestScores", "Admin")
+
+        
+      
+        @*@Html.ActionLink("View Scores", "Contest", "Judge", new { contestID = ViewBag.ContestID })*@
+        
+        @Html.ActionLink("View Score", "Contest", "Judge", new { contestID = ViewBag.ContestID}, null)
+            
         </div>
-<table class="table">
+<table class="judgeTable">
     <caption>Judges</caption>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Judges.FirstOrDefault().FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Judges.FirstOrDefault().LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Judges.FirstOrDefault().Email)
-        </th>
-
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model.Judges)
-    {
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(x=>item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(x => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(x=>item.Email)
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Judges.FirstOrDefault().FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Judges.FirstOrDefault().LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Judges.FirstOrDefault().Email)
+            </th>
+
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Judges)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(x => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(x => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(x => item.Email)
+                </td>
+            </tr>
+        }
+    </tbody>
     </table>
 
-<table class="table">
+<table class="participantTable">
     <caption>Participants</caption>
-    <tr>
-        <th>
-          @Html.DisplayNameFor(model=>model.Participants.FirstOrDefault().TeamName)
-        </th>
-        <th>
-        @Html.DisplayNameFor(model=>model.Participants.FirstOrDefault().Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Participants.FirstOrDefault().Email)
-        </th>
-    </tr>
-    @foreach(var item in Model.Participants)
-    {
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(x=>item.TeamName)
-            </td>
-            <td>
-                @Html.DisplayFor(x=>item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(x=>item.Email)
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Participants.FirstOrDefault().TeamName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Participants.FirstOrDefault().Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Participants.FirstOrDefault().Email)
+            </th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Participants)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(x => item.TeamName)
+                </td>
+                <td>
+                    @Html.DisplayFor(x => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(x => item.Email)
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
     <p>
         @Html.ActionLink("Edit", "EditContest", new {  ContestID = Model.ContestID  }) |

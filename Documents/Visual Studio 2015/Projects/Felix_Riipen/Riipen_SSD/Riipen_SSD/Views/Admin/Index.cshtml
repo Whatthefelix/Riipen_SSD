@@ -3,44 +3,80 @@
 @{
     ViewBag.Title = "DashBoard";
 }
-
-<h2>DashBoard</h2>
+<link href="~/Styles/AdminIndexResponsive.css" type="text/css" rel="stylesheet" />
 
 <p>
     @Html.ActionLink("Create a Contest", "CreateContest")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StartTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Location)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Published)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.ActionLink(item.Name, "ContestDetails", new { contestID = item.ContestID })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Location)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Published)
-        </td>
-    </tr>
+
+<h2>DashBoard</h2>
+@using (Html.BeginForm("Index", "Admin", FormMethod.Get))
+{
+    @Html.AntiForgeryToken()
+    <input type="text" name="searchAContest" value="@ViewBag.searchStringValue" placeholder="Search a contest" style="border:1px solid #ddd;margin-top:10px">
+    <button type="submit">Submit</button>
 }
 
+
+
+@if (ViewBag.searchStringValue == "")
+{
+    <h2>All contests</h2>
+}
+else
+{
+    <h2>Result for: @ViewBag.searchStringValue</h2>
+}
+
+<div class="dropdown" id="sortButton" style="margin-top:10px;margin-bottom:10px;float:right">
+    Sort: <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="sortMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        @ViewBag.sortStringValue
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="sortMenu">
+        <li>@Html.ActionLink("Latest contests", "Index", new { searchAContest = ViewBag.searchStringValue, sortContests = "Latest" })</li>
+        <li>@Html.ActionLink("Name", "Index", new { searchAContest = ViewBag.searchStringValue, sortContests = "Name" })</li>
+        <li>@Html.ActionLink("Location", "Index", new { searchAContest = ViewBag.searchStringValue, sortContests = "Location" })</li>
+    </ul>
+</div>
+
+
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Published)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Name, "ContestDetails", new { contestID = item.ContestID })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Published)
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
