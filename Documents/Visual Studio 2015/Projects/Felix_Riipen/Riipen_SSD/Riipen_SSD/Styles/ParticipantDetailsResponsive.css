@@ -46,6 +46,7 @@ td, th {
         border-bottom: 1px solid #eee;
         position: relative;
         padding-left: 50%;
+       
     }
 
         td:before {
