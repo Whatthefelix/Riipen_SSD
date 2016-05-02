@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
+using PagedList;
 
 namespace Riipen_SSD.ViewModels
 {
@@ -26,5 +29,7 @@ namespace Riipen_SSD.ViewModels
             this.JudgeNotSubmitted = JudgeNotSubmitted;
             this.Submitted = Submitted;
         }
+
+        
     }
 }

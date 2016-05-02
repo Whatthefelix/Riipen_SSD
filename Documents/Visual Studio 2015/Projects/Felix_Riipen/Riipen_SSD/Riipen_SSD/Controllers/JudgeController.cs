@@ -7,6 +7,8 @@ using Riipen_SSD.DAL;
 using Microsoft.AspNet.Identity;
 using Riipen_SSD.Models.ViewModels;
 using Riipen_SSD.ViewModels;
+using PagedList;
+using System.Collections;
 
 namespace Riipen_SSD.Controllers
 {
@@ -24,7 +26,7 @@ namespace Riipen_SSD.Controllers
 
         }
 
-        public ActionResult Index(String searchAContest, String sortContests)
+        public ActionResult Index(String searchAContest, String sortContests, int? page)
         {
             string searchStringValue = "";
             string sortStringValue = "Latests contests";
@@ -59,7 +61,8 @@ namespace Riipen_SSD.Controllers
 
                 if (!String.IsNullOrEmpty(searchAContest))
                 {
-                   contestList= contestList.Where(c => c.Name.ToUpper().Contains(searchAContest.ToUpper())).ToList();
+                   contestList = contestList.Where(c => c.Name.ToUpper().Contains(searchAContest.ToUpper())).ToList();
+                   page = 1;
                 }
                 
             }
@@ -71,7 +74,7 @@ namespace Riipen_SSD.Controllers
                     contestList = contestList.OrderBy(c => c.Name).ToList();
                     sortStringValue = "Name";
 
-                }else if (sortContests=="Location")
+                } else if (sortContests=="Location")
                 {
                     contestList = contestList.OrderBy(c => c.Location).ToList();
                     sortStringValue = "Location";
@@ -80,7 +83,12 @@ namespace Riipen_SSD.Controllers
 
             ViewBag.SearchStringValue = searchStringValue;
             ViewBag.SortStringValue = sortStringValue;
-            return View(contestList);
+
+            const int PAGE_SIZE = 10;
+            int pageNumber = (page ?? 1);
+            IEnumerable<Contest> newContestList = contestList ;
+            newContestList = newContestList.ToPagedList(pageNumber, PAGE_SIZE);
+            return View(newContestList);
         }
 
 

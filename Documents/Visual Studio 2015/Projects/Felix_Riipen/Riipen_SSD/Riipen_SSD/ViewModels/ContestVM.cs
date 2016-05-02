@@ -12,5 +12,5 @@ namespace Riipen_SSD.ViewModels
         public String Location { get; set; }
         public IEnumerable<CriteriaVM> Criteria { get; set; }
         public IEnumerable<JudgeVM> Judges { get; set; }
-        }
     }
+}

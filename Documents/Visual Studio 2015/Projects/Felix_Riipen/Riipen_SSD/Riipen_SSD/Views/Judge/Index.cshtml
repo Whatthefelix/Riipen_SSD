@@ -1,4 +1,7 @@
-﻿@model IEnumerable<Riipen_SSD.Contest>
+﻿
+@model PagedList.IPagedList<Riipen_SSD.Contest>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Index";
@@ -44,33 +47,38 @@ else
 
 <table>
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Location)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartTime)
-            </th>
-        </tr>
+    <tr>
+        <th>
+           @Html.DisplayNameFor(model => model.First().Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Location)
+        </th>
+        <th>
+          @Html.DisplayNameFor(model => model.First().StartTime)
+        </th>
+    </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
+    <tr>
+        <td>
                     @Html.ActionLink(item.Name, "contest", new { contestId = item.Id })
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Location)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartTime)
-                </td>
-
-            </tr>
-        }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Location)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartTime)
+        </td>
+       
+    </tr>
+}
     </tbody>
 </table>
+
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+new { page, searchAContest = ViewBag.searchAContest, sortContests = ViewBag.sortContests }))
+    <span class="page-number">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </span>
