@@ -59,7 +59,6 @@ namespace Riipen_SSD.Controllers
                 if (!String.IsNullOrEmpty(searchAContest))
                 {
                    contestList = contestList.Where(c => c.Name.ToUpper().Contains(searchAContest.ToUpper())).ToList();
-                   page = 1;
                 }
                 
             }

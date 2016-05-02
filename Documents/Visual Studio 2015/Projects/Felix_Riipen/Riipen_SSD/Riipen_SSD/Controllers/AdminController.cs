@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 
 namespace Riipen_SSD.Controllers
 {
@@ -26,7 +27,7 @@ namespace Riipen_SSD.Controllers
             UnitOfWork = unitOfWork;
         }
         // GET: Admin
-        public ActionResult Index(String searchAContest, String sortContests)
+        public ActionResult Index(String searchAContest, String sortContests, int? page)
         {
            IEnumerable<AdminViewModels.IndexContestVM> adminContests = UnitOfWork.Contests.GetAll().Select(x => new AdminViewModels.IndexContestVM() { Name = x.Name, StartTime = x.StartTime.ToString(), Location = x.Location, Published = true, ContestID = x.Id });
             string searchStringValue = "";
@@ -63,7 +64,12 @@ namespace Riipen_SSD.Controllers
             ViewBag.SearchStringValue = searchStringValue;
             ViewBag.SortStringValue = sortStringValue;
 
-            return View(adminContests);
+            const int PAGE_SIZE = 10;
+            int pageNumber = (page ?? 1);
+            IEnumerable<AdminViewModels.IndexContestVM> newAdminContests = adminContests;
+            newAdminContests = newAdminContests.ToPagedList(pageNumber, PAGE_SIZE);
+
+            return View(newAdminContests);
         }
 
 
