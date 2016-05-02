@@ -13,7 +13,14 @@
     <input type="text" name="searchAContest" value="@ViewBag.searchStringValue" placeholder="Search a contest"  style="border:1px solid #ddd;margin-top:10px">
     <button type="submit">Submit</button>
 }
-
+@if (User.IsInRole("Admin"))
+{
+    <link href="~/Styles/AdminIndexResponsive.css" type="text/css" rel="stylesheet" />
+}
+else if (User.IsInRole("Judge"))
+{
+    <link href="~/Styles/JudgeIndexResponsive.css" type="text/css" rel="stylesheet" />
+}
 
 @if (ViewBag.searchStringValue == "")
 {
@@ -24,7 +31,7 @@ else
     <h2>Result for: @ViewBag.searchStringValue</h2>
 }
 
-<div class="dropdown" style="margin-top:10px;margin-bottom:10px;float:right">
+<div class="dropdown" id="sortButton" style="margin-top:10px;margin-bottom:10px;float:right">
     Sort: <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="sortMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
         @ViewBag.sortStringValue
         <span class="caret"></span>
@@ -37,7 +44,8 @@ else
 </div>
 
 
-<table class="table">
+<table>
+    <thead>
     <tr>
         <th>
            @Html.DisplayNameFor(model => model.First().Name)
@@ -48,13 +56,14 @@ else
         <th>
           @Html.DisplayNameFor(model => model.First().StartTime)
         </th>
-        <th></th>
     </tr>
-
-@foreach (var item in Model) {
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
     <tr>
         <td>
-            @Html.ActionLink(item.Name, "contest", new { contestId=item.Id })          
+                    @Html.ActionLink(item.Name, "contest", new { contestId = item.Id })
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Location)
@@ -65,7 +74,7 @@ else
        
     </tr>
 }
-
+    </tbody>
 </table>
 
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount

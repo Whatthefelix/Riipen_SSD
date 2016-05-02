@@ -1,22 +1,19 @@
-﻿@*@model IEnumerable<Riipen_SSD.ViewModels.ParticipantViewModels.ContestTeamVM>*@
-@model PagedList.IPagedList<Riipen_SSD.ViewModels.ParticipantViewModels.ContestTeamVM>
-@using PagedList.Mvc;
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+﻿@model IEnumerable<Riipen_SSD.ViewModels.ParticipantViewModels.ContestTeamVM>
 
 @{
     ViewBag.Title = "Contests";
 }
-
+<link href="~/Styles/ParticipantContestResponsive.css" rel="stylesheet" />
 <style>
 
     tr:nth-child(2){
-          color:blue;
+          color:#224965;
         font-weight:bold;
 
     }
    table tr:nth-child(2) a {
 
-        color:BLUE;
+        color:#224965;
         font-weight:bold;
     }
 </style>
@@ -56,65 +53,62 @@ else
     </ul>
 </div>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.First().TeamID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().TeamName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Score)
-        </th>
-        <th>
-         @Html.DisplayNameFor(model => model.First().JudgeNotSubmitted)
-        </th>
-        <th></th>
-    </tr>
+<table>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TeamID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeamName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Score)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JudgeNotSubmitted)
+            </th>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.TeamID)
-        </td>
-        <td>
-            @Html.ActionLink(item.TeamName, "TeamScores", new { teamID=item.TeamID,contestID = ViewBag.ContestID, yourTeamID = ViewBag.YourTeamID })
-        </td>
-        <td>
-            @if (item.Score == null)
-            {
-                <span>Not available</span>
-            }
-            else
-            {
-                @Html.DisplayFor(modelItem => item.Score)
-            }
-           
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TeamID)
+                </td>
+                <td>
+                    @Html.ActionLink(item.TeamName, "TeamScores", new { teamID = item.TeamID, contestID = ViewBag.ContestID, yourTeamID = ViewBag.YourTeamID })
+                </td>
+                <td>
+                    @if (item.Score == null)
+                    {
+                        <span>Not available</span>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Score)
+                    }
 
-        </td>
-        <td>
-            @if (item.JudgeNotSubmitted==0)
-            {
 
-                <span>Final</span>
+                </td>
+                <td>
+                    @if (item.JudgeNotSubmitted == 0)
+                    {
 
-            }
-            else
-            {
+                        <span>Final</span>
 
-                <span>Waiting for @Html.DisplayFor(modelItem => item.JudgeNotSubmitted) Judges</span>
-            }
+                    }
+                    else
+                    {
 
-            
-        </td>
-    </tr>
-}
+                        <span>Waiting for @Html.DisplayFor(modelItem => item.JudgeNotSubmitted) Judges</span>
+                    }
 
+
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
-
-
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-    @Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, contestID = ViewBag.contestId, searchATeam = ViewBag.searchATeam, sortTeams = ViewBag.sortTeams }))
-    <span class="page-number">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </span>

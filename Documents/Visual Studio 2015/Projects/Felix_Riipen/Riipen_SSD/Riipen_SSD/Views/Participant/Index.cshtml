@@ -1,12 +1,9 @@
-﻿@*@model IEnumerable<Riipen_SSD.ViewModels.ParticipantViewModels.ParticipantContestVM>*@
-@model PagedList.IPagedList<Riipen_SSD.ViewModels.ParticipantViewModels.ParticipantContestVM>
-@using PagedList.Mvc;
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+﻿@model IEnumerable<Riipen_SSD.ViewModels.ParticipantViewModels.ParticipantContestVM>
 
 @{
     ViewBag.Title = "Index";
 }
-
+<link href="~/Styles/ParticipantIndexResponsiveTable.css" rel="stylesheet" />
 @using (Html.BeginForm("Index", "Participant", FormMethod.Get))
 {
     @Html.AntiForgeryToken()
@@ -18,7 +15,7 @@
 
 @if (ViewBag.searchStringValue == "")
 {
-    <h2>All Your Contests</h2>
+    <h2>All contests you participant</h2>
 }
 else
 {
@@ -41,50 +38,48 @@ else
 
 
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.First().TeamID)
-        </th>
-        <th>          
-            @Html.DisplayNameFor(model => model.First().ContestID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().ContestName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Location)
-        </th>
-        <th></th>
-    </tr>
+<table>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TeamID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContestID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContestName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+          
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TeamID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContestID)
+                </td>
+                <td>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.TeamID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ContestID)
-        </td>
-        <td>
-        
-            @Html.ActionLink(item.ContestName, "Contests", new {contestID=item.ContestID }) 
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Location)
-        </td>
-    </tr>
-}
-
+                    @Html.ActionLink(item.ContestName, "Contests", new { contestID = item.ContestID })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
-
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-    @Html.PagedListPager(Model, page => Url.Action("Index",
-new { page, searchAContest = ViewBag.searchAContest, sortContests = ViewBag.sortContests }))
-    <span class="page-number">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </span>

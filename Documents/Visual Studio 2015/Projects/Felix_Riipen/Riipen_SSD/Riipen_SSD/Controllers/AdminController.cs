@@ -26,32 +26,85 @@ namespace Riipen_SSD.Controllers
             UnitOfWork = unitOfWork;
         }
         // GET: Admin
-        public ActionResult Index()
+        public ActionResult Index(String searchAContest, String sortContests)
         {
            IEnumerable<AdminViewModels.IndexContestVM> adminContests = UnitOfWork.Contests.GetAll().Select(x => new AdminViewModels.IndexContestVM() { Name = x.Name, StartTime = x.StartTime.ToString(), Location = x.Location, Published = true, ContestID = x.Id });
+            string searchStringValue = "";
+            string sortStringValue = "Latests contests";
+
+            // if search input is not null or empty
+            if (!String.IsNullOrEmpty(searchAContest))
+            {
+                adminContests = adminContests.Where(a => a.Name.ToUpper().Contains(searchAContest.ToUpper()));
+
+                searchStringValue = searchAContest;
+            }
+
+
+            if (!String.IsNullOrEmpty(sortContests))
+            {
+                if (sortContests == "Name")
+                {
+                    adminContests = adminContests.OrderBy(a => a.Name).ThenBy(a => a.StartTime);
+                    sortStringValue = "Name";
+
+                }
+                else if (sortContests == "Location")
+                {
+                    adminContests = adminContests.OrderBy(a => a.Location).ThenBy(a => a.StartTime);
+                    sortStringValue = "Location";
+                }
+            }
+            else
+            {
+                adminContests = adminContests.OrderBy(a => a.StartTime);
+            }
+
+            ViewBag.SearchStringValue = searchStringValue;
+            ViewBag.SortStringValue = sortStringValue;
 
             return View(adminContests);
         }
+
+
+
         [HttpGet]
         public ActionResult CreateContest()
         {
             return View();
         }
 
-        public ActionResult ContestDetails(int contestId)
+        public ActionResult ContestDetails(int contestID)
         {
-            var contest = UnitOfWork.Contests.Get(contestId);
-            var contestVM = new ContestVM()
+            var contest = UnitOfWork.Contests.Get(contestID);
+            var judges = contest.ContestJudges.Select(x => new JudgeVM()
             {
-                ContestName = contest.Name,
-                Date = contest.StartTime,
+                FirstName = x.AspNetUser.FirstName,
+                LastName = x.AspNetUser.LastName,
+                Email = x.AspNetUser.Email
+            });
+            var participants = new List<ParticipantVM>();
+            foreach (var team in contest.Teams)
+            {
+                var participantsFromTeam = team.AspNetUsers.Select(x => new ParticipantVM() { Email = x.Email, Name = x.FirstName, TeamName = team.Name });
+                participants.AddRange(participantsFromTeam);
+            }
+
+            var contestDetailVM = new ContestDetailsVM()
+            {
+                ContestID = contestID,
+                Name = contest.Name,
+                StartTime = contest.StartTime.ToString(),
                 Location = contest.Location,
-                Criteria = contest.Criteria.Select(c => new CriteriaVM() { Id = c.Id, Name = c.Name, Description = c.Description }),
-                Judges = contest.ContestJudges.Select(c => new JudgeVM() { Email = c.AspNetUser.Email, FirstName = c.AspNetUser.FirstName, LastName = c.AspNetUser.LastName }),
+                Published = true,
+                Participants = participants,
+                Judges = judges,
             };
 
-            return View(contestVM);
-    }
+            ViewBag.ContestID = contestID;
+
+            return View(contestDetailVM);
+        }
 
         [HttpPost]
         public ActionResult CreateContest(ContestVM contestVM, HttpPostedFileBase file)
@@ -155,7 +208,7 @@ namespace Riipen_SSD.Controllers
     //
         public ActionResult contestScores(int contestID)
         {   //need to get TeamID, TeamName, FinalScore, 
-            double? FinalScore = null;
+            
             
             List<Team> teams = UnitOfWork.Contests.Get(contestID).Teams.ToList(); //get all the teams
             List<TeamCriteriaScoreVM> teamCriteriaScoreVMList = new List<TeamCriteriaScoreVM>(); //get all the criteriascoreVMs as list
