@@ -5,6 +5,11 @@
 }
 
 
+@section scripts{
+    <script src="~/JavaScript/Judge_Team_form.js"></script>
+    
+}
+
 <div>
   
     @if (ViewBag.TeamName != null)
@@ -17,13 +22,14 @@
     <span>Contest: </span>    @ViewBag.ContestName;
     }
    
-    
+    <br />
+    <div class="yourScoreDiv">
+        <span style="font-weight:bold">Total Score: </span><span class="yourScore"></span>
+    </div>
 
     <form class="form" method="post" action="EditCriteriaScore">
         <input name="teamID" value="@ViewBag.TeamID" hidden/>
         <input name="contestID" value="@ViewBag.ContestID" hidden />
-       
-
         <table class="table">
             <tr>
                 <th>
@@ -46,6 +52,7 @@
             }
             @foreach (var item in Model.singleCriteriaScoreVMLlist)
             {
+                
                 <tr>
                     <td>
                         @item.CriteriaName
@@ -62,6 +69,8 @@
                             var commentName = name + counter.ToString() + "].Comment";
                             var criteriaIdName = name + counter.ToString() + "].CriteriaID";
                             var teamIdName = name + counter.ToString() + "].TeamID";
+
+                            var ScoreID = "Score" + counter.ToString();
 
                             counter++;
 
@@ -80,7 +89,7 @@
                                 }
                                 <div class="scoreDiv" style="float:left">
                                     <span>@i</span><br />
-                                    <input type="radio" name="@scoreName" value="@i" @checkValue>
+                                    <input type="radio" name="@scoreName" value="@i" @checkValue class="radioScore">
                                 </div>
                                 checkValue = "";
 
@@ -132,3 +141,6 @@
         <input name="SubmitOrSave" type="submit" value="Submit"/>
     </form>
 </div>
+
+
+
