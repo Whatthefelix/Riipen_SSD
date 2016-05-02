@@ -4,7 +4,7 @@
     ViewBag.Title = "TeamScores";
 }
 
-
+<link href="~/Styles/ParticipantTeamResponsive.css" rel="stylesheet" />
 
 <div class="header">
     @if (ViewBag.TeamName != null) {
@@ -20,41 +20,45 @@
 </div>
 
 <div>
-    <table class="table">
-        <tr>
-            <th>
-                Criteria
-            </th>
-            <th>
-                Description
-            </th>
-            <th>
-                Score
-            </th>
-        </tr>
-
-        @foreach (var item in Model.teamCriteriaVMlist)
-            {
+    <table>
+        <thead>
             <tr>
-                <td>
-                    @Html.ActionLink(item.CriteriaName, "CriteriaDetials", new {teamID=ViewBag.TeamID, contestID=ViewBag.ContestID,criteriaID =item.CriteriaID }) 
-                </td>
+                <th>
+                    Criteria
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Score
+                </th>
+            </tr>
+        </thead>
+        <tbody>
 
-                <td>
-                    @item.Description
-                </td>
-                <td>
-                    @if (item.Score == null)
-                    {
-                        <span>Not available</span>
-                    }
-                    else
-                    { @item.Score
+            @foreach (var item in Model.teamCriteriaVMlist)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(item.CriteriaName, "CriteriaDetials", new { teamID = ViewBag.TeamID, contestID = ViewBag.ContestID, criteriaID = item.CriteriaID })
+                    </td>
 
-                    }
-                               
-                </td>
-            </tr>}
+                    <td>
+                        @item.Description
+                    </td>
+                    <td>
+                        @if (item.Score == null)
+                        {
+                            <span>Not available</span>
+                        }
+                        else
+                        { @item.Score
+
+                        }
+
+                    </td>
+                </tr>}
+        </tbody>
     </table>
 
     @if (Model.teamFeedbackVMList.Count() > 0)

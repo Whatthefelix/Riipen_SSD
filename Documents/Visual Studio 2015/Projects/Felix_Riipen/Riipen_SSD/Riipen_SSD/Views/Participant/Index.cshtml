@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Index";
 }
-
+<link href="~/Styles/ParticipantIndexResponsiveTable.css" rel="stylesheet" />
 @using (Html.BeginForm("Index", "Participant", FormMethod.Get))
 {
     @Html.AntiForgeryToken()
@@ -38,45 +38,48 @@ else
 
 
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.TeamID)
-        </th>
-        <th>          
-            @Html.DisplayNameFor(model => model.ContestID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ContestName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Location)
-        </th>
-        <th></th>
-    </tr>
+<table>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TeamID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContestID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContestName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+          
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TeamID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContestID)
+                </td>
+                <td>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.TeamID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ContestID)
-        </td>
-        <td>
-        
-            @Html.ActionLink(item.ContestName, "Contests", new {contestID=item.ContestID }) 
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Location)
-        </td>
-    </tr>
-}
-
+                    @Html.ActionLink(item.ContestName, "Contests", new { contestID = item.ContestID })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>

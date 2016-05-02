@@ -403,6 +403,10 @@
     <Content Include="Styles\ContestDetailResponsiveTables.css" />
     <Content Include="Styles\JudgeContestResponsiveTable.css" />
     <Content Include="Styles\JudgeIndexResponsive.css" />
+    <Content Include="Styles\ParticipantContestResponsive.css" />
+    <Content Include="Styles\ParticipantDetailsResponsive.css" />
+    <Content Include="Styles\ParticipantIndexResponsiveTable.css" />
+    <Content Include="Styles\ParticipantTeamResponsive.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

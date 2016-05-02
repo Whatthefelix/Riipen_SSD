@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "CriteriaDetials";
 }
-
+<link href="~/Styles/ParticipantDetailsResponsive.css" rel="stylesheet" />
 <div class="header">
     
     @if (ViewBag.ContestName != null) {
@@ -29,48 +29,52 @@
 </div>
 
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Score)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.JudgeName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Comment)
-        </th>
-        <th></th>
-    </tr>
+<table>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Score)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JudgeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment)
+            </th>
+  
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
+                    @if (item.Score == null)
+                    {
+                        <span>Not Available</span>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Score)
+                    }
 
-            @if (item.Score == null) {
-                <span>Not Available</span>
-            }
-            else
-            {  
-                @Html.DisplayFor(modelItem => item.Score)
-            }
-          
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.JudgeName)
-        </td>
-        <td>
-            @if (item.Comment == null)
-            {
-                <span>Not Available</span>
-            }
-            else
-            {
-                @Html.DisplayFor(modelItem => item.Comment)
-            }
-           
-        </td>
-    </tr>
-}
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JudgeName)
+                </td>
+                <td>
+                    @if (item.Comment == null)
+                    {
+                        <span>Not Available</span>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Comment)
+                    }
 
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
