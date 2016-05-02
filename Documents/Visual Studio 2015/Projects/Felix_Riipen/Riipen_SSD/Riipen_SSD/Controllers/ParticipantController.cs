@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Riipen_SSD.DAL;
 using Riipen_SSD.ViewModels.ParticipantViewModels;
 using Riipen_SSD.ViewModels;
+using PagedList;
 
 namespace Riipen_SSD.Controllers
 {
@@ -22,7 +23,7 @@ namespace Riipen_SSD.Controllers
         }
 
 
-        public ActionResult Index(String searchAContest, String sortContests)
+        public ActionResult Index(String searchAContest, String sortContests, int? page)
         {
             string searchStringValue = "";
             string sortStringValue = "Latest contests";
@@ -65,12 +66,17 @@ namespace Riipen_SSD.Controllers
             ViewBag.SearchStringValue = searchStringValue;
             ViewBag.SortStringValue = sortStringValue;
 
-            return View(participantVMList);
+            const int PAGE_SIZE = 10;
+            int pageNumber = (page ?? 1);
+            IEnumerable<ParticipantContestVM> newParticipantVMList = participantVMList;
+            newParticipantVMList = newParticipantVMList.ToPagedList(pageNumber, PAGE_SIZE);
+
+            return View(newParticipantVMList);
         }
 
 
 
-        public ActionResult Contests(int contestID, String searchATeam, String sortTeams)
+        public ActionResult Contests(int contestID, String searchATeam, String sortTeams, int? page)
         {
             List<ContestTeamVM> ContestTeamVMList = new List<ContestTeamVM>();
 
@@ -151,6 +157,12 @@ namespace Riipen_SSD.Controllers
             ViewBag.ContestID = contestID;
             ViewBag.ContestName = context.Contests.Find(contestID).Name;
             ViewBag.YourTeamID = yourTeamID;
+
+            const int PAGE_SIZE = 10;
+            int pageNumber = (page ?? 1);
+            IEnumerable<ContestTeamVM> newContestTeamVMList = ContestTeamVMList;
+            newContestTeamVMList = newContestTeamVMList.ToPagedList(pageNumber, PAGE_SIZE);
+
             return View(ContestTeamVMList);
 
         }
