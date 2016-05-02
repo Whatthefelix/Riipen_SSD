@@ -31,3 +31,50 @@ h2 {
 	font-family: 'Roboto', 'Helvetica Nueue', sans-serif;
 }
 	
+
+
+
+
+
+
+
+
+/*judge pages*/
+
+.title{
+    font-size:20px;
+}
+
+.PageDiv{
+    margin-top:20px;
+}
+
+.searchForm {
+    margin-top:20px;
+}
+
+.searchForm input{
+    width:200px;
+    border:1px solid #ddd;
+    padding:2px;
+}
+
+.btn-submit{
+    background-color:#3F8ABF;
+    color:white;
+    border:0px;
+    padding:5px 10px;
+}
+
+.btn-save{
+    background-color:#F68632;
+    color:white;
+    border:0px;
+    padding:5px 10px;
+}
+
+.judge-team-score{
+    font-size:20px;
+    margin-top:20px;
+    margin-bottom:30px;
+}

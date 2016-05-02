@@ -7,12 +7,6 @@
 
 }
 
-@using (Html.BeginForm("Index", "Judge", FormMethod.Get))
-{
-    @Html.AntiForgeryToken()
-    <input type="text" name="searchAContest" value="@ViewBag.searchStringValue" placeholder="Search a contest"  style="border:1px solid #ddd;margin-top:10px">
-    <button type="submit">Submit</button>
-}
 @if (User.IsInRole("Admin"))
 {
     <link href="~/Styles/AdminIndexResponsive.css" type="text/css" rel="stylesheet" />
@@ -22,14 +16,18 @@ else if (User.IsInRole("Judge"))
     <link href="~/Styles/JudgeIndexResponsive.css" type="text/css" rel="stylesheet" />
 }
 
-@if (ViewBag.searchStringValue == "")
-{
-    <h2>All Contests</h2>
-}
-else
-{
-    <h2>Result for: @ViewBag.searchStringValue</h2>
-}
+
+<div class="searchForm">
+    @using (Html.BeginForm("Index", "Judge", FormMethod.Get))
+    {
+        @Html.AntiForgeryToken()
+        <input type="text" name="searchAContest" value="@ViewBag.searchStringValue" placeholder="Search a contest" style="border:1px solid #ddd;margin-top:10px">
+        <button type="submit" class="btn-submit">Submit</button>
+    }
+</div>
+
+
+
 
 <div class="dropdown" id="sortButton" style="margin-top:10px;margin-bottom:10px;float:right">
     Sort: <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="sortMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -37,47 +35,54 @@ else
         <span class="caret"></span>
     </button>
     <ul class="dropdown-menu" aria-labelledby="sortMenu">
-        <li>@Html.ActionLink("Latest contests","Index",new { searchAContest=ViewBag.searchStringValue, sortContests="Latest"})</li>
+        <li>@Html.ActionLink("Latest contests", "Index", new { searchAContest = ViewBag.searchStringValue, sortContests = "Latest" })</li>
         <li>@Html.ActionLink("Name", "Index", new { searchAContest = ViewBag.searchStringValue, sortContests = "Name" })</li>
         <li>@Html.ActionLink("Location", "Index", new { searchAContest = ViewBag.searchStringValue, sortContests = "Location" })</li>
     </ul>
 </div>
 
-
+@if (ViewBag.searchStringValue == "")
+{
+    <div class="title">All contests</div>
+}
+else
+{
+    <div class="title">Result for: @ViewBag.searchStringValue</div>
+}
 <table>
     <thead>
-    <tr>
-        <th>
-           @Html.DisplayNameFor(model => model.First().Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Location)
-        </th>
-        <th>
-          @Html.DisplayNameFor(model => model.First().StartTime)
-        </th>
-    </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().StartTime)
+            </th>
+        </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-    <tr>
-        <td>
+            <tr>
+                <td>
                     @Html.ActionLink(item.Name, "contest", new { contestId = item.Id })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Location)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartTime)
-        </td>
-       
-    </tr>
-}
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+
+            </tr>
+        }
     </tbody>
 </table>
-
+<div class="PageDiv">
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
     @Html.PagedListPager(Model, page => Url.Action("Index",
 new { page, searchAContest = ViewBag.searchAContest, sortContests = ViewBag.sortContests }))
-    <span class="page-number">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </span>
+</div>

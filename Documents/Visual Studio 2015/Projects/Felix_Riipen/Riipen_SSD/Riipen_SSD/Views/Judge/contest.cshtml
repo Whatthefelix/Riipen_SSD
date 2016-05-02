@@ -1,4 +1,4 @@
-﻿@*@model IEnumerable<Riipen_SSD.ViewModels.TeamCriteriaScoreVM>*@
+﻿
 @model PagedList.IPagedList<Riipen_SSD.ViewModels.TeamCriteriaScoreVM>
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
@@ -15,27 +15,20 @@ else if (User.IsInRole("Admin"))
     <link href="~/Styles/AdminContestResponsiveTable.css" rel="stylesheet" type="text/css" />
 }
 
-<p>Contest: @ViewBag.contestName</p>
+<p class="title">Contest: @ViewBag.contestName</p>
 
-@using (Html.BeginForm("Contest", "Judge", FormMethod.Get))
-{
-    @Html.AntiForgeryToken()
-    <input name="contestID" value="@ViewBag.contestId" hidden/>
-    <input type="text" name="searchATeam" value="@ViewBag.searchStringValue" placeholder="Search a team" style="border:1px solid #ddd;margin-top:10px">
-    <button type="submit">Submit</button>
-}
+<div class="searchForm">
+    @using (Html.BeginForm("Contest", "Judge", FormMethod.Get))
+    {
+        @Html.AntiForgeryToken()
+        <input name="contestID" value="@ViewBag.contestId" hidden />
+        <input type="text" name="searchATeam" value="@ViewBag.searchStringValue" placeholder="Search a team" style="border:1px solid #ddd;margin-top:10px">
+        <button type="submit" class="btn-submit">Submit</button>
+    }
+</div>
 
 
 
-@if (ViewBag.searchStringValue == "")
-{
-    <h2>All teams</h2>
-}
-else
-{
-    <h2>Result for: @ViewBag.searchStringValue</h2> 
-    <p>@Html.ActionLink("Get all teams","Contest", new { contestID=ViewBag.contestId})</p>
-}
 
 
 <div class="dropdown" id="sortButton" style="margin-top:10px;margin-bottom:10px;float:right">
@@ -44,11 +37,20 @@ else
         <span class="caret"></span>
     </button>
     <ul class="dropdown-menu" aria-labelledby="sortMenu">
-        <li>@Html.ActionLink("Status", "Contest", new {contestID= ViewBag.contestId, searchATeam = ViewBag.searchStringValue, sortTeams = "Status" })</li>
-        <li>@Html.ActionLink("Name", "Contest", new { contestID = ViewBag.contestId,searchATeam = ViewBag.searchStringValue, sortTeams = "Name" })</li>
+        <li>@Html.ActionLink("Status", "Contest", new { contestID = ViewBag.contestId, searchATeam = ViewBag.searchStringValue, sortTeams = "Status" })</li>
+        <li>@Html.ActionLink("Name", "Contest", new { contestID = ViewBag.contestId, searchATeam = ViewBag.searchStringValue, sortTeams = "Name" })</li>
     </ul>
 </div>
 
+@if (ViewBag.searchStringValue == "")
+{
+    <div class="title">All teams</div>
+}
+else
+{
+    <div class="title">Result for: @ViewBag.searchStringValue</div>
+        <p>@Html.ActionLink("Get all teams", "Contest", new { contestID = ViewBag.contestId })</p>
+}
 <table>
     <thead>
         <tr>
@@ -62,13 +64,14 @@ else
                 @Html.DisplayNameFor(model => model.First().TeamName)
             </th>
 
-            
-                @if (!User.IsInRole("Admin"))
-            {   <th>
+
+            @if (!User.IsInRole("Admin"))
+            {
+                <th>
                     @Html.DisplayNameFor(model => model.First().YourCurrentScore)
-            </th>
-                }
-            
+                </th>
+            }
+
             <th>
 
                 @Html.DisplayNameFor(model => model.First().FinalScore)
@@ -80,88 +83,90 @@ else
             {
                 <th></th>
             }
-           
+
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.TeamID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ContestID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TeamName)
-        </td>
-                 
-            @if (item.YourCurrentScore == null)
+        @foreach (var item in Model)
             {
-                if (!User.IsInRole("Admin"))
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TeamID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContestID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TeamName)
+                </td>
+
+                @if (item.YourCurrentScore == null)
                 {
+                    if (!User.IsInRole("Admin"))
+                    {
+                        <td>
+                            @Html.ActionLink("Judge Now", "Team", new { teamID = item.TeamID })
+                        </td>
+                    }
+                }
+                else {
                     <td>
-                        @Html.ActionLink("Judge Now", "Team", new { teamID = item.TeamID })
+                        @Html.DisplayFor(modelItem => item.YourCurrentScore)<span>/7</span>
                     </td>
                 }
-            }
-            else {
+
+
                 <td>
-                    @Html.DisplayFor(modelItem => item.YourCurrentScore)<span>/7</span>
+                    @if (item.FinalScore == null)
+                    {
+                        <span>N/A</span>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.FinalScore)<span>/7</span>
+                    }
+
                 </td>
-            }
-                
-        
-        <td>
-            @if (item.FinalScore == null)
-            {
-               <span>N/A</span>
-            }
-            else
-            {
-                @Html.DisplayFor(modelItem => item.FinalScore)<span>/7</span>
-            }
-           
-        </td>
-        <td>
-            @if (item.JudgeNotSubmitted == 0)
-            {
-               <span>Final</span>
-            }
-            else
-            {
-                <span>Waiting for @Html.DisplayFor(modelItem => item.JudgeNotSubmitted) judges</span>
-            }
-           
-
-        </td>
-        @if (User.IsInRole("Judge"))
-        {
+                <td>
+                    @if (item.JudgeNotSubmitted == 0)
+                    {
+                        <span>Final</span>
+                    }
+                    else
+                    {
+                        <span>Waiting for @Html.DisplayFor(modelItem => item.JudgeNotSubmitted) judges</span>
+                    }
 
 
-        <td>
-            @if (item.YourCurrentScore != null && !item.Submitted)
-            {
-                @Html.ActionLink("Edit Now", "Team", new { teamID = item.TeamID })
+                </td>
+                @if (User.IsInRole("Judge"))
+                {
 
-            }
-            else if (item.YourCurrentScore != null && item.Submitted)
-            {
-                <span>Thanks for judging!</span>
-            }
-            else
-            {
-                <span> </span>
-            }
-            
-        </td>
+
+                    <td>
+                        @if (item.YourCurrentScore != null && !item.Submitted)
+                        {
+                            @Html.ActionLink("Edit Now", "Team", new { teamID = item.TeamID })
+
+                        }
+                        else if (item.YourCurrentScore != null && item.Submitted)
+                        {
+                            <span>Thanks for judging!</span>
+                        }
+                        else
+                        {
+                            <span> </span>
+                        }
+
+                    </td>
+                }
+            </tr>
         }
-    </tr>
-}
-        </tbody>
+    </tbody>
 </table>
 
+<div class="PageDiv">
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
     @Html.PagedListPager(Model, page => Url.Action("Index",
 new { page, searchAContest = ViewBag.searchAContest, sortContests = ViewBag.sortContests }))
-    <span class="page-number">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </span>
+</div>

@@ -7,28 +7,27 @@
 
 @section scripts{
     <script src="~/JavaScript/Judge_Team_form.js"></script>
-    
+
 }
 
 <div>
-  
-    @if (ViewBag.TeamName != null)
-    {
-       <span>Team: </span> @ViewBag.TeamName <br />
-    }
+    <div class="judge-team-score">
+        @if (ViewBag.TeamName != null)
+        {
+            <span>Team: </span> @ViewBag.TeamName <br />
+        }
 
-    @if (ViewBag.ContestName != null)
-    {
-    <span>Contest: </span>    @ViewBag.ContestName;
-    }
-   
-    <br />
+        @if (ViewBag.ContestName != null)
+        {
+            <span>Contest: </span>    @ViewBag.ContestName;
+        }
+    </div>
     <div class="yourScoreDiv">
-        <span style="font-weight:bold">Total Score: </span><span class="yourScore"></span>
+        <span>Total Score: </span><span class="yourScore"></span>
     </div>
 
     <form class="form" method="post" action="EditCriteriaScore">
-        <input name="teamID" value="@ViewBag.TeamID" hidden/>
+        <input name="teamID" value="@ViewBag.TeamID" hidden />
         <input name="contestID" value="@ViewBag.ContestID" hidden />
         <table class="table">
             <tr>
@@ -52,12 +51,12 @@
             }
             @foreach (var item in Model.singleCriteriaScoreVMLlist)
             {
-                
+
                 <tr>
                     <td>
                         @item.CriteriaName
                     </td>
-                    
+
                     <td>
                         @item.Description
                     </td>
@@ -75,11 +74,11 @@
                             counter++;
 
                         }
-                       
 
-                    <input name="@criteriaIdName" value="@item.CriteriaID" hidden/>    
-                         <div style="position:relative">
-                             <span style="float:left">Rotten</span>
+
+                        <input name="@criteriaIdName" value="@item.CriteriaID" hidden />
+                        <div style="position:relative">
+                            <span style="float:left">Rotten</span>
                             @for (int i = 1; i < 8; i++)
                             {
 
@@ -98,15 +97,15 @@
 
                             }
                             <span>Riipe</span>
-                        </div>   
+                        </div>
 
 
                     </td>
                     <td>
-                       
-                            <textarea name="@commentName" class="form-control">@item.Comment</textarea>
-                    
-                        
+
+                        <textarea name="@commentName" class="form-control">@item.Comment</textarea>
+
+
 
                     </td>
 
@@ -114,18 +113,18 @@
         </table>
 
         <div class="dl-horizontal">
-          
+
             @{ string PublicFeedback = "singleJugeCriteriaScoreVM.PublicFeedback";
                 string PrivateFeedback = "singleJugeCriteriaScoreVM.PrivateFeedback";
             }
-            <div class="form-group">              
+            <div class="form-group">
                 <label>Public Feedback</label>
-               
+
                 <div>
                     <textarea name=@PublicFeedback class="form-control">@Html.DisplayFor(model => model.PublicFeedback)</textarea>
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <label>Private Feedback</label>
 
@@ -134,13 +133,19 @@
                 </div>
             </div>
 
-          
+
 
         </div>
-        <input name="SubmitOrSave" type="submit" value="Save"/>
-        <input name="SubmitOrSave" type="submit" value="Submit"/>
+        <input class="btn-save" name="SubmitOrSave" type="submit" value="Save" />
+        <input class="btn-submit" name="SubmitOrSave" type="submit" value="Submit" />
     </form>
 </div>
+
+
+
+
+
+
 
 
 
