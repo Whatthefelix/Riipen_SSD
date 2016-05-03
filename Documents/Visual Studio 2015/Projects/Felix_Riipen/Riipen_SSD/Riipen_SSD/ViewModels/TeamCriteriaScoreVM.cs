@@ -13,9 +13,13 @@ namespace Riipen_SSD.ViewModels
 
         public int TeamID { get; set; }
         public int ContestID { get; set; }
+        [DisplayName("Team name")]
         public string TeamName { get; set; }
+        [DisplayName("Your score")]
         public double? YourCurrentScore { get; set; }
+        [DisplayName("Final score")]
         public double? FinalScore { get; set; }
+        [DisplayName("Status")]
         public int? JudgeNotSubmitted { get; set; }
         public bool Submitted;
 

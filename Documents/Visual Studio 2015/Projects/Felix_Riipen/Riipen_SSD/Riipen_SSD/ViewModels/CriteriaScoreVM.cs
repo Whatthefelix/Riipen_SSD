@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel;
 
 namespace Riipen_SSD.Models.ViewModels
 {
@@ -10,9 +11,12 @@ namespace Riipen_SSD.Models.ViewModels
         public int CriteriaID { get; set; }
         public string Criteria { get; set; }
         public string Description { get; set; }
+        [DisplayName("Your score")]
         public double? YourScore { get; set; }
+        [DisplayName("Current score")]
         public double? CurrentScore { get; set; }
         public string Comment { get; set; }
+        [DisplayName("Status")]
         public int? JudgesNotSubmitted { get; set; }
         public bool Submitted { get; set; }
 
