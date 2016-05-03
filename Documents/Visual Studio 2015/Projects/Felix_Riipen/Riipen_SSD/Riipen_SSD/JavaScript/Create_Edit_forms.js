@@ -6,14 +6,18 @@ $(function () {
         var $wrapper = $('.multi-fields', this);
 
         $(".add-criteria", $(this)).click(function (e) {
-         
+           
             var criteria = $('.multi-field:first-child', $wrapper).clone(true);
             criteria.appendTo($wrapper).find('input').val('').focus();
             if ($('.multi-field', $wrapper).length == 0) {
                 var criteriaInput = $('<div class="multi-field criteria-list-item"<label for="criteria[0].name" class="sr-only"></label><input name="criteria[0].name" placeholder="New Criteria" type="text"><input name="criteria[0].description" placeholder="" type="text"><button type="button" class="remove-field multi-field">Remove</button></div>');
                 $($wrapper).append(criteriaInput);
             }
+          
         });
+        $(".add-criteria").click(function(e){
+            return false;
+            });
 
 
         $('.multi-field .remove-field', $wrapper).click(function () {

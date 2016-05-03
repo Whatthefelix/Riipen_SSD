@@ -9,50 +9,71 @@
         #excelPreview {
             display: none;
         }
+
+        input[type="file"]{
+            display:none;
+        }
+        .custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
     </style>
 
 }
 <h2>Add Contest</h2>
-<form id="ContestForm" role="form" method="post" enctype="multipart/form-data">
+<form id="ContestForm" role="form" method="post"  enctype="multipart/form-data">
     <div class="form-group">
         <div class="contestName">
             <label for="contestName">Contest Name</label>
-            <input type="text" name="ContestName" id="contestName" />
+            <input type="text" class="form-control" name="ContestName" id="contestName" />
         </div>
         <div class="date">
             <label for="date">Date</label>
-            <input type="date" name="Date" id="date" />
+            <input type="date" class="form-control"name="Date" id="date" />
         </div>
         <div class="location">
             <label for="location">Location</label>
-            <input type="text" name="Location" id="location" />
+            <input type="text" class="form-control" name="Location" id="location" />
         </div>
         <div class="multi-field-wrapper">
+            <button type="button" class="add-criteria  btn btn-primary"> Add Criteria</button>
             <div class="multi-fields" id="criteria-list">
-                <div class="multi-field criteria-list-item">
-                    <input type="text" name="criteria[0].name" placeholder="New Criteria" />
-                    <input type="text" name="criteria[0].description" placeholder="Criteria Description" />
-                    <button type="button" class="remove-field"> Remove </button>
+                <div class="multi-field criteria-list-item form-inline">
+                    
+                        <label class="sr-only" for="criteriaName">Criteria</label>
+                        <input type="text" class="form-control" name="criteria[0].name" placeholder="New Criteria" />
+                        <label class="sr-only" for="criteriaDescription">Description</label>
+                        <input type="text" class="form-control" name="criteria[0].description" placeholder="Criteria Description" />
+                    <button type="button" class="remove-field btn btn-warning"> Remove </button>
                 </div>
             </div>
-            <button type="button" class="add-criteria"> Add Criteria</button>
         </div>
         <div class="multi-field-wrapper">
+            <button type="button" class="add-judge btn btn-primary"> Add Judge</button>
             <div class="multi-fields">
-                <div class="multi-field judge-list-item">
-                    <input type="text" name="judges[0].firstname" placeholder="Judge First Name" />
-                    <input type="text" name="judges[0].lastname" placeholder="Judge Last Name" />
-                    <input type="text" name="judges[0].email" placeholder="Judge Email" />
-                    <button type="button" class="judge-remove-field">Remove</button>
+                <div class="multi-field judge-list-item form-inline">
+                    <input type="text" class="form-control" name="judges[0].firstname" placeholder="Judge First Name" />
+                    <input type="text" class="form-control" name="judges[0].lastname"  placeholder="Judge Last Name" />
+                    <input type="text" class="form-control" name="judges[0].email" placeholder="Judge Email" />
+                    <button type="button" class="judge-remove-field btn btn-warning">Remove</button>
                 </div>
             </div>
-            <button type="button" class="add-judge"> Add Judge</button>
+           
         </div>
 
-        <label>
+        @*<label for="file-upload" class="custom-file-upload btn btn-primary">
             Add teams and judges
-            <input type="file" accept="csv" name="file" data-val="true" data-val-required="File is required" />
+
         </label>
-        <button type="submit"> Create Contest</button>
+        <input id="file-upload" data-val-required="File is required" />*@
+        
+        <label for="file-upload" class="btn btn-primary">
+            Add teams and judges
+        </label>
+        <input id="file-upload" type="file" data-val-required="File is required"/>
+        
+        <button type="submit" class="btn btn-success"> Create Contest</button>
     </div>
 </form>
