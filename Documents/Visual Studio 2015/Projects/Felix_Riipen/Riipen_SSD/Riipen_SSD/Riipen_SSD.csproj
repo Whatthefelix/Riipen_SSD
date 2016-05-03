@@ -242,6 +242,7 @@
     <Compile Include="AspNetUserLogin.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="BusinessLogic\MailHelper.cs" />
     <Compile Include="Contest.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -310,6 +311,7 @@
     </Compile>
     <Compile Include="ViewModels\AdminViewModels\CriteriaVM.cs" />
     <Compile Include="ViewModels\AdminViewModels\EditContestVM.cs" />
+    <Compile Include="ViewModels\AdminViewModels\Message.cs" />
     <Compile Include="ViewModels\CriteriaScoreVM.cs" />
     <Compile Include="ViewModels\AdminViewModels\IndexContestVM.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
