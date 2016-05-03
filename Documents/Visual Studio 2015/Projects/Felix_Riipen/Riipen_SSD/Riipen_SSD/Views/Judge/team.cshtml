@@ -10,6 +10,9 @@
 
 }
 
+
+
+
 <div>
     <div class="judge-team-score">
         @if (ViewBag.TeamName != null)
@@ -77,32 +80,43 @@
 
 
                         <input name="@criteriaIdName" value="@item.CriteriaID" hidden />
+
+
+
+
+
                         <div style="position:relative">
                             <span style="float:left">Rotten</span>
-                            @for (int i = 1; i < 8; i++)
-                            {
+                            @*@for (int i = 1; i < 8; i++)
+            {
 
-                                if (item.Score == i)
-                                {
-                                    checkValue = "checked";
-                                }
-                                <div class="scoreDiv" style="float:left">
-                                    <span>@i</span><br />
-                                    <input type="radio" name="@scoreName" value="@i" @checkValue class="radioScore" required>
-                                </div>
-                                checkValue = "";
+                if (item.Score == i)
+                {
+                    checkValue = "checked";
+                }*@
+                            @*<div class="scoreDiv" style="float:left">*@
+                            @*<span>@i</span><br />
+            <input type="radio" name="@scoreName" value="@i" @checkValue class="radioScore" required>*@
+                            @*</div>
+                checkValue = "";
+            }*@
 
-
-
-
-                            }
+                            <div class="scoreDiv rating" style="float:left">
+                                <input type="radio" id="star7" name="@scoreName" value="7" class="radioScore" /><label class="full" for="star7" title="Riipe - 7 stars"></label>
+                                <input type="radio" id="star6" name="@scoreName" value="6" class="radioScore" /><label class="full" for="star6" title="Awesome - 6 stars"></label>
+                                <input type="radio" id="star5" name="@scoreName" value="5" class="radioScore" /><label class="full" for="star5" title="Pretty good - 5 stars"></label>
+                                <input type="radio" id="star4" name="@scoreName" value="4" class="radioScore" /><label class="full" for="star4" title="Not bad - 4 stars"></label>
+                                <input type="radio" id="star3" name="@scoreName" value="3" class="radioScore" /><label class="full" for="star3" title="Meh - 3 stars"></label>
+                                <input type="radio" id="star2" name="@scoreName" value="2" class="radioScore" /><label class="full" for="star2" title="Kinda rotten - 2 stars"></label>
+                                <input type="radio" id="star1" name="@scoreName" value="1" class="radioScore" /><label class="full" for="star1" title="Rotten - 1 star"></label>
+                            </div>
                             <span>Riipe</span>
+
+                            @{checkValue = "";
+                            }
                         </div>
-
-
                     </td>
                     <td>
-
                         <textarea name="@commentName" class="form-control">@item.Comment</textarea>
 
 
@@ -140,6 +154,7 @@
         <input class="btn-submit" name="SubmitOrSave" type="submit" value="Submit" />
     </form>
 </div>
+
 
 
 
