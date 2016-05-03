@@ -14,6 +14,7 @@ using Microsoft.Owin;
 using System.Collections.Generic;
 using System.Web;
 using Riipen_SSD.DAL;
+using SimpleInjector.Integration.Web;
 
 namespace Riipen_SSD.App_Start
 {
@@ -23,7 +24,7 @@ namespace Riipen_SSD.App_Start
         {
             var container = GetInitializeContainer(app);
 
-            //container.Verify();
+            container.Verify();
 
             DependencyResolver.SetResolver(
                 new SimpleInjectorDependencyResolver(container));
@@ -40,9 +41,11 @@ namespace Riipen_SSD.App_Start
             container.RegisterPerWebRequest<ApplicationDbContext>(() => new ApplicationDbContext("DefaultConnection"));
             container.RegisterPerWebRequest<IUserStore<ApplicationUser>>(() => new UserStore<ApplicationUser>(container.GetInstance<ApplicationDbContext>()));
             container.RegisterInitializer<ApplicationUserManager>(manager => InitializeUserManager(manager, app));
-            container.RegisterPerWebRequest<SignInManager<ApplicationUser, string>, ApplicationSignInManager>();
             container.RegisterPerWebRequest<IAuthenticationManager>(() => AdvancedExtensions.IsVerifying(container) ? new OwinContext(new Dictionary<string, object>()).Authentication : HttpContext.Current.GetOwinContext().Authentication);
-            container.Register<IUnitOfWork>(() => new UnitOfWork(new SSD_RiipenEntities()));
+            container.RegisterInitializer<ApplicationSignInManager>(x => new ApplicationSignInManager(container.GetInstance<ApplicationUserManager>(), container.GetInstance<IAuthenticationManager>()));
+            container.RegisterPerWebRequest<ApplicationSignInManager>();
+            container.RegisterPerWebRequest<SSD_RiipenEntities>();
+            container.RegisterPerWebRequest<IUnitOfWork, UnitOfWork>();
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
 
             return container;
