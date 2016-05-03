@@ -4,7 +4,8 @@
 body {
     padding-top: 50px;
     padding-bottom: 20px;
-
+    font-family: 'Roboto', 'Helvetica Nueue', sans-serif;
+    font-weight:400
 
 }
 
@@ -32,75 +33,27 @@ h2 {
 	font-family: 'Roboto', 'Helvetica Nueue', sans-serif;
     font-weight:300
 }
-	
 
-
-
-
-
-
-
-
-/*judge pages*/
-.header{
-    background-color:#E7EBF2;
-    padding-bottom:30px;
-}
-
-
-.title{
-    font-size:20px;
-}
-
-.PageDiv{
-    margin-top:20px;
-}
-
-.searchForm {
-    margin-top:20px;
-    text-align:center;
-    font-family:'Roboto', sans-serif;
-    font-weight:300;
+.jumbotron{
+    margin-top:50px;
+   
   
+}	
 
+.jumbotron h1{
+    font-family: 'Roboto', 'Helvetica Nueue', sans-serif;
+    font-weight:300;
+    font-size:26px;
 }
 
-.searchForm .searchIn{
-    font-size:2em;
-    line-height: 2em;
-    display:inline-block
+
+.bold{
+  font-weight:500;
 }
 
-.searchForm form input:focus{
-      outline:none;
-}
 
-.searchForm form input{
-    width:200px;
-    border:none;
-    color:#555;
-    border-bottom: 1px solid #BBB;
-    padding:2px;
-    font-size:18px;
-    background-color:#E7EBF2
-}
 
-.btn-search{
-    border: none;
-    background: #E7EBF2;
-    font-size: 22px;
-    color: #244964;
-}
 
-.btn-save{
-    background-color:#F68632;
-    color:white;
-    border:0px;
-    padding:5px 10px;
-}
 
-.judge-team-score{
-    font-size:20px;
-    margin-top:20px;
-    margin-bottom:30px;
-}
+
+
