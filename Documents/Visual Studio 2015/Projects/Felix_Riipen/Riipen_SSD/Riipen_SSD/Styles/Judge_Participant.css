@@ -1,57 +1,39 @@
-﻿    @import url(http://fonts.googleapis.com/css?family=Roboto);
-    @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+﻿/*judge pages*/
 
-body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-
-
+body{
+    margin:auto;
 }
 
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+.container-fluid{
+    margin:0px;
+    padding:0px;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
-}
-
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
-}
-
-h2 { 
-	font-family: 'Roboto', 'Helvetica Nueue', sans-serif;
-    font-weight:300
-}
-	
-
-
-
-
-
-
-
-
-/*judge pages*/
 .header{
     background-color:#E7EBF2;
     padding-bottom:30px;
+    width:inherit;
+    padding:20px 45px 30px 45px;
+    display:block;
 }
 
+footer{
+    text-align:center;
+}
+
+.judge-participant-wrapper{
+     padding:20px 45px 30px 45px;
+}
 
 .title{
     font-size:20px;
 }
 
+
+.small-title{
+    font-size:24px;
+
+}
 .PageDiv{
     margin-top:20px;
 }
@@ -103,4 +85,12 @@ h2 {
     font-size:20px;
     margin-top:20px;
     margin-bottom:30px;
+}
+
+.title{
+    font-family:'Roboto', sans-serif;
+    font-weight:300;
+    font-size:2em;
+    line-height: 2em;
+    display:inline-block
 }

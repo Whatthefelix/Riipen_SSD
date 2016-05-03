@@ -19,6 +19,15 @@
     padding: 6px 12px;
     cursor: pointer;
 }
+        .btn{
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .add-criteria{
+            margin-top:10px;
+        }
+
+
     </style>
 
 }
@@ -38,7 +47,7 @@
             <input type="text" class="form-control" name="Location" id="location" />
         </div>
         <div class="multi-field-wrapper">
-            <button type="button" class="add-criteria  btn btn-primary"> Add Criteria</button>
+                <button type="button" class="add-criteria  btn btn-primary"> Add Criteria</button>
             <div class="multi-fields" id="criteria-list">
                 <div class="multi-field criteria-list-item form-inline">
                     
@@ -51,7 +60,7 @@
             </div>
         </div>
         <div class="multi-field-wrapper">
-            <button type="button" class="add-judge btn btn-primary"> Add Judge</button>
+                <button type="button" class="add-judge btn btn-primary"> Add Judge</button>
             <div class="multi-fields">
                 <div class="multi-field judge-list-item form-inline">
                     <input type="text" class="form-control" name="judges[0].firstname" placeholder="Judge First Name" />
@@ -60,7 +69,6 @@
                     <button type="button" class="judge-remove-field btn btn-warning">Remove</button>
                 </div>
             </div>
-           
         </div>
 
         @*<label for="file-upload" class="custom-file-upload btn btn-primary">
