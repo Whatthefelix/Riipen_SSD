@@ -357,6 +357,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\logo-orange.png" />
     <Content Include="JavaScript\Create_Edit_forms.js" />
+    <Content Include="JavaScript\Judge-Participant.js" />
     <Content Include="JavaScript\Judge_Team_form.js" />
     <Content Include="Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -403,6 +404,7 @@
     <Content Include="Styles\ContestDetailResponsiveTables.css" />
     <Content Include="Styles\JudgeContestResponsiveTable.css" />
     <Content Include="Styles\JudgeIndexResponsive.css" />
+    <Content Include="Styles\Judge_Participant.css" />
     <Content Include="Styles\ParticipantContestResponsive.css" />
     <Content Include="Styles\ParticipantDetailsResponsive.css" />
     <Content Include="Styles\ParticipantIndexResponsiveTable.css" />

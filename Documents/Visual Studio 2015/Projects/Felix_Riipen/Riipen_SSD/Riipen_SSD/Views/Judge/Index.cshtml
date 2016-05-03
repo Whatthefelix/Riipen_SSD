@@ -1,10 +1,14 @@
 ﻿@model PagedList.IPagedList<Riipen_SSD.Contest>
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
-
+<link href="~/Styles/Judge_Participant.css" rel="stylesheet" />
 @{
     ViewBag.Title = "Index";
 
+}
+
+@section scripts{
+    <script src="~/JavaScript/Judge-Participant.js"></script>
 }
 
 @if (User.IsInRole("Admin"))
@@ -21,12 +25,11 @@ else if (User.IsInRole("Judge"))
     @using (Html.BeginForm("Index", "Judge", FormMethod.Get))
     {
         @Html.AntiForgeryToken()
-        <input type="text" name="searchAContest" value="@ViewBag.searchStringValue" placeholder="Search a contest" style="border:1px solid #ddd;margin-top:10px">
-        <button type="submit" class="btn-submit">Submit</button>
-    }
+        <button type="submit" class="btn-search"><i class="fa fa-search" aria-hidden="true"></i></button>
+        <input type="text" name="searchAContest" value="@ViewBag.searchStringValue" placeholder="Search"> <span class="searchIn">&nbsp;in contests</span>
+
+   }
 </div>
-
-
 
 
 <div class="dropdown" id="sortButton" style="margin-top:10px;margin-bottom:10px;float:right">
@@ -47,7 +50,7 @@ else if (User.IsInRole("Judge"))
 }
 else
 {
-    <div class="title">Result for: @ViewBag.searchStringValue</div>
+    <div class="title">Results for: @ViewBag.searchStringValue</div>
 }
 <table>
     <thead>
