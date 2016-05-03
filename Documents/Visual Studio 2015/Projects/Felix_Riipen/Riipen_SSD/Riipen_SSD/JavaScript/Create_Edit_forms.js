@@ -6,18 +6,16 @@ $(function () {
         var $wrapper = $('.multi-fields', this);
 
         $(".add-criteria", $(this)).click(function (e) {
-           
+            var tempScrollTop = $(window).scrollTop();
             var criteria = $('.multi-field:first-child', $wrapper).clone(true);
             criteria.appendTo($wrapper).find('input').val('').focus();
             if ($('.multi-field', $wrapper).length == 0) {
                 var criteriaInput = $('<div class="multi-field criteria-list-item"<label for="criteria[0].name" class="sr-only"></label><input name="criteria[0].name" placeholder="New Criteria" type="text"><input name="criteria[0].description" placeholder="" type="text"><button type="button" class="remove-field multi-field">Remove</button></div>');
                 $($wrapper).append(criteriaInput);
             }
-          
+            $(window).scrollTop(tempScrollTop);
         });
-        $(".add-criteria").click(function(e){
-            return false;
-            });
+ 
 
 
         $('.multi-field .remove-field', $wrapper).click(function () {
@@ -46,14 +44,16 @@ $(function () {
   
     $(function () {
         $('.multi-field-wrapper').each(function () {
+            
+        
             var $judgeWrapper = $('.multi-fields', this);
-
             $(".add-judge", $(this)).click(function (e) {
-
+                var tempScrollTopJudge = $(window).scrollTop();
                 var judge = $('.multi-field:first-child', $judgeWrapper).clone(true);
                 judge.appendTo($judgeWrapper).find('input').val('').focus();
+                $(window).scrollTop(tempScrollTopJudge);
             });
-
+     
         });
 
     });
