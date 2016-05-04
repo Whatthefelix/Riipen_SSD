@@ -10,8 +10,9 @@ namespace Riipen_SSD.ViewModels
 {
     public class TeamCriteriaScoreVM
     {
-
+        [DisplayName("Team ID")]
         public int TeamID { get; set; }
+        [DisplayName("Contest ID")]
         public int ContestID { get; set; }
         [DisplayName("Team name")]
         public string TeamName { get; set; }
@@ -33,7 +34,5 @@ namespace Riipen_SSD.ViewModels
             this.JudgeNotSubmitted = JudgeNotSubmitted;
             this.Submitted = Submitted;
         }
-
-        
     }
 }
