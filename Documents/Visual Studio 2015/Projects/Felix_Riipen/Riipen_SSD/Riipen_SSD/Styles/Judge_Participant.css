@@ -150,4 +150,18 @@ footer{
     text-align:center;
     color:orangered;
  }
-  /*---copy this css, team view,juge_participant.js, delete Create_Edit_form*/
+
+
+    
+  .participant-contest-table tr:nth-child(1){
+          color:#224965;
+        font-weight:bold;
+
+    }
+
+   .participant-contest-table tr:nth-child(1) a {
+
+        color:#224965;
+        font-weight:bold;
+    }
+ 

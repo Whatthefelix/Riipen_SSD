@@ -81,7 +81,6 @@ namespace Riipen_SSD.Controllers
         {
             return View();
         }
-
         [HttpGet]
         public ActionResult ContestDetails(int contestID)
         {
@@ -95,7 +94,7 @@ namespace Riipen_SSD.Controllers
             var participants = new List<ParticipantVM>();
             foreach (var team in contest.Teams)
             {
-                var participantsFromTeam = team.AspNetUsers.Select(x => new ParticipantVM() { Email = x.Email, FirstName = x.FirstName, TeamName = team.Name });
+                var participantsFromTeam = team.AspNetUsers.Select(x => new ParticipantVM() { Email = x.Email, Name = x.FirstName, TeamName = team.Name });
                 participants.AddRange(participantsFromTeam);
             }
 
@@ -106,9 +105,11 @@ namespace Riipen_SSD.Controllers
                 StartTime = contest.StartTime.ToString(),
                 Location = contest.Location,
                 Published = true,
-                Participants = contest.Teams.SelectMany(x => x.AspNetUsers.Select(y => new ParticipantVM() { Email = y.Email, FirstName = y.FirstName, LastName = y.LastName, TeamName = x.Name })),
+                Participants = participants,
                 Judges = judges,
             };
+
+            ViewBag.ContestID = contestID;
 
             return View(contestDetailVM);
         }
@@ -126,7 +127,7 @@ namespace Riipen_SSD.Controllers
             var participants = new List<ParticipantVM>();
             foreach (var team in contest.Teams)
             {
-                var participantsFromTeam = team.AspNetUsers.Select(x => new ParticipantVM() { Email = x.Email, FirstName = x.FirstName, LastName = x.LastName, TeamName = team.Name });
+                var participantsFromTeam = team.AspNetUsers.Select(x => new ParticipantVM() { Email = x.Email, Name = x.FirstName, TeamName = team.Name });
                 participants.AddRange(participantsFromTeam);
             }
 
@@ -141,37 +142,6 @@ namespace Riipen_SSD.Controllers
                 Judges = judges,
             };
 
-
-
-            var userStore = new UserStore<IdentityUser>();
-            UserManager<IdentityUser> manager = new UserManager<IdentityUser>(userStore);
-
-
-            foreach (var participant in contestDetailVM.Participants)
-            {
-                var getUser = UnitOfWork.Users.SingleOrDefault(x => x.Email == participant.Email);
-              
-                    var getID = getUser.Id;
-                    var code = manager.GenerateEmailConfirmationTokenAsync(getID);
-                    var callbackUrl = Url.Action("ResetPassword", "Account", new { userID = getID, code = code }, protocol: Request.Url.Scheme);
-                    MailHelper mailer = new MailHelper();
-                    string subject = "Your Riipen account";
-                string body = "";
-                if (getUser.EmailConfirmed)
-                {
-                 
-                     body = "Please log in to view your contest: <a href=\"http:\\riipen.whatthefelix.com\" >Log in </a>";
-                }
-                else
-                {
-                    body = "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\"> Confirm </a>";
-                }
-               
-                string response = mailer.EmailFromArvixe(new Message(participant.Email, subject, body));
-
-            }
-
-
             
 
             return View();
@@ -179,9 +149,9 @@ namespace Riipen_SSD.Controllers
 
 
         [HttpPost]
-        public ActionResult CreateContest(ContestVM contestVM)
+        public ActionResult CreateContest(ContestVM contestVM, HttpPostedFileBase file)
         {
-            // THIS SEEMS TO WORK BUT NEEDS SOME REFACTORING 
+            // THIS SEEMS TO WORK BUT NEEDS MAJOR REFACTORING 
             var contest = new Contest()
             {
                 StartTime = contestVM.Date,
@@ -189,43 +159,57 @@ namespace Riipen_SSD.Controllers
                 Name = contestVM.ContestName,
             };
 
-            // for each participant, check if they have a user account - create one if they don't
-            foreach (var participantVM in contestVM.Participants)
+            var participants = new List<AspNetUser>();
+            using (StreamReader streamReader = new StreamReader(file.InputStream))
             {
-                var participantUser = UnitOfWork.Users.SingleOrDefault(x => x.Email == participantVM.Email);
-                if (participantUser == null)
+                var csv = new CsvReader(streamReader);
+                while (csv.Read())
                 {
-                    var participantApplicationUser = new ApplicationUser { UserName = participantVM.Email, Email = participantVM.Email, FirstName = participantVM.FirstName, LastName = participantVM.LastName };
-                    participantUser = AutoMapper.Mapper.Map<ApplicationUser, AspNetUser>(participantApplicationUser);
-                    UnitOfWork.Users.Add(participantUser);
+                    var name = csv.GetField<string>("Name");
+                    var firstName = name.Split(' ')[0];
+                    var lastName = name.Split(' ')[1];
+                    var email = csv.GetField<string>("Email");
+                    var teamName = csv.GetField<string>("Team Name");
+
+                    var participant = UnitOfWork.Users.SingleOrDefault(x => x.Email == email);
+                    if (participant == null)
+                    {
+                        var participantApplicationUser = new ApplicationUser { UserName = email, Email = email, FirstName = firstName, LastName = lastName, PhoneNumberConfirmed = true };
+                        UserManager.Create(participantApplicationUser, "Pa$$w0rd");
+                        participant = AutoMapper.Mapper.Map<ApplicationUser, AspNetUser>(participantApplicationUser);
                     }
-                // for each participant, add them to a team - create the team if it doesn't exist already
-                var team = contest.Teams.FirstOrDefault(t => t.Name == participantVM.TeamName);
+                    participants.Add(participant);
+
+                    var team = contest.Teams.FirstOrDefault(t => t.Name == teamName);
                     if (team == null)
                     {
-                    team = new Team() { Name = participantVM.TeamName };
+                        team = new Team() { Name = teamName };
                         contest.Teams.Add(team);
                     }
-                team.AspNetUsers.Add(participantUser);
-
+                    team.AspNetUsers.Add(participant);
+                }
             }
 
-            // for each participant, check if they have a user account - create one if they don't - then add them to contest judges
+            UnitOfWork.Complete();
+
+            var judges = new List<ContestJudge>();
             foreach (var judge in contestVM.Judges)
             {
                 var judgeUser = UnitOfWork.Users.SingleOrDefault(x => x.Email == judge.Email);
+
                 if (judgeUser == null)
                 {
                     var judgeApplicationUser = new ApplicationUser { UserName = judge.Email, Email = judge.Email, FirstName = judge.FirstName, LastName = judge.LastName };
+                    UserManager.Create(judgeApplicationUser, "Pa$$w0rd");
                     judgeUser = AutoMapper.Mapper.Map<ApplicationUser, AspNetUser>(judgeApplicationUser);
-                    UnitOfWork.Users.Add(judgeUser);
                 }
-                contest.ContestJudges.Add(new ContestJudge { AspNetUser = judgeUser });
+                judges.Add(new ContestJudge()
+                {
+                    JudgeUserId = judgeUser.Id,
+                });
             }
-
-            // add criteria
             contest.Criteria.AddRange(contestVM.Criteria.Select(x => new Criterion() { Description = x.Description, Name = x.Name }));
-
+            contest.ContestJudges.AddRange(judges);
             contest = UnitOfWork.Contests.Add(contest);
             UnitOfWork.Complete();
 
@@ -237,19 +221,16 @@ namespace Riipen_SSD.Controllers
         public ActionResult EditContest(int contestId)
         {
             var contest = UnitOfWork.Contests.Get(contestId);
-
-            var editContestVM = new EditContestVM()
+            var contestVM = new ContestVM()
             {
-                ContestID = contestId,
                 ContestName = contest.Name,
                 Date = contest.StartTime,
                 Location = contest.Location,
                 Criteria = contest.Criteria.Select(c => new CriteriaVM() { Id = c.Id, Name = c.Name, Description = c.Description }),
                 Judges = contest.ContestJudges.Select(c => new JudgeVM() { Email = c.AspNetUser.Email, FirstName = c.AspNetUser.FirstName, LastName = c.AspNetUser.LastName }),
-                Participants = contest.Teams.SelectMany(x => x.AspNetUsers.Select(y => new ParticipantVM() { Email = y.Email, FirstName = y.FirstName, LastName = y.LastName, TeamName = x.Name })),
             };
 
-            return View(editContestVM);
+            return View(contestVM);
     }
 
     // POST: EditContest
