@@ -8,8 +8,8 @@ namespace Riipen_SSD.ViewModels.ParticipantViewModels
 {
     public class ContestTeamVM
     {
+        [DisplayName("Team ID")]
         public int TeamID { get; set; }
-
         [DisplayName("Team")]
         public string TeamName { get; set; }
         public double? Score { get; set; }

@@ -8,6 +8,7 @@ namespace Riipen_SSD.Models.ViewModels
 {
     public class CriteriaScoreVM
     {
+        [DisplayName("Criteria ID")]
         public int CriteriaID { get; set; }
         public string Criteria { get; set; }
         public string Description { get; set; }
