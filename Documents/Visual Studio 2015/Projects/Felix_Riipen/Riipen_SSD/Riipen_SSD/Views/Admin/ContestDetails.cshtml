@@ -128,7 +128,9 @@
 
 @using (Html.BeginForm("SendEmails", "Admin", FormMethod.Post))
 {
+    
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(x=>Model.ContestID)
     <button type="submit" class="btn btn-success">Publish Contest</button>
 }
    

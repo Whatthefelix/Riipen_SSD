@@ -135,6 +135,32 @@ namespace Riipen_SSD.Controllers
                 Participants = participants,
                 Judges = judges,
             };
+   
+
+
+            foreach (var participant in contestDetailVM.Participants)
+            {
+                var getUser = UnitOfWork.Users.SingleOrDefault(x => x.Email == participant.Email);
+
+                var getID = getUser.Id;
+                var code = UserManager.GenerateEmailConfirmationTokenAsync(getID);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userID = getID, code = code }, protocol: Request.Url.Scheme);
+                MailHelper mailer = new MailHelper();
+                string subject = "Your Riipen account";
+                string body = "";
+                if (getUser.EmailConfirmed)
+                {
+
+                    body = "Please log in to view your contest: <a href=\"http:\\riipen.whatthefelix.com\" >Log in </a>";
+                }
+                else
+                {
+                    body = "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\"> Confirm </a>";
+                }
+
+                string response = mailer.EmailFromArvixe(new Message(participant.Email, subject, body));
+
+            }
 
 
 
