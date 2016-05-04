@@ -26,7 +26,7 @@
       
 <div class="judge-participant-wrapper">
 
-    <div class="dropdown" style="margin-top:10px;margin-bottom:10px;float:right">
+    <div class="dropdown" id="sortButton"style="margin-top:10px;margin-bottom:10px;float:right">
         Sort: <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="sortMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             @ViewBag.sortStringValue
             <span class="caret"></span>
@@ -46,9 +46,9 @@
                 @*<th>
                     @Html.DisplayNameFor(model => model.TeamID)
                 </th>*@
-                <th>
+                @*<th>
                     @Html.DisplayNameFor(model => model.ContestID)
-                </th>
+                </th>*@
                 <th>
                     @Html.DisplayNameFor(model => model.ContestName)
                 </th>
@@ -68,9 +68,9 @@
                     @*<td>
                         @Html.DisplayFor(modelItem => item.TeamID)
                     </td>*@
-                    <td>
+                    @*<td>
                         @Html.DisplayFor(modelItem => item.ContestID)
-                    </td>
+                    </td>*@
                     <td>
 
                         @Html.ActionLink(item.ContestName, "Contests", new { contestID = item.ContestID })
