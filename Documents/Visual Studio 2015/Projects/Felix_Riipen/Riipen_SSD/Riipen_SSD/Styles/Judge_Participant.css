@@ -54,6 +54,10 @@ footer{
     display:inline-block
 }
 
+.searchIn{
+    font-size:16px;
+}
+
 .searchForm form input:focus{
       outline:none;
 }
@@ -97,11 +101,13 @@ footer{
 }
 
 
-@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
-
+  @media (min-width: 768px) {
     .searchIn {
         font-size: 2em;
         line-height: 2em;
         display: inline-block;
     }
 }
+
+
+      

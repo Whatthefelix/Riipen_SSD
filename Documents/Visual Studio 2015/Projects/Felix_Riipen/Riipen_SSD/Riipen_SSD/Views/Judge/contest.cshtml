@@ -25,7 +25,7 @@ else if (User.IsInRole("Admin"))
 }
 
 <div class="header">
-    <p class="title">Contest: <span class="small-title">@ViewBag.contestName</span></p>
+    <p class="title">Contest: <span class="small-title">@ViewBag.contestName</span></p><br />
 
     <div class="searchForm">
         @using (Html.BeginForm("Contest", "Judge", FormMethod.Get))
