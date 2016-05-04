@@ -111,34 +111,34 @@ namespace Riipen_SSD.Controllers
 
             return View(contestDetailVM);
         }
-        [HttpPost]
-        public ActionResult ContestDetails(int contestID)
-        {
-            //on "publish" click, get list of judges and participants for this contest
-            var contest = UnitOfWork.Contests.Get(contestID);
-            var judges = contest.ContestJudges.Select(x => new JudgeVM()
-            {
-                FirstName = x.AspNetUser.FirstName,
-                LastName = x.AspNetUser.LastName,
-                Email = x.AspNetUser.Email
-            });
-            var participants = new List<ParticipantVM>();
-            foreach (var team in contest.Teams)
-            {
-                var participantsFromTeam = team.AspNetUsers.Select(x => new ParticipantVM() { Email = x.Email, Name = x.FirstName, TeamName = team.Name });
-                participants.AddRange(participantsFromTeam);
-            }
+        //[HttpPost]
+        //public ActionResult ContestDetails(int contestID)
+        //{
+        //    //on "publish" click, get list of judges and participants for this contest
+        //    var contest = UnitOfWork.Contests.Get(contestID);
+        //    var judges = contest.ContestJudges.Select(x => new JudgeVM()
+        //    {
+        //        FirstName = x.AspNetUser.FirstName,
+        //        LastName = x.AspNetUser.LastName,
+        //        Email = x.AspNetUser.Email
+        //    });
+        //    var participants = new List<ParticipantVM>();
+        //    foreach (var team in contest.Teams)
+        //    {
+        //        var participantsFromTeam = team.AspNetUsers.Select(x => new ParticipantVM() { Email = x.Email, Name = x.FirstName, TeamName = team.Name });
+        //        participants.AddRange(participantsFromTeam);
+        //    }
 
-            var contestDetailVM = new ContestDetailsVM()
-            {
-                ContestID = contestID,
-                Name = contest.Name,
-                StartTime = contest.StartTime.ToString(),
-                Location = contest.Location,
-                Published = true,
-                Participants = participants,
-                Judges = judges,
-            };
+        //    var contestDetailVM = new ContestDetailsVM()
+        //    {
+        //        ContestID = contestID,
+        //        Name = contest.Name,
+        //        StartTime = contest.StartTime.ToString(),
+        //        Location = contest.Location,
+        //        Published = true,
+        //        Participants = participants,
+        //        Judges = judges,
+        //    };
 
             
 
