@@ -210,16 +210,19 @@ namespace Riipen_SSD.Controllers
             }
 
             // for each participant, check if they have a user account - create one if they don't - then add them to contest judges
-            foreach (var judge in contestVM.Judges)
+            if (contestVM.Judges != null)
             {
-                var judgeUser = UnitOfWork.Users.SingleOrDefault(x => x.Email == judge.Email);
-                if (judgeUser == null)
+                foreach (var judge in contestVM.Judges)
                 {
-                    var judgeApplicationUser = new ApplicationUser { UserName = judge.Email, Email = judge.Email, FirstName = judge.FirstName, LastName = judge.LastName };
-                    judgeUser = AutoMapper.Mapper.Map<ApplicationUser, AspNetUser>(judgeApplicationUser);
-                    UnitOfWork.Users.Add(judgeUser);
+                    var judgeUser = UnitOfWork.Users.SingleOrDefault(x => x.Email == judge.Email);
+                    if (judgeUser == null)
+                    {
+                        var judgeApplicationUser = new ApplicationUser { UserName = judge.Email, Email = judge.Email, FirstName = judge.FirstName, LastName = judge.LastName };
+                        judgeUser = AutoMapper.Mapper.Map<ApplicationUser, AspNetUser>(judgeApplicationUser);
+                        UnitOfWork.Users.Add(judgeUser);
+                    }
+                    contest.ContestJudges.Add(new ContestJudge { AspNetUser = judgeUser });
                 }
-                contest.ContestJudges.Add(new ContestJudge { AspNetUser = judgeUser });
             }
 
             // add criteria

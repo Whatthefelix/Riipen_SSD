@@ -27,7 +27,7 @@
                 @if (ViewBag.ContestName != null)
                 {
 
-            <span>Total Score: </span><span class="yourScore"></span>
+            <span>Total Score: &nbsp;&nbsp;</span><span class="yourScore"></span>
                 }
 
     </div>
@@ -81,12 +81,8 @@
                                 var commentName = name + counter.ToString() + "].Comment";
                                 var criteriaIdName = name + counter.ToString() + "].CriteriaID";
                                 var teamIdName = name + counter.ToString() + "].TeamID";
-
                                 var ScoreID = "Score" + counter.ToString();
-
-
                                 counter++;
-
                             }
 
 
@@ -110,21 +106,12 @@
                                     </div>
                                     checkValue = "";
                                 }
-
-
                                 <span>Riipe</span>
                             </div>
-
-
                         </td>
                         <td>
-
                             <textarea name="@commentName" class="form-control">@item.Comment</textarea>
-
-
-
                         </td>
-
                     </tr>}
             </table>
 

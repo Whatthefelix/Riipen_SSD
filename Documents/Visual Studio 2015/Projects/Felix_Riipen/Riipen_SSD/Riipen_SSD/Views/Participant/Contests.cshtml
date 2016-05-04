@@ -53,9 +53,9 @@
     <table class="participant-contest-table">
         <thead>
             <tr>
-                <th>
+                @*<th>
                     @Html.DisplayNameFor(model => model.TeamID)
-                </th>
+                </th>*@
                 <th>
                     @Html.DisplayNameFor(model => model.TeamName)
                 </th>
@@ -72,9 +72,9 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
+                    @*<td>
                         @Html.DisplayFor(modelItem => item.TeamID)
-                    </td>
+                    </td>*@
                     <td>
                         @Html.ActionLink(item.TeamName, "TeamScores", new { teamID = item.TeamID, contestID = ViewBag.ContestID, yourTeamID = ViewBag.YourTeamID, totalScore=item.Score })
                     </td>
@@ -88,22 +88,16 @@
                             @Html.DisplayFor(modelItem => item.Score)<span>/7</span>
                         }
 
-
                     </td>
                     <td>
                         @if (item.JudgeNotSubmitted == 0)
                         {
-
                             <span>Final</span>
-
                         }
                         else
                         {
-
                             <span>Waiting for @Html.DisplayFor(modelItem => item.JudgeNotSubmitted) Judges</span>
                         }
-
-
                     </td>
                 </tr>
             }
