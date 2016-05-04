@@ -13,9 +13,10 @@ body{
     background-color:#E7EBF2;
     padding-bottom:30px;
     width:inherit;
-    padding:20px 45px 30px 45px;
+    padding:20px 25px 30px 25px;
     display:block;
-    margin-bottom:30px
+    margin-bottom:30px;
+    
 }
 
 footer{
@@ -23,18 +24,10 @@ footer{
 }
 
 .judge-participant-wrapper{
-     padding:20px 45px 30px 45px;
-}
-
-.title{
-    font-size:20px;
+     padding:20px 25px 30px 25px;
 }
 
 
-.small-title{
-    font-size:24px;
-
-}
 .PageDiv{
     margin-top:20px;
 }
@@ -44,18 +37,13 @@ footer{
     text-align:center;
     font-family:'Roboto', sans-serif;
     font-weight:300;
-  
-
-}
-
-.searchForm .searchIn{
-    font-size:2em;
-    line-height: 2em;
-    display:inline-block
+    display:block;
 }
 
 .searchIn{
     font-size:16px;
+    line-height: 2em;
+    display:inline-block
 }
 
 .searchForm form input:focus{
@@ -63,20 +51,21 @@ footer{
 }
 
 .searchForm form input{
-    width:200px;
+    width:150px;
     border:none;
     color:#555;
     border-bottom: 1px solid #BBB;
-    padding:2px;
-    font-size:18px;
-    background-color:#E7EBF2
+    font-size:14px;
+    background-color:#E7EBF2;
+    height:35px;
 }
 
 .btn-search{
     border: none;
     background: #E7EBF2;
-    font-size: 22px;
+    font-size: 12px;
     color: #244964;
+    height:35px;
 }
 
 .btn-save{
@@ -95,19 +84,64 @@ footer{
 .title{
     font-family:'Roboto', sans-serif;
     font-weight:300;
-    font-size:2em;
+    font-size:22px;
     line-height: 2em;
     display:inline-block
 }
 
+.small-title{
+    font-size:20px;
 
-  @media (min-width: 768px) {
-    .searchIn {
-        font-size: 2em;
-        line-height: 2em;
-        display: inline-block;
-    }
+}
+.ex-small-title{
+    font-size:16px;
+   
 }
 
+  @media (min-width: 768px) {
+    .btn-search{
+        font-size:22px
+    }
 
-      
+    .searchIn{
+        font-size:30px;
+    }
+
+    .searchForm form input{
+        font-size:20px;
+        width:200px;
+    }
+
+    .header,.judge-participant-wrapper{
+     padding:20px 65px 30px 65px;
+
+    }
+
+   
+}
+
+.judge-team-score {
+    font-weight: 300;
+      margin-top:10px;
+     margin-bottom:10px;
+}
+ .header-in-judge-team-score{
+     padding-top:10px!important;
+     padding-bottom:10px!important;
+   
+ }
+
+ .star-hover{
+    color:#F58632;
+ }
+     
+
+ .hidden{
+     display:none;
+ }
+
+ .validateScoreInput{
+     margin-top:20px;
+
+ }
+  /*---copy this css, team view,juge_participant.js, delete Create_Edit_form*/

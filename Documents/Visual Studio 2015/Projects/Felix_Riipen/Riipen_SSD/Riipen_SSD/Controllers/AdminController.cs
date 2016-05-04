@@ -140,10 +140,10 @@ namespace Riipen_SSD.Controllers
                 Judges = judges,
             };
 
-            
 
-            return View();
-        }
+
+        //    return View();
+        //}
 
 
         [HttpPost]
