@@ -1,5 +1,6 @@
 ﻿@model Riipen_SSD.ViewModels.SingleJudgeCriteriaScoreVM
 <link href="~/Styles/Judge_Participant.css" rel="stylesheet" />
+
 @{
     ViewBag.Title = "team";
 }
@@ -10,19 +11,29 @@
     <script src="~/JavaScript/Judge-Participant.js"></script>
 }
 
-<div>
+
+
+<div class="header header-in-judge-team-score">
     <div class="judge-team-score">
         @if (ViewBag.TeamName != null)
         {
-            <span>Team: </span> @ViewBag.TeamName <br />
-        }
+            <p>Team: &nbsp;&nbsp;<span class="ex-small-title"> @ViewBag.TeamName</span></p>
+                }
 
-        @if (ViewBag.ContestName != null)
-        {
-            <span>Contest: </span>    @ViewBag.ContestName;
-        }
+                @if (ViewBag.ContestName != null)
+                {
+                    <p>Contest:&nbsp;&nbsp; <span class="ex-small-title">@ViewBag.ContestName</span></p>
+                }
     </div>
-    <div class="yourScoreDiv">
+</div>
+
+<div class="alert alert-danger hidden validateScoreInput">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    Please give all criterion a score before you save or submit.
+</div>
+
+<div class="judge-participant-wrapper">
+    <div class="title">
         <span>Total Score: </span><span class="yourScore"></span>
     </div>
 
@@ -41,7 +52,7 @@
                     Score
                 </th>
                 <th>
-                    Comment
+                    <i class="fa fa-pencil" aria-hidden="true"></i>   &nbsp;&nbsp;Comment
                 </th>
             </tr>
 
@@ -71,17 +82,18 @@
 
                             var ScoreID = "Score" + counter.ToString();
 
+                           
                             counter++;
 
                         }
 
 
                         <input name="@criteriaIdName" value="@item.CriteriaID" hidden />
-                        <div style="position:relative">
+                        <div style="position:relative" class="star-cb-group">
                             <span style="float:left">Rotten</span>
             
                             
-                            @*@for (int i = 1; i < 8; i++)
+                            @for (int i = 1; i < 8; i++)
                             {
                             if (item.Score == i)
                             {
@@ -89,51 +101,16 @@
                             }
                             <div class="scoreDiv" style="float:left">
                             <span>@i</span><br />
-                            <input type="radio" name="@scoreName" value="@i" @checkValue class="radioScore" required>
+                                
+                                    <input type="radio" name="@scoreName" value="@i" @checkValue class="radioScore" required hidden>
+                                    <i class="fa fa-star-o star" aria-hidden="true" value="@i"></i>
+                                
                             </div>
                             checkValue = "";
-                            }*@
-
-
-
-
-
-
-                            @{checkValue = "checked";
                             }
-                            <div class="scoreDiv rating" style="float:left">
-                                <input type="radio" id="star7" name="@scoreName" value="7" @checkValue class="radioScore" /><label class="full" for="star7" title="Riipe - 7 stars"></label>
-                                @{checkValue = "";
-                                }
-                                <input type="radio" id="star6" name="@scoreName" value="6" @checkValue class="radioScore" /><label class="full" for="star6" title="Awesome - 6 stars"></label>
-                                @{checkValue = "";
-                                }
-                                <input type="radio" id="star5" name="@scoreName" value="5" @checkValue class="radioScore" /><label class="full" for="star5" title="Pretty good - 5 stars"></label>
-                                @{checkValue = "";
-                                }
-                                <input type="radio" id="star4" name="@scoreName" value="4" @checkValue class="radioScore" /><label class="full" for="star4" title="Not bad - 4 stars"></label>
-                                @{checkValue = "";
-                                }
-                                <input type="radio" id="star3" name="@scoreName" value="3" @checkValue class="radioScore" /><label class="full" for="star3" title="Meh - 3 stars"></label>
-                                @{checkValue = "";
-                                }
-                                <input type="radio" id="star2" name="@scoreName" value="2" @checkValue class="radioScore" /><label class="full" for="star2" title="Kinda rotten - 2 stars"></label>
-                                @{checkValue = "";
-                                }
-                                <input type="radio" id="star1" name="@scoreName" value="1" @checkValue class="radioScore" /><label class="full" for="star1" title="Rotten - 1 star"></label>
-                                @{checkValue = "";
-                                }
-
-                            </div>
-                            <span>Riipe</span>
-                            checkValue = "";
 
 
-
-
-
-
-
+    <span>Riipe</span>
                         </div>
 
 
@@ -155,7 +132,7 @@
                 string PrivateFeedback = "singleJugeCriteriaScoreVM.PrivateFeedback";
             }
             <div class="form-group">
-                <label>Public Feedback</label>
+                <label><i class="fa fa-pencil" aria-hidden="true"></i>   &nbsp;&nbsp;Public Feedback</label>
 
                 <div>
                     <textarea name=@PublicFeedback class="form-control">@Html.DisplayFor(model => model.PublicFeedback)</textarea>
@@ -163,7 +140,7 @@
             </div>
 
             <div class="form-group">
-                <label>Private Feedback</label>
+                <label><i class="fa fa-pencil" aria-hidden="true"></i>   &nbsp;&nbsp;Private Feedback</label>
 
                 <div>
                     <textarea name=@PrivateFeedback class="form-control">@Html.DisplayFor(model => model.PrivateFeedback)</textarea>
@@ -173,8 +150,8 @@
 
 
         </div>
-        <input class="btn-save" name="SubmitOrSave" type="submit" value="Save" />
-        <input class="btn-submit" name="SubmitOrSave" type="submit" value="Submit" />
+        <input class="btn btn-warning btn-sm submit-form" name="SubmitOrSave" type="submit" value="Save" />
+        <input class="btn btn-primary btn-sm submit-form" name="SubmitOrSave" type="submit" value="Submit" />
     </form>
 </div>
 

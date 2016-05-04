@@ -14,12 +14,11 @@
 
     if (sum != 0) {
         sum = sum / checkNum;
-        console.log(sum);
-        sum = sum.toString() + "/7"
+        sum = Math.round(sum * 100) / 100;
+        sum = sum.toString() + "/7";
         ; $(".yourScore").html(sum);
 
     }
-
 
 }
 

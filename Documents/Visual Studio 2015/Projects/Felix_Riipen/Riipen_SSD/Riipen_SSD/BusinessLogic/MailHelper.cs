@@ -8,14 +8,12 @@ using Riipen_SSD.AdminViewModels;
 
 namespace Riipen_SSD.BusinessLogic
 {
+
     public class MailHelper
     {
         public const string SUCCESS
         = "Success! Your email has been sent.  Please allow up to 48 hrs for a reply.";
-        const string TO = "***"; // Specify where you want this email sent.
-                                 // This value may/may not be constant.
-                                 // To get started use one of your email 
-                                 // addresses.
+        const string BY = "Riipen@whatthefelix.com";
         public string EmailFromArvixe(AdminViewModels.Message message)
         {
 
@@ -28,9 +26,9 @@ namespace Riipen_SSD.BusinessLogic
             const string SMTP_SERVER = "143.95.249.35";
             try
             {
-                MailMessage mailMsg = new MailMessage(FROM, TO);
-                mailMsg.Subject =
-                mailMsg.Body = message.Body + "<br/>sent by: " + message.Sender;
+                MailMessage mailMsg = new MailMessage(FROM, message.Sender);
+                mailMsg.Subject = message.Subject;
+                mailMsg.Body = message.Body + "<br/>sent by: " + BY;
                 mailMsg.IsBodyHtml = USE_HTML;
 
                 SmtpClient smtp = new SmtpClient();

@@ -125,9 +125,14 @@
     </tbody>
 </table>
 
-<form class="form-group" method="post">
+
+@using (Html.BeginForm("SendEmails", "Admin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
     <button type="submit" class="btn btn-success">Publish Contest</button>
-</form>
+}
+   
+
     <p>
         @Html.ActionLink("Edit", "EditContest", new {  ContestID = Model.ContestID  }) |
         @Html.ActionLink("Back to List", "Index")
