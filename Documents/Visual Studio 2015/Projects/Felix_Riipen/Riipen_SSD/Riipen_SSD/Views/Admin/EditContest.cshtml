@@ -5,7 +5,7 @@
 }
 
 
-   
+
 <style>
     #excelPreview {
         display: none;
@@ -13,10 +13,10 @@
 </style>
 @section scripts{
     <script src="~/JavaScript/Create_Edit_forms.js"></script>
-@Scripts.Render("~/bundles/jqueryval")
-    }
+    @Scripts.Render("~/bundles/jqueryval")
+}
 
-<h2>EditContest</h2>
+<h2>Edit Contest</h2>
 
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "ContestForm" }))
@@ -60,11 +60,11 @@
             <div class="multi-fields" id="criteria-list">
                 @foreach (var item in Model.Criteria)
                 {
-                <div class="multi-field criteria-list-item">
-                    <input type="text" name="criteria[0].name" placeholder="New Criteria" value="@item.Name" />
-                    <input type="text" name="criteria[0].description" placeholder="Criteria Description" value="@item.Description" />
-                    <button type="button" class="remove-field"> Remove </button>
-                </div>
+                    <div class="multi-field criteria-list-item">
+                        <input type="text" name="criteria[0].name" placeholder="New Criteria" value="@item.Name" />
+                        <input type="text" name="criteria[0].description" placeholder="Criteria Description" value="@item.Description" />
+                        <button type="button" class="remove-field"> Remove </button>
+                    </div>
                 }
             </div>
             <button type="button" class="add-criteria"> Add Criteria</button>
@@ -78,18 +78,61 @@
             <div class="multi-fields">
                 @foreach (var item in Model.Judges)
                 {
-                <div class="multi-field judge-list-item">
-                    <input type="text" name="judges[0].firstname" placeholder="Judge First Name" value="@item.FirstName" />
-                    <input type="text" name="judges[0].lastname" placeholder="Judge Last Name" value="@item.LastName" />
-                    <input type="text" name="judges[0].email" placeholder="Judge Email" value="@item.Email"/>
-                    <button type="button" class="judge-remove-field">Remove</button>
-                </div>
+                    <div class="multi-field judge-list-item">
+                        <input type="text" name="judges[0].firstname" placeholder="Judge First Name" value="@item.FirstName" />
+                        <input type="text" name="judges[0].lastname" placeholder="Judge Last Name" value="@item.LastName" />
+                        <input type="text" name="judges[0].email" placeholder="Judge Email" value="@item.Email" />
+                        <button type="button" class="judge-remove-field">Remove</button>
+                    </div>
                 }
             </div>
             <button type="button" class="add-judge"> Add Judge</button>
         </div>
 
 
+        <table class="participantTable">
+            <caption>Participants</caption>
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Participants.FirstOrDefault().TeamName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Participants.FirstOrDefault().FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Participants.FirstOrDefault().LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Participants.FirstOrDefault().Email)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Participants)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(x => item.TeamName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => item.LastName)
+                        </td>
+                        <td prewrap>
+                            @Html.DisplayFor(x => item.Email)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <label>
+            Add teams and judges
+            <input type="file" accept="csv" name="participants" data-val="true" data-val-required="File is required" />
+        </label>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

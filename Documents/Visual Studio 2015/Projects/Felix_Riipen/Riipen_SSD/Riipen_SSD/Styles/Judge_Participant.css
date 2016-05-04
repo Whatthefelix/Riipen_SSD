@@ -142,6 +142,12 @@ footer{
 
  .validateScoreInput{
      margin-top:20px;
-
+    font-family:'Roboto', sans-serif;
+    font-weight:300;
+    font-size:20px;
+    line-height: 2em;
+    display:block;
+    text-align:center;
+    color:orangered;
  }
   /*---copy this css, team view,juge_participant.js, delete Create_Edit_form*/
