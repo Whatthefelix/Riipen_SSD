@@ -199,7 +199,7 @@ namespace Riipen_SSD.Controllers
                     getAverageScoreForEachCriteria = Math.Round((double)getAllScoreForOneCriteria.Average(x => x.Score), 2);
                 }
 
-                teamCriterVMlist.Add(new TeamCriteriaVM(item.Id,item.Name,item.Description,getAverageScoreForEachCriteria));                
+                teamCriterVMlist.Add(new TeamCriteriaVM(item.Id, item.Name, item.Description, getAverageScoreForEachCriteria));                
             }
 
             //get the feedbacks for a team in contest
@@ -245,7 +245,7 @@ namespace Riipen_SSD.Controllers
         }
 
 
-        public ActionResult CriteriaDetials(int teamID, int contestID, int criteriaID) {
+        public ActionResult CriteriaDetails(int teamID, int contestID, int criteriaID) {
 
             //get all scores for one criteria from all judges
             var getAllScoresForOneCriteria = context.CriteriaScores.Where(cs => cs.TeamId == teamID && cs.ContestId == contestID && cs.CriteriaId == criteriaID).ToList();
