@@ -74,14 +74,6 @@ namespace Riipen_SSD.Controllers
             return View(newAdminContests);
         }
 
-
-
-        [HttpGet]
-        public ActionResult CreateContest()
-        {
-            return View();
-        }
-
         [HttpGet]
         public ActionResult ContestDetails(int contestID)
         {
@@ -177,6 +169,11 @@ namespace Riipen_SSD.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult CreateContest()
+        {
+            return View();
+        }
 
         [HttpPost]
         public ActionResult CreateContest(ContestVM contestVM)
@@ -184,9 +181,10 @@ namespace Riipen_SSD.Controllers
             // THIS SEEMS TO WORK BUT NEEDS SOME REFACTORING 
             var contest = new Contest()
             {
-                StartTime = contestVM.Date,
+                StartTime = contestVM.StartTime,
                 Location = contestVM.Location,
                 Name = contestVM.ContestName,
+                Published = false,
             };
 
             // for each participant, check if they have a user account - create one if they don't
@@ -242,7 +240,7 @@ namespace Riipen_SSD.Controllers
             {
                 ContestID = contestId,
                 ContestName = contest.Name,
-                Date = contest.StartTime,
+                StartTime = contest.StartTime,
                 Location = contest.Location,
                 Criteria = contest.Criteria.Select(c => new CriteriaVM() { Id = c.Id, Name = c.Name, Description = c.Description }),
                 Judges = contest.ContestJudges.Select(c => new JudgeVM() { Email = c.AspNetUser.Email, FirstName = c.AspNetUser.FirstName, LastName = c.AspNetUser.LastName }),
@@ -259,7 +257,7 @@ namespace Riipen_SSD.Controllers
             var contest = UnitOfWork.Contests.Get(editContestVM.ContestID);
             contest.Name = editContestVM.ContestName;
             contest.Location = editContestVM.Location;
-            contest.StartTime = editContestVM.Date;
+            contest.StartTime = editContestVM.StartTime;
 
             editContestVM.Criteria.Select(c => new Criterion() { Id = c.Id });
 
