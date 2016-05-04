@@ -42,10 +42,8 @@ $(function () {
 
     });
     $(function () {
-        var $j = jQuery.noConflict();
-        $j("#datepicker").datepicker();
+        $("#datepicker").datepicker();
     });
-  
     $(function () {
         $('.multi-field-wrapper').each(function () {
             
