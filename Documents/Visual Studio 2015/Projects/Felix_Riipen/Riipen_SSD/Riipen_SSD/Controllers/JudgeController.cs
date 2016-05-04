@@ -26,7 +26,7 @@ namespace Riipen_SSD.Controllers
         public ActionResult Index(String searchAContest, String sortContests, int? page)
         {
             string searchStringValue = "";
-            string sortStringValue = "Latests contests";
+            string sortStringValue = "Latest contests";
             string UserID = User.Identity.GetUserId();
             
             //get the numbers of contest which the judge can judge
