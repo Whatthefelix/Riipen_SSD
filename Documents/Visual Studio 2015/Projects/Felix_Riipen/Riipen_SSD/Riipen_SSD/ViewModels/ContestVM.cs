@@ -11,6 +11,7 @@ namespace Riipen_SSD.ViewModels
         public String ContestName { get; set; }
         public DateTime? Date { get; set; }
         public String Location { get; set; }
+        public IEnumerable<ParticipantVM> Participants {get; set;}
         public IEnumerable<CriteriaVM> Criteria { get; set; }
         public IEnumerable<JudgeVM> Judges { get; set; }
     }

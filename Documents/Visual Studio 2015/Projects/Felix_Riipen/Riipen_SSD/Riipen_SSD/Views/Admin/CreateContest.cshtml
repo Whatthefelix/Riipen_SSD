@@ -70,17 +70,11 @@
                 </div>
             </div>
         </div>
-
-        @*<label for="file-upload" class="custom-file-upload btn btn-primary">
-            Add teams and judges
-
-        </label>
-        <input id="file-upload" data-val-required="File is required" />*@
         
         <label for="file-upload" class="btn btn-primary">
             Add teams and judges
         </label>
-        <input id="file-upload" type="file" data-val-required="File is required"/>
+        <input id="file-upload" accept="csv" name="participants" type="file" data-val="true" data-val-required="File is required"/>
         
         <button type="submit" class="btn btn-success"> Create Contest</button>
     </div>

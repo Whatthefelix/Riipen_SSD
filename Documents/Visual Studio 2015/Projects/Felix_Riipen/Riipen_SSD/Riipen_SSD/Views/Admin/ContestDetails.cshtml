@@ -94,7 +94,10 @@
                 @Html.DisplayNameFor(model => model.Participants.FirstOrDefault().TeamName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Participants.FirstOrDefault().Name)
+                @Html.DisplayNameFor(model => model.Participants.FirstOrDefault().FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Participants.FirstOrDefault().LastName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Participants.FirstOrDefault().Email)
@@ -109,7 +112,10 @@
                     @Html.DisplayFor(x => item.TeamName)
                 </td>
                 <td>
-                    @Html.DisplayFor(x => item.Name)
+                    @Html.DisplayFor(x => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(x => item.LastName)
                 </td>
                 <td prewrap>
                     @Html.DisplayFor(x => item.Email)

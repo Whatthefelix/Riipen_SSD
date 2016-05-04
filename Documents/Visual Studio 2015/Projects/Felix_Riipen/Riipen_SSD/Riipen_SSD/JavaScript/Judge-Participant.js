@@ -31,32 +31,19 @@ function getScore(firstLoad) {
         sum = sum / checkNum;
         sum = Math.round(sum * 100) / 100;
         sum = sum.toString() + "/7";
-        ; $(".yourScore").html(sum);
+        $(".yourScore").html(sum);
 
     }
 
-}
-
-
-function checkCriteriaHasScore() {
-
-    var result = true;
-    var allScores = $('.radioScore');
-    var length = allScores.length;
-    for (var i = 0; i < allScores.length; i++) {
-
-        if ($(allScores[i]).is(':checked')) {
-            result = false;
-            return result;
-        }
-    }
 }
 
 
 
 
 $(function () {
+  
     $(".body-content").removeClass('container').addClass('container-fluid');
+    
      firstLoad = true;
     getScore(firstLoad);
     
@@ -69,6 +56,7 @@ $(function () {
         $(this).parent().prevAll().children('i').removeClass('fa-star-o').addClass("fa-star").addClass('star-hover');
         $(this).parent().nextAll().children('i').removeClass('fa-star').addClass("fa-star-o").removeClass('star-hover');
     }).mouseleave(function () {
+
         //find the checked
         var getChecked = null;
 
@@ -84,7 +72,6 @@ $(function () {
 
                 if ($(allStars[i]).hasClass('hasChecked')) {
                     getChecked = allStars[i];
-                    console.log(getChecked);
                     break;
                 }
             }
@@ -112,12 +99,27 @@ $(function () {
     });
 
 
-    $(".submit-form").click(function () {
+    $(".submit-form").click(function () {       
 
-       
-        if (!checkCriteriaHasScore()) {
+        var checkScores = $('.radioScore');
+        var length = checkScores.length;
+        var checkNumber = 0;
+        for (var i = 0; i < checkScores.length; i++) {
 
-            $(".validateScoreInput").removeClass('hidden');
+            console.log($(checkScores[i]));
+            console.log($(checkScores[i]).is(':checked'));
+            if ($(checkScores[i]).is(':checked')) {
+                checkNumber++;
+                
+            }
+        }
+
+        if (checkNumber != length / 7) {
+            $(".validateScoreInput").html("Please give all criterion a score before you save or submit.");
+            setInterval(function () {
+                $(".validateScoreInput").html("");
+
+            }, 10000);
             return false;
         }
     });
