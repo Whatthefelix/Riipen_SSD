@@ -126,7 +126,7 @@ namespace Riipen_SSD.Controllers
             var participants = new List<ParticipantVM>();
             foreach (var team in contest.Teams)
             {
-                var participantsFromTeam = team.AspNetUsers.Select(x => new ParticipantVM() { Email = x.Email, Name = x.FirstName, TeamName = team.Name });
+                var participantsFromTeam = team.AspNetUsers.Select(x => new ParticipantVM() { Email = x.Email, FirstName = x.FirstName, LastName = x.LastName, TeamName = team.Name });
                 participants.AddRange(participantsFromTeam);
             }
 
