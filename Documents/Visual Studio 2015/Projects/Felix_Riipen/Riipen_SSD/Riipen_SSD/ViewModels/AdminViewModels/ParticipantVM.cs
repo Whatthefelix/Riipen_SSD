@@ -11,12 +11,12 @@ namespace Riipen_SSD.AdminViewModels
     [IgnoreFirst(1)]
     public class ParticipantVM
     {
-        //[Display(Name ="First Name")]
+        [Display(Name ="First Name")]
         public string FirstName { get; set; }
-        //[Display(Name = "Last Name")]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
         public string Email { get; set; }
-        //[Display(Name = "Team")]
+        [Display(Name = "Team")]
         public string TeamName { get; set; }
 
     }

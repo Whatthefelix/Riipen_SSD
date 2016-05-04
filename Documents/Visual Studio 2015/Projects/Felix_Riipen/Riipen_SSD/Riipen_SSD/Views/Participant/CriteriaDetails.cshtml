@@ -1,80 +1,93 @@
 ﻿@model IEnumerable<Riipen_SSD.ViewModels.ParticipantViewModels.CriteriaDetailVM>
+<link href="~/Styles/Judge_Participant.css" rel="stylesheet" />
+<link href="~/Styles/ParticipantDetailsResponsive.css" rel="stylesheet" />
 
 @{
     ViewBag.Title = "CriteriaDetails";
 }
-<link href="~/Styles/ParticipantDetailsResponsive.css" rel="stylesheet" />
-<div class="header">
-    
-    @if (ViewBag.ContestName != null) {
-    <div>Contest: @ViewBag.ContestName  &nbsp; &nbsp;</div>
-    }
 
-    @if (ViewBag.TeamName != null)
-    {
-        <div>Team: @ViewBag.TeamName &nbsp;&nbsp;</div>
-    }
-
-    @if (ViewBag.CriteriaName != null)
-    {
-        <div>Criteria: @ViewBag.CriteriaName</div>
-    }
+@section scripts{
+    <script src="~/JavaScript/Judge_Team_form.js"></script>
+    <script src="~/JavaScript/Judge-Participant.js"></script>
+}
 
 
-    @if (ViewBag.JudgesNotSubmitted != null)
-    {
 
-        <div>Waiting for  @ViewBag.JudgesNotSubmitted  judge </div>
-    }
-</div>
+    <div class="header header-in-judge-team-score">
+        <div class="participant-team-score">
+            @if (ViewBag.TeamName != null)
+            {
+                <p>Contest: &nbsp;&nbsp;<span class="ex-small-title"> @ViewBag.ContestName &nbsp;&nbsp;</span></p>
+            }
+
+            @if (ViewBag.TeamName != null)
+            {
+                <p>Team: <span class="ex-small-title">@ViewBag.TeamName &nbsp;&nbsp;</span></p>
+            }
+            @if (ViewBag.CriteriaName != null)
+            {
+                <p>Criteria: <span class="ex-small-title">@ViewBag.CriteriaName</span></p>
+            }
 
 
-<table>
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Score)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.JudgeName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Comment)
-            </th>
-  
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+            @if (ViewBag.JudgesNotSubmitted != null)
+            {
+
+                <p><span class="ex-small-title"> Waiting for @ViewBag.JudgesNotSubmitted judge </span></p>
+            }
+
+        </div>
+    </div>
+
+
+<div class="judge-participant-wrapper">
+    <table>
+        <thead>
             <tr>
-                <td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Score)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.JudgeName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Comment)
+                </th>
 
-                    @if (item.Score == null)
-                    {
-                        <span>Not Available</span>
-                    }
-                    else
-                    {
-                        @Html.DisplayFor(modelItem => item.Score)
-                    }
-
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.JudgeName)
-                </td>
-                <td>
-                    @if (item.Comment == null)
-                    {
-                        <span>Not Available</span>
-                    }
-                    else
-                    {
-                        @Html.DisplayFor(modelItem => item.Comment)
-                    }
-
-                </td>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+
+                        @if (item.Score == null)
+                        {
+                            <span>N/A</span>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.Score) <span>/7</span>
+    }
+
+</td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.JudgeName)
+                    </td>
+                    <td>
+                        @if (item.Comment == null)
+                        {
+                            <span>N/A</span>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.Comment)
+                        }
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>

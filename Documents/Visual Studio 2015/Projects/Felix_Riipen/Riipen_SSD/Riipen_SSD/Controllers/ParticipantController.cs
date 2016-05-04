@@ -169,7 +169,7 @@ namespace Riipen_SSD.Controllers
 
 
 
-        public ActionResult TeamScores(int teamID, int contestID, int yourTeamID)
+        public ActionResult TeamScores(int teamID, int contestID, int yourTeamID, double? totalScore)
         {
             TeamCriteriaVMList teamCriteriaVMListComplete = new TeamCriteriaVMList();
 
@@ -241,6 +241,7 @@ namespace Riipen_SSD.Controllers
             ViewBag.ContestName = _unitOfWork.Contests.Get(contestID).Name;
             ViewBag.TeamID = teamID;
             ViewBag.ContestID = contestID;
+            ViewBag.TotalScore = totalScore;
             return View(teamCriteriaVMListComplete);
         }
 

@@ -76,16 +76,16 @@
                         @Html.DisplayFor(modelItem => item.TeamID)
                     </td>
                     <td>
-                        @Html.ActionLink(item.TeamName, "TeamScores", new { teamID = item.TeamID, contestID = ViewBag.ContestID, yourTeamID = ViewBag.YourTeamID })
+                        @Html.ActionLink(item.TeamName, "TeamScores", new { teamID = item.TeamID, contestID = ViewBag.ContestID, yourTeamID = ViewBag.YourTeamID, totalScore=item.Score })
                     </td>
                     <td>
                         @if (item.Score == null)
                         {
-                            <span>Not available</span>
+                            <span>N/A</span>
                         }
                         else
                         {
-                            @Html.DisplayFor(modelItem => item.Score)
+                            @Html.DisplayFor(modelItem => item.Score)<span>/7</span>
                         }
 
 
