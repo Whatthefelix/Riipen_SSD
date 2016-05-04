@@ -59,7 +59,7 @@ namespace Riipen_SSD.Controllers
             }
             else
             {
-                participantVMList = participantVMList.OrderByDescending(p => p.Date).ToList();
+                participantVMList = participantVMList.OrderByDescending(p => p.StartTime).ToList();
             }
 
 

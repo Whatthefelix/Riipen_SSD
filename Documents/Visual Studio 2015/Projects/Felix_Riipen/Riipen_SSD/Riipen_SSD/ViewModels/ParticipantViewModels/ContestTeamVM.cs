@@ -10,7 +10,7 @@ namespace Riipen_SSD.ViewModels.ParticipantViewModels
     {
         public int TeamID { get; set; }
 
-        [DisplayName("Team name")]
+        [DisplayName("Team")]
         public string TeamName { get; set; }
         public double? Score { get; set; }
         [DisplayName("Status")]

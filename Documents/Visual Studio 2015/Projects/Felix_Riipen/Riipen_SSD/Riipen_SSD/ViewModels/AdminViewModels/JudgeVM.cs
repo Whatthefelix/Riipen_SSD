@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -8,9 +8,9 @@ namespace Riipen_SSD.AdminViewModels
 {
     public class JudgeVM
     {
-        [DisplayName("First name")]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
-        [DisplayName("Last name")]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
         public string Email { get; set; }
     }

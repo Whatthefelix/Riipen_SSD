@@ -1,16 +1,17 @@
-﻿using System;
+﻿using Riipen_SSD.AdminViewModels;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Riipen_SSD.AdminViewModels
+namespace Riipen_SSD.ViewModels.AdminViewModels
 {
-    public class EditContestVM
+    public class CreateContestVM
     {
-        public int ContestID { get; set; }
-
-        [Display(Name = "Name")]
+        [Display (Name = "Contest")]
+        [Required]
         public String ContestName { get; set; }
         [Display(Name = "Date")]
         public DateTime? StartTime { get; set; }
@@ -18,7 +19,5 @@ namespace Riipen_SSD.AdminViewModels
         public IEnumerable<ParticipantVM> Participants { get; set; }
         public IEnumerable<CriteriaVM> Criteria { get; set; }
         public IEnumerable<JudgeVM> Judges { get; set; }
-
     }
-
 }
