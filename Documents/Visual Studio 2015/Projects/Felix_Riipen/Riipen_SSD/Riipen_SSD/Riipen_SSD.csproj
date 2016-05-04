@@ -463,7 +463,7 @@
     <Content Include="Views\Participant\Index.cshtml" />
     <Content Include="Views\Participant\Contests.cshtml" />
     <Content Include="Views\Participant\TeamScores.cshtml" />
-    <Content Include="Views\Participant\CriteriaDetials.cshtml" />
+    <Content Include="Views\Participant\CriteriaDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
