@@ -142,8 +142,8 @@ namespace Riipen_SSD.Controllers
 
             
 
-            return View();
-        }
+        //    return View();
+        //}
 
 
         [HttpPost]
