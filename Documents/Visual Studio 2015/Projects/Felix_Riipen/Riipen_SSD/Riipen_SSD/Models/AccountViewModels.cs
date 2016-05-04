@@ -112,6 +112,7 @@ namespace Riipen_SSD.Models
         public string Code { get; set; }
     }
 
+
     public class ForgotPasswordViewModel
     {
         [Required]

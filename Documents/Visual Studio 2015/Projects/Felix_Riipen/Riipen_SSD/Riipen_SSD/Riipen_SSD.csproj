@@ -465,6 +465,7 @@
     <Content Include="Views\Participant\Contests.cshtml" />
     <Content Include="Views\Participant\TeamScores.cshtml" />
     <Content Include="Views\Participant\CriteriaDetails.cshtml" />
+    <Content Include="Views\Account\SetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -144,13 +144,13 @@ namespace Riipen_SSD.Controllers
 
                 var getID = getUser.Id;
                 var code = UserManager.GenerateEmailConfirmationTokenAsync(getID);
-                var callbackUrl = Url.Action("ResetPassword", "Account", new { userID = getID, code = code }, protocol: Request.Url.Scheme);
+                //var code = UserManager.GeneratePasswordResetTokenAsync(getID);
+                var callbackUrl = Url.Action("SetPassword", "Account", new { userID = getID, code = code }, protocol: Request.Url.Scheme);
                 MailHelper mailer = new MailHelper();
                 string subject = "Your Riipen account";
                 string body = "";
                 if (getUser.EmailConfirmed)
                 {
-
                     body = "Please log in to view your contest: <a href=\"http:\\riipen.whatthefelix.com\" >Log in </a>";
                 }
                 else

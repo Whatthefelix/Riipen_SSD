@@ -262,6 +262,7 @@ namespace Riipen_SSD.Controllers
                 return View(model);
             }
             var user = await UserManager.FindByNameAsync(model.Email);
+            
             if (user == null)
             {
                 // Don't reveal that the user does not exist
@@ -275,7 +276,44 @@ namespace Riipen_SSD.Controllers
             AddErrors(result);
             return View();
         }
+        //[AllowAnonymous]
+        //public async Task<ActionResult> ConfirmEmail(string userId, string code)
+        //{
+        //    if (userId == null || code == null)
+        //    {
+        //        return View("Error");
+        //    }
+        //    var result = await UserManager.ConfirmEmailAsync(userId, code);
+        //    return View(result.Succeeded ? "ConfirmEmail" : "Error");
+        //}
 
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<ActionResult> SetPassword(string code, string userId)
+        {   //code = confirm email code
+            if(userId == null || code == null)
+            {
+                return View("Error");
+            }
+            var result = await UserManager.ConfirmEmailAsync(userId, code);
+            
+            return View();
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<ActionResult> SetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = await UserManager.FindByEmailAsync(model.Email); 
+            var AddPassword = await UserManager.AddPasswordAsync(user.Id, model.Password);
+            user.EmailConfirmed = true;
+            return View();
+        }
+ 
         //
         // GET: /Account/ResetPasswordConfirmation
         [AllowAnonymous]
