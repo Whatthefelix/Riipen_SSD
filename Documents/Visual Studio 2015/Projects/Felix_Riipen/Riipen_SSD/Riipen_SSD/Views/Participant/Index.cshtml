@@ -53,7 +53,7 @@
                     @Html.DisplayNameFor(model => model.ContestName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Date)
+                    @Html.DisplayNameFor(model => model.StartTime)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Location)
@@ -76,7 +76,7 @@
                         @Html.ActionLink(item.ContestName, "Contests", new { contestID = item.ContestID })
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Date)
+                        @Html.DisplayFor(modelItem => item.StartTime)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Location)

@@ -24,6 +24,12 @@
                 {
                     <p>Contest:&nbsp;&nbsp; <span class="ex-small-title">@ViewBag.ContestName</span></p>
                 }
+                @if (ViewBag.ContestName != null)
+                {
+
+            <span>Total Score: </span><span class="yourScore"></span>
+                }
+
     </div>
 </div>
 
@@ -31,127 +37,125 @@
 </div>
 
 <div class="judge-participant-wrapper">
-    <div class="title">
-        <span>Total Score: </span><span class="yourScore"></span>
-    </div>
 
-    <form class="form" method="post" action="EditCriteriaScore">
-        <input name="teamID" value="@ViewBag.TeamID" hidden />
-        <input name="contestID" value="@ViewBag.ContestID" hidden />
-        <table class="table">
-            <tr>
-                <th>
-                    Criteria
-                </th>
-                <th>
-                    Description
-                </th>
-                <th>
-                    Score
-                </th>
-                <th>
-                    <i class="fa fa-pencil" aria-hidden="true"></i>   &nbsp;&nbsp;Comment
-                </th>
-            </tr>
 
-            @{
-                var counter = 0;
-                var name = "";
-            }
-            @foreach (var item in Model.singleCriteriaScoreVMLlist)
-            {
-
+        <form class="form" method="post" action="EditCriteriaScore">
+            <input name="teamID" value="@ViewBag.TeamID" hidden />
+            <input name="contestID" value="@ViewBag.ContestID" hidden />
+            <table class="table">
                 <tr>
-                    <td>
-                        @item.CriteriaName
-                    </td>
+                    <th>
+                        Criteria
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Score
+                    </th>
+                    <th>
+                        <i class="fa fa-pencil" aria-hidden="true"></i>   &nbsp;&nbsp;Comment
+                    </th>
+                </tr>
 
-                    <td>
-                        @item.Description
-                    </td>
-                    <td>
-                        @{
-                            name = "singleJugeCriteriaScoreVM.singleCriteriaScoreVMLlist[";
-                            var checkValue = "";
-                            var scoreName = name + counter.ToString() + "].Score";
-                            var commentName = name + counter.ToString() + "].Comment";
-                            var criteriaIdName = name + counter.ToString() + "].CriteriaID";
-                            var teamIdName = name + counter.ToString() + "].TeamID";
+                @{
+                    var counter = 0;
+                    var name = "";
+                }
+                @foreach (var item in Model.singleCriteriaScoreVMLlist)
+                {
 
-                            var ScoreID = "Score" + counter.ToString();
+                    <tr>
+                        <td>
+                            @item.CriteriaName
+                        </td>
 
-                           
-                            counter++;
+                        <td>
+                            @item.Description
+                        </td>
+                        <td>
+                            @{
+                                name = "singleJugeCriteriaScoreVM.singleCriteriaScoreVMLlist[";
+                                var checkValue = "";
+                                var scoreName = name + counter.ToString() + "].Score";
+                                var commentName = name + counter.ToString() + "].Comment";
+                                var criteriaIdName = name + counter.ToString() + "].CriteriaID";
+                                var teamIdName = name + counter.ToString() + "].TeamID";
 
-                        }
+                                var ScoreID = "Score" + counter.ToString();
 
 
-                        <input name="@criteriaIdName" value="@item.CriteriaID" hidden />
-                        <div style="position:relative" class="star-cb-group">
-                            <span style="float:left">Rotten</span>
-            
-                            
-                            @for (int i = 1; i < 8; i++)
-                            {
-                            if (item.Score == i)
-                            {
-                            checkValue = "checked";
+                                counter++;
+
                             }
-                            <div class="scoreDiv" style="float:left">
-                            <span>@i</span><br />
-                                
-                                    <input type="radio" name="@scoreName" value="@i" @checkValue class="radioScore" required hidden>
-                                    <i class="fa fa-star-o star" aria-hidden="true" value="@i"></i>
-                                
+
+
+                            <input name="@criteriaIdName" value="@item.CriteriaID" hidden />
+                            <div style="position:relative" class="star-cb-group">
+                                <span style="float:left">Rotten</span>
+
+
+                                @for (int i = 1; i < 8; i++)
+                                {
+                                    if (item.Score == i)
+                                    {
+                                        checkValue = "checked";
+                                    }
+                                    <div class="scoreDiv" style="float:left">
+                                        <span>@i</span><br />
+
+                                        <input type="radio" name="@scoreName" value="@i" @checkValue class="radioScore" required hidden>
+                                        <i class="fa fa-star-o star" aria-hidden="true" value="@i"></i>
+
+                                    </div>
+                                    checkValue = "";
+                                }
+
+
+                                <span>Riipe</span>
                             </div>
-                            checkValue = "";
-                            }
 
 
-    <span>Riipe</span>
-                        </div>
+                        </td>
+                        <td>
 
-
-                    </td>
-                    <td>
-
-                        <textarea name="@commentName" class="form-control">@item.Comment</textarea>
+                            <textarea name="@commentName" class="form-control">@item.Comment</textarea>
 
 
 
-                    </td>
+                        </td>
 
-                </tr>}
-        </table>
+                    </tr>}
+            </table>
 
-        <div class="dl-horizontal">
+            <div class="dl-horizontal">
 
-            @{ string PublicFeedback = "singleJugeCriteriaScoreVM.PublicFeedback";
+                @{ string PublicFeedback = "singleJugeCriteriaScoreVM.PublicFeedback";
                 string PrivateFeedback = "singleJugeCriteriaScoreVM.PrivateFeedback";
-            }
-            <div class="form-group">
-                <label><i class="fa fa-pencil" aria-hidden="true"></i>   &nbsp;&nbsp;Public Feedback</label>
+                }
+                <div class="form-group">
+                    <label><i class="fa fa-pencil" aria-hidden="true"></i>   &nbsp;&nbsp;Public Feedback</label>
 
-                <div>
-                    <textarea name=@PublicFeedback class="form-control">@Html.DisplayFor(model => model.PublicFeedback)</textarea>
+                    <div>
+                        <textarea name=@PublicFeedback class="form-control">@Html.DisplayFor(model => model.PublicFeedback)</textarea>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label><i class="fa fa-pencil" aria-hidden="true"></i>   &nbsp;&nbsp;Private Feedback</label>
+                <div class="form-group">
+                    <label><i class="fa fa-pencil" aria-hidden="true"></i>   &nbsp;&nbsp;Private Feedback</label>
 
-                <div>
-                    <textarea name=@PrivateFeedback class="form-control">@Html.DisplayFor(model => model.PrivateFeedback)</textarea>
+                    <div>
+                        <textarea name=@PrivateFeedback class="form-control">@Html.DisplayFor(model => model.PrivateFeedback)</textarea>
+                    </div>
                 </div>
+
+
+
             </div>
-
-
-
-        </div>
-        <input class="btn btn-warning btn-sm submit-form" name="SubmitOrSave" type="submit" value="Save" />
-        <input class="btn btn-primary btn-sm submit-form" name="SubmitOrSave" type="submit" value="Submit" />
-    </form>
-</div>
+            <input class="btn btn-warning btn-sm submit-form" name="SubmitOrSave" type="submit" value="Save" />
+            <input class="btn btn-primary btn-sm submit-form" name="SubmitOrSave" type="submit" value="Submit" />
+        </form>
+    </div>
 
 
 
