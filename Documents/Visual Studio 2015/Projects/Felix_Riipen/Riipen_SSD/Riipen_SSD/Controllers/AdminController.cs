@@ -12,6 +12,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PagedList;
+using Riipen_SSD.BusinessLogic;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Riipen_SSD.Controllers
 {
@@ -111,39 +113,70 @@ namespace Riipen_SSD.Controllers
 
             return View(contestDetailVM);
         }
-        //[HttpPost]
-        //public ActionResult ContestDetails(int contestID)
-        //{
-        //    //on "publish" click, get list of judges and participants for this contest
-        //    var contest = UnitOfWork.Contests.Get(contestID);
-        //    var judges = contest.ContestJudges.Select(x => new JudgeVM()
-        //    {
-        //        FirstName = x.AspNetUser.FirstName,
-        //        LastName = x.AspNetUser.LastName,
-        //        Email = x.AspNetUser.Email
-        //    });
-        //    var participants = new List<ParticipantVM>();
-        //    foreach (var team in contest.Teams)
-        //    {
-        //        var participantsFromTeam = team.AspNetUsers.Select(x => new ParticipantVM() { Email = x.Email, Name = x.FirstName, TeamName = team.Name });
-        //        participants.AddRange(participantsFromTeam);
-        //    }
+        [HttpPost]
+        public ActionResult SendEmails(int contestID)
+        {
+            //on "publish" click, get list of judges and participants for this contest
+            var contest = UnitOfWork.Contests.Get(contestID);
+            var judges = contest.ContestJudges.Select(x => new JudgeVM()
+            {
+                FirstName = x.AspNetUser.FirstName,
+                LastName = x.AspNetUser.LastName,
+                Email = x.AspNetUser.Email
+            });
+            var participants = new List<ParticipantVM>();
+            foreach (var team in contest.Teams)
+            {
+                var participantsFromTeam = team.AspNetUsers.Select(x => new ParticipantVM() { Email = x.Email, Name = x.FirstName, TeamName = team.Name });
+                participants.AddRange(participantsFromTeam);
+            }
 
-        //    var contestDetailVM = new ContestDetailsVM()
-        //    {
-        //        ContestID = contestID,
-        //        Name = contest.Name,
-        //        StartTime = contest.StartTime.ToString(),
-        //        Location = contest.Location,
-        //        Published = true,
-        //        Participants = participants,
-        //        Judges = judges,
-        //    };
+            var contestDetailVM = new ContestDetailsVM()
+            {
+                ContestID = contestID,
+                Name = contest.Name,
+                StartTime = contest.StartTime.ToString(),
+                Location = contest.Location,
+                Published = true,
+                Participants = participants,
+                Judges = judges,
+            };
 
-            
 
-        //    return View();
-        //}
+
+            var userStore = new UserStore<IdentityUser>();
+            UserManager<IdentityUser> manager = new UserManager<IdentityUser>(userStore);
+
+
+            foreach (var participant in contestDetailVM.Participants)
+            {
+                var getUser = UnitOfWork.Users.SingleOrDefault(x => x.Email == participant.Email);
+              
+                    var getID = getUser.Id;
+                    var code = manager.GenerateEmailConfirmationTokenAsync(getID);
+                    var callbackUrl = Url.Action("ResetPassword", "Account", new { userID = getID, code = code }, protocol: Request.Url.Scheme);
+                    MailHelper mailer = new MailHelper();
+                    string subject = "Your Riipen account";
+                string body = "";
+                if (getUser.EmailConfirmed)
+                {
+                 
+                     body = "Please log in to view your contest: <a href=\"http:\\riipen.whatthefelix.com\" >Log in </a>";
+                }
+                else
+                {
+                    body = "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\"> Confirm </a>";
+                }
+               
+                string response = mailer.EmailFromArvixe(new Message(participant.Email, subject, body));
+
+            }
+
+
+
+
+            return View();
+        }
 
 
         [HttpPost]

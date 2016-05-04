@@ -48,13 +48,37 @@ namespace Riipen_SSD.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
+        
+            var user = await UserManager.FindByNameAsync(model.Email);
+            if (user != null)
+            {
+                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                {
+                    ViewBag.errorMessage = "You must have a confirmed email to log on.";
+                    return View();
+                }
+            }
+
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
 
 
                 case SignInStatus.Success:
-                    var user = await UserManager.FindAsync(model.Email, model.Password);
+                
+                  
+          
+                    //if (user.EmailConfirmed)
+                    //{
+
+                    //}
+                    //if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                    //{
+                    //    ViewBag.errorMessage = "Please confirm your email before logging in";
+                    //    return View();
+                    //}
+
+
                     var roles = await UserManager.GetRolesAsync(user.Id);
                     if (roles.Contains("Admin"))
                     {
