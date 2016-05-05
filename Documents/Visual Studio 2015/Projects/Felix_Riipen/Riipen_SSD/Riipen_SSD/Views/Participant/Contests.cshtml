@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Riipen_SSD.ViewModels.ParticipantViewModels.ContestTeamVM>
+﻿@model PagedList.IPagedList<Riipen_SSD.ViewModels.ParticipantViewModels.ContestTeamVM>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Contests";
@@ -53,17 +54,14 @@
     <table class="participant-contest-table">
         <thead>
             <tr>
-                @*<th>
-                    @Html.DisplayNameFor(model => model.TeamID)
-                </th>*@
                 <th>
-                    @Html.DisplayNameFor(model => model.TeamName)
+                    @Html.DisplayNameFor(model => model.First().TeamName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Score)
+                    @Html.DisplayNameFor(model => model.First().Score)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.JudgeNotSubmitted)
+                    @Html.DisplayNameFor(model => model.First().JudgeNotSubmitted)
                 </th>
 
             </tr>
@@ -72,9 +70,6 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.TeamID)
-                    </td>*@
                     <td>
                         @Html.ActionLink(item.TeamName, "TeamScores", new { teamID = item.TeamID, contestID = ViewBag.ContestID, yourTeamID = ViewBag.YourTeamID, totalScore=item.Score })
                     </td>
@@ -103,4 +98,11 @@
             }
         </tbody>
     </table>
+
+    <div class="PageDiv">
+        <div style="float: right;">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</div>
+        @Html.PagedListPager(Model, page => Url.Action("Contests",
+        new { page, contestID= ViewBag.ContestID,searchATeam = ViewBag.searchATeam, sortTeam = ViewBag.sortTeams }))
+    </div>
+
     </div>

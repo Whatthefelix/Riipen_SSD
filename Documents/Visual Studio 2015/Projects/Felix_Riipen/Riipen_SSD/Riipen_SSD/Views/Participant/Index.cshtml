@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Riipen_SSD.ViewModels.ParticipantViewModels.ParticipantContestVM>
+﻿@model PagedList.IPagedList<Riipen_SSD.ViewModels.ParticipantViewModels.ParticipantContestVM>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Index";
@@ -43,20 +44,14 @@
     <table>
         <thead>
             <tr>
-                @*<th>
-                    @Html.DisplayNameFor(model => model.TeamID)
-                </th>*@
-                @*<th>
-                    @Html.DisplayNameFor(model => model.ContestID)
-                </th>*@
                 <th>
-                    @Html.DisplayNameFor(model => model.ContestName)
+                    @Html.DisplayNameFor(model => model.First().ContestName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.StartTime)
+                    @Html.DisplayNameFor(model => model.First().StartTime)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Location)
+                    @Html.DisplayNameFor(model => model.First().Location)
                 </th>
 
             </tr>
@@ -65,12 +60,6 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.TeamID)
-                    </td>*@
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.ContestID)
-                    </td>*@
                     <td>
 
                         @Html.ActionLink(item.ContestName, "Contests", new { contestID = item.ContestID })
@@ -85,4 +74,13 @@
             }
         </tbody>
     </table>
+    <div class="PageDiv">
+
+    <div style="float: right;">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</div>
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page, searchAContest = ViewBag.searchAContest, sortContests = ViewBag.sortContests }))
     </div>
+
+
+    </div>
+
