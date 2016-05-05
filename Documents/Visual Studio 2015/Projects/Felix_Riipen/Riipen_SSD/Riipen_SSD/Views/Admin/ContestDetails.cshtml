@@ -4,7 +4,7 @@
     ViewBag.Title = "ContestDetails";
 }
 <link href="~/Styles/ContestDetailResponsiveTables.css" type="text/css" rel="stylesheet"/>
-<h2>ContestDetails</h2>                                                                             
+<h2>Contest details</h2>                                                                             
 
 <div>
     <hr />
@@ -44,12 +44,8 @@
     </dl>
 </div>
         <div class="contestScores">
-
         
-      
-        @*@Html.ActionLink("View Scores", "Contest", "Judge", new { contestID = ViewBag.ContestID })*@
-        
-        @Html.ActionLink("View Score", "Contest", "Judge", new { contestID = ViewBag.ContestID}, null)
+        @Html.ActionLink("View Score", "Contest", "Judge", new { contestID = ViewBag.ContestID}, new {@class = "btn btn-primary" })
             
         </div>
 <table class="judgeTable">
@@ -131,11 +127,11 @@
     
     @Html.AntiForgeryToken()
     @Html.HiddenFor(x=>Model.ContestID)
-    <button type="submit" class="btn btn-success">Publish Contest</button>
+    <button type="submit" class="btn btn-success publish-contest-btn">Publish Contest</button>
 }
    
 
-    <p>
-        @Html.ActionLink("Edit", "EditContest", new {  ContestID = Model.ContestID  }) |
-        @Html.ActionLink("Back to List", "Index")
+    <p class="button-group">
+        @Html.ActionLink("Edit", "EditContest", new {  ContestID = Model.ContestID  }, new { @class="btn btn-warning"}) 
+        @Html.ActionLink("Back to List", "Index", null,new { @class = "btn btn-info" })
     </p>

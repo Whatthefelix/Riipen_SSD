@@ -62,7 +62,6 @@ h2 {
 
 
 .create-contest-btn{
-
     margin-top:20px;
 }
 
@@ -80,6 +79,23 @@ h2 {
 
 
 
+/*admin pages*/
+.button-group{
+    margin-top:20px;
+    display:block
+}
 
+.publish-contest-btn{
+    margin-top:20px;
+}
 
+.participantTable{
+    margin-top:50px;
+}
 
+caption{
+    font-family:'Roboto', sans-serif;
+    font-weight:300;
+    font-size:22px;
+    line-height: 2em;
+}
