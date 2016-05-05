@@ -363,6 +363,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\background.jpg" />
+    <Content Include="Images\CSV_format.PNG" />
     <Content Include="Images\logo-orange.png" />
     <Content Include="JavaScript\Create_Edit_forms.js" />
     <Content Include="JavaScript\CSV_Parser_And_Displayer.js" />

@@ -15,6 +15,7 @@ using PagedList;
 using Riipen_SSD.BusinessLogic;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Riipen_SSD.ViewModels.AdminViewModels;
+using System.Threading.Tasks;
 
 namespace Riipen_SSD.Controllers
 {
@@ -108,7 +109,7 @@ namespace Riipen_SSD.Controllers
             return View(contestDetailVM);
         }
         [HttpPost]
-        public ActionResult SendEmails(int contestID)
+        public async Task<ActionResult> SendEmails(int contestID)
         {
             //on "publish" click, get list of judges and participants for this contest
             var contest = UnitOfWork.Contests.Get(contestID);
@@ -143,7 +144,8 @@ namespace Riipen_SSD.Controllers
                 var getUser = UnitOfWork.Users.SingleOrDefault(x => x.Email == participant.Email);
 
                 var getID = getUser.Id;
-                var code = UserManager.GenerateEmailConfirmationTokenAsync(getID);
+                var code = await UserManager.GenerateEmailConfirmationTokenAsync(getID);
+              
                 //var code = UserManager.GeneratePasswordResetTokenAsync(getID);
                 var callbackUrl = Url.Action("SetPassword", "Account", new { userID = getID, code = code }, protocol: Request.Url.Scheme);
                 MailHelper mailer = new MailHelper();
@@ -164,7 +166,7 @@ namespace Riipen_SSD.Controllers
 
 
 
-            return View();
+            return RedirectToAction("Index", "Admin");
         }
 
         [HttpGet]
@@ -176,6 +178,9 @@ namespace Riipen_SSD.Controllers
         [HttpPost]
         public ActionResult CreateContest(CreateContestVM contestVM)
         {
+            if(!ModelState.IsValid){
+                return View();
+            }
             // THIS SEEMS TO WORK BUT NEEDS SOME REFACTORING 
             var contest = new Contest()
             {
@@ -231,7 +236,7 @@ namespace Riipen_SSD.Controllers
             contest = UnitOfWork.Contests.Add(contest);
             UnitOfWork.Complete();
 
-            return View(contestVM);
+            return RedirectToAction("ContestDetails", "Admin", new { contestID = contest.Id });
         }
 
         // GET: EditContest

@@ -65,19 +65,6 @@ namespace Riipen_SSD.Controllers
 
 
                 case SignInStatus.Success:
-                
-                  
-          
-                    //if (user.EmailConfirmed)
-                    //{
-
-                    //}
-                    //if (!await UserManager.IsEmailConfirmedAsync(user.Id))
-                    //{
-                    //    ViewBag.errorMessage = "Please confirm your email before logging in";
-                    //    return View();
-                    //}
-
 
                     var roles = await UserManager.GetRolesAsync(user.Id);
                     if (roles.Contains("Admin"))
@@ -287,18 +274,42 @@ namespace Riipen_SSD.Controllers
         //    return View(result.Succeeded ? "ConfirmEmail" : "Error");
         //}
 
+        //[AllowAnonymous]
+        //public async Task<ActionResult> ConfirmEmail(string userId, string code)
+        //{
+        //    if (userId == null || code == null)
+        //    {
+        //        return View("Error");
+        //    }
+        //    var result = await UserManager.ConfirmEmailAsync(userId, code);
+        //    return View(result.Succeeded ? "ConfirmEmail" : "Error");
+        //}
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult> SetPassword(string code, string userId)
+        public  ActionResult SetPassword(string code, string userId)
         {   //code = confirm email code
             if(userId == null || code == null)
             {
                 return View("Error");
             }
-            var result = await UserManager.ConfirmEmailAsync(userId, code);
-            
+            SSD_RiipenEntities context = new SSD_RiipenEntities();
+
+            var user = context.AspNetUsers.Find(userId);
+            if (user != null)
+            {
+                user.EmailConfirmed = true;
+                context.SaveChanges();
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
             return View();
+            
         }
         [AllowAnonymous]
         [HttpPost]
@@ -310,8 +321,8 @@ namespace Riipen_SSD.Controllers
             }
             var user = await UserManager.FindByEmailAsync(model.Email); 
             var AddPassword = await UserManager.AddPasswordAsync(user.Id, model.Password);
-            user.EmailConfirmed = true;
-            return View();
+            
+            return RedirectToAction("Login", "Account", new { email = user.Email });
         }
  
         //

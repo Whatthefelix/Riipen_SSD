@@ -3,7 +3,7 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
-    ViewBag.Title = "DashBoard";
+    ViewBag.Title = "Dashboard";
 }
 <link href="~/Styles/AdminIndexResponsive.css" type="text/css" rel="stylesheet" />
 
@@ -76,7 +76,14 @@ else
                     @Html.DisplayFor(modelItem => item.Location)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Published)
+                    @if (item.Published)
+                    {
+                        @Html.Raw("Published");
+                    }
+                    else
+                    {
+                        @Html.Raw("Not Published");
+                    }
                 </td>
             </tr>
         }
