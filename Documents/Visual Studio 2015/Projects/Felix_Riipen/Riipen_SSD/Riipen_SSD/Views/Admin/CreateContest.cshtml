@@ -5,36 +5,39 @@
 
 @section scripts{
     <script src="~/JavaScript/Create_Edit_forms.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="~/Scripts/papaparse.min.js"></script>
+    <script src="~/JavaScript/CSV_Parser_And_Displayer.js"></script>
     <style>
         #excelPreview {
             display: none;
         }
 
-        input[type="file"]{
-            display:none;
+        input[type="file"] {
+            display: none;
         }
+
         .custom-file-upload {
-    border: 1px solid #ccc;
-    display: inline-block;
-    padding: 6px 12px;
-    cursor: pointer;
-}
-        .btn{
+            border: 1px solid #ccc;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+        }
+
+        .btn {
             margin-top: 5px;
             margin-bottom: 5px;
         }
-        .add-criteria{
-            margin-top:10px;
+
+        .add-criteria {
+            margin-top: 10px;
         }
-
-
     </style>
 
 }
 <h2>Add Contest</h2>
-<form id="ContestForm" role="form" method="post"  enctype="multipart/form-data">
+<form id="ContestForm" role="form" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <div class="contestName">
             <label for="contestName">Contest Name</label>
@@ -49,35 +52,37 @@
             <input type="text" class="form-control" name="Location" id="location" />
         </div>
         <div class="multi-field-wrapper">
-                <button type="button" class="add-criteria  btn btn-primary"> Add Criteria</button>
+            <button type="button" class="add-criteria  btn btn-primary"> Add Criteria</button>
             <div class="multi-fields" id="criteria-list">
                 <div class="multi-field criteria-list-item form-inline">
-                    
-                        <label class="sr-only" for="criteriaName">Criteria</label>
-                        <input type="text" class="form-control" name="criteria[0].name" placeholder="New Criteria" />
-                        <label class="sr-only" for="criteriaDescription">Description</label>
-                        <input type="text" class="form-control" name="criteria[0].description" placeholder="Criteria Description" />
+                    <label class="sr-only" for="criteriaName">Criteria</label>
+                    <input type="text" class="form-control" name="criteria[0].name" placeholder="New Criteria" />
+                    <label class="sr-only" for="criteriaDescription">Description</label>
+                    <input type="text" class="form-control" name="criteria[0].description" placeholder="Criteria Description" />
                     <button type="button" class="remove-field btn btn-warning"> Remove </button>
                 </div>
             </div>
         </div>
         <div class="multi-field-wrapper">
-                <button type="button" class="add-judge btn btn-primary"> Add Judge</button>
+            <button type="button" class="add-judge btn btn-primary"> Add Judge</button>
             <div class="multi-fields">
                 <div class="multi-field judge-list-item form-inline">
                     <input type="text" class="form-control" name="judges[0].firstname" placeholder="Judge First Name" />
-                    <input type="text" class="form-control" name="judges[0].lastname"  placeholder="Judge Last Name" />
+                    <input type="text" class="form-control" name="judges[0].lastname" placeholder="Judge Last Name" />
                     <input type="text" class="form-control" name="judges[0].email" placeholder="Judge Email" />
                     <button type="button" class="judge-remove-field btn btn-warning">Remove</button>
                 </div>
             </div>
         </div>
-        
-        <label for="file-upload" class="btn btn-primary">
-            Add teams and judges
-        </label>
-        <input id="file-upload" accept="csv" name="participants" type="file" data-val="true" data-val-required="File is required"/>
-        
+
+        <label for="file-upload" class="btn btn-primary">Upload Participants Using CSV</label>
+        <input id="file-upload" accept="csv" type="file" data-val="true" data-val-required="File is required" />
+
+        <div class="multi-field-wrapper">
+            <div class="multi-fields participants">
+            </div>
+        </div>
+
         <button type="submit" class="btn btn-success"> Create Contest</button>
     </div>
 </form>
