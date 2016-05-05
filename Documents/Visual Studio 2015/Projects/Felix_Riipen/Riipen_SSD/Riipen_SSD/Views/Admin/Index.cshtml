@@ -8,7 +8,7 @@
 <link href="~/Styles/AdminIndexResponsive.css" type="text/css" rel="stylesheet" />
 
 <p>
-    @Html.ActionLink("Create a Contest", "CreateContest")
+    @Html.ActionLink("Create a Contest", "CreateContest", null, new { @class ="btn btn-primary create-contest-btn" })
 </p>
 
 
@@ -16,8 +16,8 @@
 @using (Html.BeginForm("Index", "Admin", FormMethod.Get))
 {
     @Html.AntiForgeryToken()
-    <input type="text" name="searchAContest" value="@ViewBag.searchStringValue" placeholder="Search a contest" style="border:1px solid #ddd;margin-top:10px">
-    <button type="submit">Submit</button>
+    <input type="text" name="searchAContest" class="search-input-admin" value="@ViewBag.searchStringValue" placeholder="Search a contest" style="border:1px solid #ddd;margin-top:10px">
+    <button type="submit" class="btn btn-success">Submit</button>
 }
 
 
@@ -83,8 +83,8 @@ else
     </tbody>
 </table>
 
-
+<div class="PageDiv">
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
     @Html.PagedListPager(Model, page => Url.Action("Index",
 new { page, searchAContest = ViewBag.searchAContest, sortContests = ViewBag.sortContests }))
-    <span class="page-number">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </span>
+</div>

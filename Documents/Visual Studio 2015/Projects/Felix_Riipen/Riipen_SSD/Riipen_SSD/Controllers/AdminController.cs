@@ -34,7 +34,7 @@ namespace Riipen_SSD.Controllers
         {
            IEnumerable<AdminViewModels.IndexContestVM> adminContests = UnitOfWork.Contests.GetAll().Select(x => new AdminViewModels.IndexContestVM() { Name = x.Name, StartTime = x.StartTime.ToString(), Location = x.Location, Published = true, ContestID = x.Id });
             string searchStringValue = "";
-            string sortStringValue = "Latests contests";
+            string sortStringValue = "Latest contests";
 
             // if search input is not null or empty
             if (!String.IsNullOrEmpty(searchAContest))
