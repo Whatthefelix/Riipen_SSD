@@ -79,7 +79,7 @@ h2 {
 
 
 
-/*admin pages*/
+/*------------------------------ admin pages ---------------------------*/
 .button-group{
     margin-top:20px;
     display:block
@@ -98,4 +98,8 @@ caption{
     font-weight:300;
     font-size:22px;
     line-height: 2em;
+}
+
+.multi-field.criteria-list-item{
+    margin-top:10px;
 }
