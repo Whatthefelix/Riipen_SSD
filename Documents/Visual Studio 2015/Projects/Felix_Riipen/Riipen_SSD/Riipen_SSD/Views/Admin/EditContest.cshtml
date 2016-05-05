@@ -6,11 +6,6 @@
 
 
 
-<style>
-    #excelPreview {
-        display: none;
-    }
-</style>
 @section scripts{
     <script src="~/JavaScript/Create_Edit_forms.js"></script>
     @Scripts.Render("~/bundles/jqueryval")
@@ -130,8 +125,9 @@
 
         <label>
             Add teams and judges
-            <input type="file" accept="csv" name="participants" data-val="true" data-val-required="File is required" />
-        </label>
+                <input type="file" accept="csv" name="participants" data-val="true" data-val-required="File is required" />
+
+</label>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
