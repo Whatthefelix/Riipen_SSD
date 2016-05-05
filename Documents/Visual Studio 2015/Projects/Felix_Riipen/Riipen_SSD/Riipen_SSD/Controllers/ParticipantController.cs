@@ -163,7 +163,7 @@ namespace Riipen_SSD.Controllers
             IEnumerable<ContestTeamVM> newContestTeamVMList = ContestTeamVMList;
             newContestTeamVMList = newContestTeamVMList.ToPagedList(pageNumber, PAGE_SIZE);
 
-            return View(ContestTeamVMList);
+            return View(newContestTeamVMList);
 
         }
 
