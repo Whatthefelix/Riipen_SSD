@@ -1,6 +1,7 @@
 ﻿@model Riipen_SSD.ViewModels.SingleJudgeCriteriaScoreVM
 <link href="~/Styles/Judge_Participant.css" rel="stylesheet" />
 
+
 @{
     ViewBag.Title = "team";
 }
@@ -82,16 +83,27 @@
                                 var criteriaIdName = name + counter.ToString() + "].CriteriaID";
                                 var teamIdName = name + counter.ToString() + "].TeamID";
                                 var ScoreID = "Score" + counter.ToString();
+                                
                                 counter++;
                             }
 
 
                             <input name="@criteriaIdName" value="@item.CriteriaID" hidden />
                             <div style="position:relative" class="star-cb-group">
-                                <span style="float:left">Rotten</span>
+                               
+                                @*<span style="float:left">Rotten</span>*@@*<span>Riipe</span>*@<br>
+                                @{ 
+                                    var value = "1";
+                                    if (item.Score != null)
+                                    {
+                                        value = item.Score.ToString();
+                                    }
+                                }
+                                <input name="@scoreName" class="range" type="range"  min="1" max="7" step="1" value="@value" required><span class="side-score">@item.Score</span><br>
 
+                    
 
-                                @for (int i = 1; i < 8; i++)
+                                @*@for (int i = 1; i < 8; i++)
                                 {
                                     if (item.Score == i)
                                     {
@@ -105,8 +117,9 @@
 
                                     </div>
                                     checkValue = "";
-                                }
-                                <span>Riipe</span>
+                                }*@
+
+                                @*<span>Riipe</span>*@
                             </div>
                         </td>
                         <td>

@@ -164,4 +164,9 @@ footer{
         color:#224965;
         font-weight:bold;
     }
- 
+
+ .side-score{
+    display: inline-block;
+    font-size: 16px;
+    margin-left: 15px;
+ }

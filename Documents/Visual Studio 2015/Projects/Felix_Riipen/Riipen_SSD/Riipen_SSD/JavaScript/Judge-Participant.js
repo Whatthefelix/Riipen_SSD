@@ -1,4 +1,5 @@
 ﻿//judge form to dynamically show judge score
+/*
 function getScore(firstLoad) {
     var allScores = $('.radioScore');
     var length = allScores.length;
@@ -36,7 +37,7 @@ function getScore(firstLoad) {
     }
 
 }
-
+*/
 
 
 
@@ -44,7 +45,13 @@ $(function () {
   
     $(".body-content").removeClass('container').addClass('container-fluid');
     
-     firstLoad = true;
+    getFinalScore();
+
+    //show the fault when page load
+
+
+    /*
+    firstLoad = true;
     getScore(firstLoad);
     
 
@@ -67,7 +74,6 @@ $(function () {
         } else {
 
             var allStars = $(this).parent().siblings().children('i');
-            console.log(allStars.length);
             for (var i = 0; i < allStars.length; i++) {
 
                 if ($(allStars[i]).hasClass('hasChecked')) {
@@ -105,9 +111,6 @@ $(function () {
         var length = checkScores.length;
         var checkNumber = 0;
         for (var i = 0; i < checkScores.length; i++) {
-
-            console.log($(checkScores[i]));
-            console.log($(checkScores[i]).is(':checked'));
             if ($(checkScores[i]).is(':checked')) {
                 checkNumber++;
                 
@@ -124,7 +127,32 @@ $(function () {
         }
     });
    
+   */
+    //show range slide score for each criteria
+    $('.range').change(function () {
+      //  $(this).siblings('.side-score').html($(this).val());
+        getFinalScore();
+    });
 
+    
+    //get all score values
+    function getFinalScore() {
+        var sum = 0;
+        var allRanges = $('.range');
+      
+        for (var i = 0; i < allRanges.length; i++) {           
+            sum = parseInt(sum) + parseInt($(allRanges[i]).val());
+
+            $(allRanges[i]).siblings('.side-score').html($(allRanges[i]).val());
+
+
+        }
+
+        sum = sum / allRanges.length;
+        sum = Math.round(sum * 100) / 100;
+        sum = sum.toString() + "/7";
+        $(".yourScore").html(sum);
+    }
 
 });
 
