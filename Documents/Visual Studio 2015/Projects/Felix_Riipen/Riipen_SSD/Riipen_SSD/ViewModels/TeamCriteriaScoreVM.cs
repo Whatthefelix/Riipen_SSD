@@ -22,16 +22,18 @@ namespace Riipen_SSD.ViewModels
         public double? FinalScore { get; set; }
         [DisplayName("Status")]
         public int? JudgeNotSubmitted { get; set; }
+        public List<string> NamesOfJudgeNotSubmitted { get; set; }
         public bool Submitted;
 
         public TeamCriteriaScoreVM() { }
-        public TeamCriteriaScoreVM(int TeamID, int ContestID, string TeamName,double? YourCurrentScore, double? FinalScore, int? JudgeNotSubmitted, bool Submitted) {
+        public TeamCriteriaScoreVM(int TeamID, int ContestID, string TeamName,double? YourCurrentScore, double? FinalScore, int? JudgeNotSubmitted,List<string> NamesOfJudgeNotSubmitted, bool Submitted) {
             this.TeamID = TeamID;
             this.ContestID = ContestID;
             this.TeamName = TeamName;
             this.YourCurrentScore = YourCurrentScore;
             this.FinalScore = FinalScore;
             this.JudgeNotSubmitted = JudgeNotSubmitted;
+            this.NamesOfJudgeNotSubmitted = NamesOfJudgeNotSubmitted;
             this.Submitted = Submitted;
         }
     }

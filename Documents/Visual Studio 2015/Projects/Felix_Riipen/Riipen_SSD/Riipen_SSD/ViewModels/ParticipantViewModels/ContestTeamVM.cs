@@ -15,13 +15,15 @@ namespace Riipen_SSD.ViewModels.ParticipantViewModels
         public double? Score { get; set; }
         [DisplayName("Status")]
         public int? JudgeNotSubmitted { get; set; }
+        public List<string> NamesOfUnsubmittedJudges { get; set; }
 
         public ContestTeamVM() { }
-        public ContestTeamVM(int TeamID, string TeamName, double? Score, int? JudgeNotSubmitted) {
+        public ContestTeamVM(int TeamID, string TeamName, double? Score, int? JudgeNotSubmitted, List<string> NamesOfUnsubmittedJudges) {
             this.TeamID = TeamID;
             this.TeamName = TeamName;
             this.Score = Score;
             this.JudgeNotSubmitted = JudgeNotSubmitted;
+            this.NamesOfUnsubmittedJudges = NamesOfUnsubmittedJudges;
         }
     }
 }

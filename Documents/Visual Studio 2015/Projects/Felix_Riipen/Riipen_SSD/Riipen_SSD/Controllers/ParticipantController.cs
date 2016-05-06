@@ -116,18 +116,49 @@ namespace Riipen_SSD.Controllers
                     CurrentScore = Math.Round((double)getAllAvailableScoreForATeam.Average(x => x.Score), 2);
                 }
 
-                //get number of judges not submitted
-                List<CriteriaScore> getSubmitJudges = context.CriteriaScores.Where(ci => ci.ContestId == contestID && ci.TeamId == team.Id && ci.Submitted).ToList();
+             
+                //get unsubmitted judge number for a team
+                //get the number of criteria for a contest               
+                List<CriteriaScore> getSubmitJudges = context.CriteriaScores.Where(ci => ci.ContestId == contestID && ci.TeamId == team.Id && (bool)ci.Submitted).GroupBy(x => x.Judge_ID).Select(x => x.FirstOrDefault()).ToList();
+
                 if (getContestCriteria.Count() != 0)
                 {
-                    judgeNotSubmit = judgesNumber - (getSubmitJudges.Count()) / getContestCriteria.Count();
+                    judgeNotSubmit = judgesNumber - getSubmitJudges.Count();
                 }
                 else
                 {
                     judgeNotSubmit = judgesNumber;
                 }
 
-                ContestTeamVMList.Add(new ContestTeamVM(team.Id, team.Name, CurrentScore, judgeNotSubmit));
+
+                //get all the unsubmitted judge names
+                List<string> namesOfJudgeNotSubmitted = new List<string>();
+
+                //get all judges for a contest
+                var contestJudges = context.ContestJudges.Where(c => c.ContestId == team.ContestId).ToList();
+
+                //get the unsubmited 
+                List<ContestJudge> unsubmitedJudges = new List<ContestJudge>();
+
+                if (getSubmitJudges.Count() == 0)
+                {
+                    unsubmitedJudges = contestJudges;
+                }
+                else
+                {
+                    unsubmitedJudges = (from cj in contestJudges
+                                        from g in getSubmitJudges
+                                        where cj.JudgeUserId != g.Judge_ID
+                                        select cj).ToList();
+                }
+
+                //get the unsubmitted age
+                foreach (var item in unsubmitedJudges)
+                {
+                    namesOfJudgeNotSubmitted.Add(context.AspNetUsers.Find(item.JudgeUserId).Email);
+                }
+
+                ContestTeamVMList.Add(new ContestTeamVM(team.Id, team.Name, CurrentScore, judgeNotSubmit,namesOfJudgeNotSubmitted));
                 CurrentScore = null;
                 judgeNotSubmit = null;
             }

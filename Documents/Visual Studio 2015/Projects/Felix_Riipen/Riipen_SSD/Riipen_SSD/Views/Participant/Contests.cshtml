@@ -92,6 +92,12 @@
                         else
                         {
                             <span>Waiting for @Html.DisplayFor(modelItem => item.JudgeNotSubmitted) Judges</span>
+                            <div>
+                                @foreach (var judgename in item.NamesOfUnsubmittedJudges)
+                                {
+                                    <span>@judgename</span><br />
+                                }
+                            </div>
                         }
                     </td>
                 </tr>

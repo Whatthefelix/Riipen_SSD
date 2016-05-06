@@ -37,11 +37,9 @@ h2 {
 .jumbotron{
     margin-top:80px;
     background-image:url("/Images/background.jpg");
-    height:400px;
-   
-   
- 
-  
+    background-repeat:no-repeat;
+    background-size:cover;
+    height:400px; 
 }	
 
 .jumbotron h1{
