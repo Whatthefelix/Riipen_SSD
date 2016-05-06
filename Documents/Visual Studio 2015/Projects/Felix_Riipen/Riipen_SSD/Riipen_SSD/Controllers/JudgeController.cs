@@ -211,7 +211,7 @@ namespace Riipen_SSD.Controllers
 
             }else
             {
-                teamCriteriaScoreVMList = teamCriteriaScoreVMList.OrderByDescending(t => t.JudgeNotSubmitted).ThenBy(t=>t.TeamName).ToList();
+                teamCriteriaScoreVMList = teamCriteriaScoreVMList.OrderBy(t => t.JudgeNotSubmitted).ThenBy(t=>t.TeamName).ToList();
             }
 
             ViewBag.searchStringValue = searchStringValue;

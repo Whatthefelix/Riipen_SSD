@@ -74,7 +74,6 @@ namespace Riipen_SSD.Controllers
         }
 
 
-
         public ActionResult Contests(int contestID, String searchATeam, String sortTeams, int? page)
         {
             List<ContestTeamVM> ContestTeamVMList = new List<ContestTeamVM>();
@@ -181,7 +180,6 @@ namespace Riipen_SSD.Controllers
             else
             {
                 ContestTeamVMList = ContestTeamVMList.OrderByDescending(c => c.TeamID == yourTeamID).ThenBy(c=>c.JudgeNotSubmitted).ThenBy(c=>c.Score).ToList();
-
             }
 
             ViewBag.searchStringValue = searchStringValue;
@@ -196,7 +194,6 @@ namespace Riipen_SSD.Controllers
             newContestTeamVMList = newContestTeamVMList.ToPagedList(pageNumber, PAGE_SIZE);
 
             return View(newContestTeamVMList);
-
         }
 
 
