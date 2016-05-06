@@ -7,6 +7,8 @@ using System.Web;
 
 namespace Riipen_SSD.AdminViewModels
 {
+    [DelimitedRecord(",")]
+    [IgnoreFirst(1)]
     public class ParticipantVM
     {
         [Display(Name ="First Name")]
