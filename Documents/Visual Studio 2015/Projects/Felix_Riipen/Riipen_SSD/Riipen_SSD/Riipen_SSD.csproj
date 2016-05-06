@@ -350,6 +350,7 @@
     <Compile Include="ViewModels\ParticipantViewModels\TeamCriteriaVM.cs" />
     <Compile Include="ViewModels\ParticipantViewModels\TeamCriteriaVMList.cs" />
     <Compile Include="ViewModels\ParticipantViewModels\TeamFeedbackVM.cs" />
+    <Compile Include="ViewModels\ParticipantViewModels\TeamMemberVM.cs" />
     <Compile Include="ViewModels\SingleCriteriaScoreVM.cs" />
     <Compile Include="ViewModels\SingleJudgeCriteriaScoreVM.cs" />
     <Compile Include="ViewModels\TeamCriteriaScoreVM.cs" />
@@ -468,6 +469,7 @@
     <Content Include="Views\Participant\TeamScores.cshtml" />
     <Content Include="Views\Participant\CriteriaDetails.cshtml" />
     <Content Include="Views\Account\SetPassword.cshtml" />
+    <Content Include="Views\Participant\AllTeamMembersForATeam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

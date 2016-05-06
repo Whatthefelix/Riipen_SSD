@@ -318,5 +318,21 @@ namespace Riipen_SSD.Controllers
 
             return View(criteriaDetailVMList);
         }
+
+
+        public ActionResult AllTeamMembersForATeam(int teamID)
+        {          
+            List<TeamMemberVM> TeamMemberVMList = context.Teams.Find(teamID).AspNetUsers.Select(x=> new TeamMemberVM {
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                Email =x.Email
+            }).ToList();
+
+            ViewBag.TeamName = context.Teams.Find(teamID).Name;
+
+            return View(TeamMemberVMList);
+        }
+
+
     }
 }
