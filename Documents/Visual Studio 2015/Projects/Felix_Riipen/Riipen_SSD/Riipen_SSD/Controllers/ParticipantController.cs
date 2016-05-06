@@ -62,7 +62,6 @@ namespace Riipen_SSD.Controllers
                 participantVMList = participantVMList.OrderByDescending(p => p.StartTime).ToList();
             }
 
-
             ViewBag.SearchStringValue = searchStringValue;
             ViewBag.SortStringValue = sortStringValue;
 
@@ -104,19 +103,22 @@ namespace Riipen_SSD.Controllers
             double? CurrentScore = null;
             int? judgeNotSubmit = null;
 
-           
+            //check this contest has set viewable false
+            bool viewable = (bool)context.Contests.Find(contestID).PubliclyViewable;
+
             foreach (var team in teams)
             {
-                //get current score for a team
-                List<CriteriaScore> getAllAvailableScoreForATeam = context.CriteriaScores.Where(cs => cs.ContestId == contestID && cs.TeamId == team.Id && cs.Submitted).ToList();
-
-
-                if (getAllAvailableScoreForATeam.Count() != 0)
+                if (viewable)
                 {
-                    CurrentScore = Math.Round((double)getAllAvailableScoreForATeam.Average(x => x.Score), 2);
-                }
+                    //get current score for a team             
+                    List<CriteriaScore> getAllAvailableScoreForATeam = context.CriteriaScores.Where(cs => cs.ContestId == contestID && cs.TeamId == team.Id && cs.Submitted).ToList();
 
-             
+                    if (getAllAvailableScoreForATeam.Count() != 0)
+                    {
+                        CurrentScore = Math.Round((double)getAllAvailableScoreForATeam.Average(x => x.Score), 2);
+                    }
+                }
+                            
                 //get unsubmitted judge number for a team
                 //get the number of criteria for a contest               
                 List<CriteriaScore> getSubmitJudges = context.CriteriaScores.Where(ci => ci.ContestId == contestID && ci.TeamId == team.Id && (bool)ci.Submitted).GroupBy(x => x.Judge_ID).Select(x => x.FirstOrDefault()).ToList();
@@ -129,7 +131,6 @@ namespace Riipen_SSD.Controllers
                 {
                     judgeNotSubmit = judgesNumber;
                 }
-
 
                 //get all the unsubmitted judge names
                 List<string> namesOfJudgeNotSubmitted = new List<string>();
@@ -152,7 +153,7 @@ namespace Riipen_SSD.Controllers
                                         select cj).ToList();
                 }
 
-                //get the unsubmitted age
+                //get the unsubmitted judge names
                 foreach (var item in unsubmitedJudges)
                 {
                     namesOfJudgeNotSubmitted.Add(context.AspNetUsers.Find(item.JudgeUserId).Email);
@@ -208,6 +209,10 @@ namespace Riipen_SSD.Controllers
 
             double? CurrentScore = null;
 
+
+            //check this contest has set viewable false
+            bool viewable = (bool)context.Contests.Find(contestID).PubliclyViewable;
+
             //get all criteria for a team 
             List<Criterion> getContestCriteria = _unitOfWork.Contests.Get(contestID).Criteria.ToList();
 
@@ -215,9 +220,14 @@ namespace Riipen_SSD.Controllers
             List<CriteriaScore> getAllCriteriaScoreForOneTeam = context.CriteriaScores.Where(cs => cs.TeamId == teamID && cs.ContestId == contestID&&(bool)cs.Submitted).ToList();
 
             //get the current score (overall) of all criteria for a team in a contest
-            if (getAllCriteriaScoreForOneTeam.Count() != 0) {
-                CurrentScore = getAllCriteriaScoreForOneTeam.Average(x => x.Score);
+            if (viewable)
+            {
+                if (getAllCriteriaScoreForOneTeam.Count() != 0)
+                {
+                    CurrentScore = getAllCriteriaScoreForOneTeam.Average(x => x.Score);
+                }
             }
+          
 
             //get each score for each criteria 
             foreach (var item in getContestCriteria) {
@@ -226,8 +236,12 @@ namespace Riipen_SSD.Controllers
 
                 double? getAverageScoreForEachCriteria = null;
 
-                if (getAllScoreForOneCriteria.Count() != 0) {
-                    getAverageScoreForEachCriteria = Math.Round((double)getAllScoreForOneCriteria.Average(x => x.Score), 2);
+                if (viewable)
+                {
+                    if (getAllScoreForOneCriteria.Count() != 0)
+                    {
+                        getAverageScoreForEachCriteria = Math.Round((double)getAllScoreForOneCriteria.Average(x => x.Score), 2);
+                    }
                 }
 
                 teamCriterVMlist.Add(new TeamCriteriaVM(item.Id, item.Name, item.Description, getAverageScoreForEachCriteria));                

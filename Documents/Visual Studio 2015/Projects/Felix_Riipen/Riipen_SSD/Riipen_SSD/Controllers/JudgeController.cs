@@ -150,9 +150,8 @@ namespace Riipen_SSD.Controllers
                                         where cj.JudgeUserId != g.Judge_ID
                                         select cj).ToList();
                 }
-              
-                
-                //get the unsubmitted age
+                      
+                //get the unsubmitted name
                 foreach(var item in unsubmitedJudges)
                 {
                     namesOfJudgeNotSubmitted.Add(context.AspNetUsers.Find(item.JudgeUserId).Email);

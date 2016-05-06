@@ -84,7 +84,8 @@
           <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Location" Type="varchar" MaxLength="255" />
           <Property Name="StartTime" Type="datetime" />
-          <Property Name="Published" Type="bit" />
+          <Property Name="Published" Type="bit" Nullable="false" />
+          <Property Name="PubliclyViewable" Type="bit" />
         </EntityType>
         <EntityType Name="Criteria">
           <Key>
@@ -483,10 +484,11 @@
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Location" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="StartTime" Type="DateTime" Precision="3" />
-          <Property Name="Published" Type="Boolean" />
+          <Property Name="Published" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="ContestJudges" Relationship="Self.FK__ContestJu__Conte__4F32B74A" FromRole="Contests" ToRole="ContestJudges" />
           <NavigationProperty Name="Criteria" Relationship="Self.FK__Criteria__Contes__59B045BD" FromRole="Contests" ToRole="Criteria" />
           <NavigationProperty Name="Teams" Relationship="Self.FK__Teams__ContestId__5303482E" FromRole="Contests" ToRole="Teams" />
+          <Property Name="PubliclyViewable" Type="Boolean" />
         </EntityType>
         <EntityType Name="Criterion">
           <Key>
@@ -821,6 +823,7 @@
           <EntitySetMapping Name="Contests">
             <EntityTypeMapping TypeName="SSD_RiipenModel.Contest">
               <MappingFragment StoreEntitySet="Contests">
+                <ScalarProperty Name="PubliclyViewable" ColumnName="PubliclyViewable" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Location" ColumnName="Location" />

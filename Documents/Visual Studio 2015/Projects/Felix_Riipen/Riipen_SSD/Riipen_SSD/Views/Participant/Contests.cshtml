@@ -86,11 +86,11 @@
 
                     </td>
                     <td>
-                        @if (item.JudgeNotSubmitted == 0)
+                        @if (item.JudgeNotSubmitted == 0 && item.Score!=null)
                         {
                             <span>Final</span>
                         }
-                        else
+                        else if(item.JudgeNotSubmitted!=0)
                         {
                             <span>Waiting for @Html.DisplayFor(modelItem => item.JudgeNotSubmitted) Judges</span>
                             <div>
