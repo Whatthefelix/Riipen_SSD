@@ -74,15 +74,20 @@ namespace Riipen_SSD.Controllers
         }
 
 
-        public ActionResult Contests(int contestID, String searchATeam, String sortTeams, int? page)
+        public ActionResult Contests(int? contestID, String searchATeam, String sortTeams, int? page)
         {
+            if(contestID == null)
+            {
+                return RedirectToAction("index", "participant");
+            }
+
             List<ContestTeamVM> ContestTeamVMList = new List<ContestTeamVM>();
 
             string searchStringValue = "";
             string sortStringValue = "Status";
 
             //get all criteria for one contset
-            List<Criterion> getContestCriteria = _unitOfWork.Contests.Get(contestID).Criteria.ToList();
+            List<Criterion> getContestCriteria = _unitOfWork.Contests.Get(contestID.Value).Criteria.ToList();
 
             //Get all teams in one contest
             var teams = context.Teams.Where(t => t.ContestId == contestID).ToList();
@@ -198,8 +203,12 @@ namespace Riipen_SSD.Controllers
 
 
 
-        public ActionResult TeamScores(int teamID, int contestID, int yourTeamID, double? totalScore)
+        public ActionResult TeamScores(int? teamID, int? contestID, int? yourTeamID, double? totalScore)
         {
+            if(teamID == null || contestID == null || yourTeamID == null)
+            {
+                return RedirectToAction("Index", "Participant");
+            }
             TeamCriteriaVMList teamCriteriaVMListComplete = new TeamCriteriaVMList();
 
             List<TeamCriteriaVM> teamCriterVMlist = new List<TeamCriteriaVM>();
@@ -211,7 +220,7 @@ namespace Riipen_SSD.Controllers
             bool viewable = (bool)context.Contests.Find(contestID).PubliclyViewable;
 
             //get all criteria for a team 
-            List<Criterion> getContestCriteria = _unitOfWork.Contests.Get(contestID).Criteria.ToList();
+            List<Criterion> getContestCriteria = _unitOfWork.Contests.Get(contestID.Value).Criteria.ToList();
 
             //get all submitted criteria scores for one team
             List<CriteriaScore> getAllCriteriaScoreForOneTeam = context.CriteriaScores.Where(cs => cs.TeamId == teamID && cs.ContestId == contestID&&(bool)cs.Submitted).ToList();
@@ -279,8 +288,8 @@ namespace Riipen_SSD.Controllers
             teamCriteriaVMListComplete.teamCriteriaVMlist = teamCriterVMlist;
             teamCriteriaVMListComplete.teamFeedbackVMList = teamFeedbackVMList;
 
-            ViewBag.TeamName = _unitOfWork.Teams.Get(teamID).Name;
-            ViewBag.ContestName = _unitOfWork.Contests.Get(contestID).Name;
+            ViewBag.TeamName = _unitOfWork.Teams.Get(teamID.Value).Name;
+            ViewBag.ContestName = _unitOfWork.Contests.Get(contestID.Value).Name;
             ViewBag.TeamID = teamID;
             ViewBag.ContestID = contestID;
             ViewBag.TotalScore = totalScore;
@@ -288,8 +297,11 @@ namespace Riipen_SSD.Controllers
         }
 
 
-        public ActionResult CriteriaDetails(int teamID, int contestID, int criteriaID) {
-
+        public ActionResult CriteriaDetails(int? teamID, int? contestID, int? criteriaID) {
+            if (teamID == null || contestID == null || criteriaID == null)
+            {
+                return RedirectToAction("Index", "Participant");
+            }
             //get all scores for one criteria from all judges
             var getAllScoresForOneCriteria = context.CriteriaScores.Where(cs => cs.TeamId == teamID && cs.ContestId == contestID && cs.CriteriaId == criteriaID).ToList();
             List<CriteriaDetailVM> criteriaDetailVMList = new List<CriteriaDetailVM>();
@@ -331,15 +343,19 @@ namespace Riipen_SSD.Controllers
         }
 
 
-        public ActionResult AllTeamMembersForATeam(int teamID)
+        public ActionResult AllTeamMembersForATeam(int? teamID)
         {          
-            List<TeamMemberVM> TeamMemberVMList = context.Teams.Find(teamID).AspNetUsers.Select(x=> new TeamMemberVM {
+            if(teamID == null)
+            {
+                return RedirectToAction("Index", "Participant");
+            }
+            List<TeamMemberVM> TeamMemberVMList = context.Teams.Find(teamID.Value).AspNetUsers.Select(x=> new TeamMemberVM {
                 FirstName = x.FirstName,
                 LastName = x.LastName,
                 Email =x.Email
             }).ToList();
 
-            ViewBag.TeamName = context.Teams.Find(teamID).Name;
+            ViewBag.TeamName = context.Teams.Find(teamID.Value).Name;
 
             return View(TeamMemberVMList);
         }
