@@ -10,19 +10,24 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Riipen_SSD.Models;
 using System.Web.Security;
+using Riipen_SSD.BusinessLogic;
+using Riipen_SSD.DAL;
+using Riipen_SSD.AdminViewModels;
 
 namespace Riipen_SSD.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        private ApplicationSignInManager SignInManager;
         private ApplicationUserManager UserManager;
+        private IUnitOfWork UnitOfWork;
+        private ApplicationSignInManager SignInManager;
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IUnitOfWork unitOfWork)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            UnitOfWork = unitOfWork;
         }
 
         //
@@ -62,8 +67,6 @@ namespace Riipen_SSD.Controllers
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
-
-
                 case SignInStatus.Success:
 
                     var roles = await UserManager.GetRolesAsync(user.Id);
@@ -215,6 +218,20 @@ namespace Riipen_SSD.Controllers
                 // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
                 // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
                 // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+
+               
+
+             
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+
+       
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userID = user.Id, code = code }, protocol: Request.Url.Scheme);
+                MailHelper mailer = new MailHelper();
+                string subject = "Riipen password reset";
+                string body = "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>";
+                string response = mailer.EmailFromArvixe(new Message(model.Email, subject, body));
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
+
             }
 
             // If we got this far, something failed, redisplay form
