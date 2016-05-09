@@ -225,5 +225,22 @@ footer{
     overflow: hidden;
     text-overflow: ellipsis; 
 }
+    .team-members-table td{
+        display: inline;
+        border-style: none !important;
+    }
+
+    .team-members-table tr {
+        border-bottom: 1px solid;
+    }
+
+    h2 {
+        font-size:16px;
+        margin-bottom:20px
+
+    }
+
+
 
 }
+

@@ -11,7 +11,7 @@ namespace Riipen_SSD.ViewModels.ParticipantViewModels
         [DisplayName("First name")]
         public string FirstName { get; set; }
 
-        [DisplayName("Second name")]
+        [DisplayName("Last name")]
         public string LastName { get; set; }
 
         public string Email { get; set; }

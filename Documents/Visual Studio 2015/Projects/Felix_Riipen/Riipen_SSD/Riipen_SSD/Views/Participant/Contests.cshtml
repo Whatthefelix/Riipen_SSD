@@ -93,7 +93,7 @@
                         else if(item.JudgeNotSubmitted!=0)
                         {
                             <span>Waiting for @Html.DisplayFor(modelItem => item.JudgeNotSubmitted) Judges</span>
-                            <div>
+                            <div class="text-overflow-small">
                                 @foreach (var judgename in item.NamesOfUnsubmittedJudges)
                                 {
                                     <span>@judgename</span><br />
