@@ -15,7 +15,7 @@
     if (sum != 0) {
         sum = sum / checkNum;
         sum = Math.round(sum * 100) / 100;
-        sum = sum.toString() + "/7";
+        sum = sum.toString() + " / 7";
         ; $(".yourScore").html(sum);
 
     }
