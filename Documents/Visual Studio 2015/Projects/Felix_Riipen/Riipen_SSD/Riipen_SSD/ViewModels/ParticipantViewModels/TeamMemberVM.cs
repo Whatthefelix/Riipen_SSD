@@ -16,13 +16,18 @@ namespace Riipen_SSD.ViewModels.ParticipantViewModels
 
         public string Email { get; set; }
 
+        [DisplayName("Website")]
+        public String RiipenUrl { get; set; }
+
+
         public TeamMemberVM() { }
 
-        public TeamMemberVM(string FirstName, string LastName, string Email)
+        public TeamMemberVM(string FirstName, string LastName, string Email, String RiipenUrl)
         {
             this.FirstName = FirstName;
             this.LastName = LastName;
             this.Email = Email;
+            this.RiipenUrl = RiipenUrl;
         }
 
     }

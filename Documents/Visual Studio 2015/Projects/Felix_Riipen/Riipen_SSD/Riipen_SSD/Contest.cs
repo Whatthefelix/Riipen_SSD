@@ -11,7 +11,7 @@ namespace Riipen_SSD
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
+    
     public partial class Contest
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -25,10 +25,9 @@ namespace Riipen_SSD
         public int Id { get; set; }
         public string Name { get; set; }
         public string Location { get; set; }
-        [DisplayName("Start Time")]
         public Nullable<System.DateTime> StartTime { get; set; }
         public bool Published { get; set; }
-        public Nullable<bool> PubliclyViewable { get; set; }
+        public bool PubliclyViewable { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ContestJudge> ContestJudges { get; set; }

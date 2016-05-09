@@ -17,7 +17,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Email)
         </th>
-        <th></th>
+        <th>@Html.DisplayNameFor(model => model.RiipenUrl)</th>
         <th></th>
     </tr>
 
@@ -31,6 +31,29 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+    
+            @{
+                var url = "N/A";
+
+              
+
+
+
+             }
+            
+            @if (item.RiipenUrl != null && item.RiipenUrl.ToUpper().Contains("HTTP"))
+            {
+                url = item.RiipenUrl;
+            }
+            else
+            {
+
+                url = "http://" + item.RiipenUrl;
+            }
+            <a href="@url">@item.RiipenUrl</a>
+           
         </td>
     </tr>
 

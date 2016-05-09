@@ -352,7 +352,8 @@ namespace Riipen_SSD.Controllers
             List<TeamMemberVM> TeamMemberVMList = context.Teams.Find(teamID.Value).AspNetUsers.Select(x=> new TeamMemberVM {
                 FirstName = x.FirstName,
                 LastName = x.LastName,
-                Email =x.Email
+                Email =x.Email,
+                RiipenUrl = x.RiipenUrl              
             }).ToList();
 
             ViewBag.TeamName = context.Teams.Find(teamID.Value).Name;
