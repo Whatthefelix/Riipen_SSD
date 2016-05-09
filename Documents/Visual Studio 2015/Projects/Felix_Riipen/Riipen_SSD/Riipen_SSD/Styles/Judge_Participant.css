@@ -171,7 +171,7 @@ footer{
  }
 
  .text-overflow {
-    width: 10em;
+    width: 5em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis; 
@@ -211,5 +211,19 @@ footer{
     .side-score {
         font-size: 120%;
     }
+
+     .text-overflow-small {
+    width: 8em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+    .text-overflow-large {
+    width: 16em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
 
 }

@@ -133,10 +133,10 @@ else if (User.IsInRole("Admin"))
                         else
                         {
                             <span>Waiting for @Html.DisplayFor(modelItem => item.JudgeNotSubmitted) judges</span>
-                            <div>
-                                @foreach(var judgename in item.NamesOfJudgeNotSubmitted)
+                            <div class="text-overflow-small">
+                                @foreach(var judgeName in item.NamesOfJudgeNotSubmitted)
                                 {
-                                    <span>@judgename</span><br />
+                                    <span>@judgeName</span><br />
                                 }
                             </div>
                         }
