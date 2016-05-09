@@ -65,6 +65,7 @@ namespace Riipen_SSD.Controllers
                 adminContests = adminContests.OrderBy(a => a.StartTime);
             }
 
+
             ViewBag.SearchStringValue = searchStringValue;
             ViewBag.SortStringValue = sortStringValue;
 
