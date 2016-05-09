@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 
 namespace Riipen_SSD.Controllers
 {
+    
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
@@ -77,96 +78,114 @@ namespace Riipen_SSD.Controllers
         }
 
         [HttpGet]
-        public ActionResult ContestDetails(int contestID)
+        public ActionResult ContestDetails(int? contestID)
         {
-            var contest = UnitOfWork.Contests.Get(contestID);
-            var judges = contest.ContestJudges.Select(x => new JudgeVM()
+            if(contestID != null)
             {
-                FirstName = x.AspNetUser.FirstName,
-                LastName = x.AspNetUser.LastName,
-                Email = x.AspNetUser.Email
-            });
-            var participants = new List<ParticipantVM>();
-            foreach (var team in contest.Teams)
+                var contest = UnitOfWork.Contests.Get(contestID.Value);
+                var judges = contest.ContestJudges.Select(x => new JudgeVM()
+                {
+                    FirstName = x.AspNetUser.FirstName,
+                    LastName = x.AspNetUser.LastName,
+                    Email = x.AspNetUser.Email
+                });
+                var participants = new List<ParticipantVM>();
+                foreach (var team in contest.Teams)
+                {
+                    var participantsFromTeam = team.AspNetUsers.Select(x => new ParticipantVM() { Email = x.Email, FirstName = x.FirstName, LastName = x.LastName, TeamName = team.Name });
+                    participants.AddRange(participantsFromTeam);
+                }
+
+                var contestDetailVM = new ContestDetailsVM()
+                {
+                    ContestID = contestID.Value,
+                    Name = contest.Name,
+                    StartTime = contest.StartTime.ToString(),
+                    Location = contest.Location,
+                    Published = true,
+                    Participants = participants,
+                    Judges = judges,
+                };
+
+                ViewBag.ContestID = contestID;
+
+                return View(contestDetailVM);
+            }
+            else
             {
-                var participantsFromTeam = team.AspNetUsers.Select(x => new ParticipantVM() { Email = x.Email, FirstName = x.FirstName, LastName = x.LastName, TeamName = team.Name });
-                participants.AddRange(participantsFromTeam);
+                return RedirectToAction("Index", "admin");
             }
 
-            var contestDetailVM = new ContestDetailsVM()
-            {
-                ContestID = contestID,
-                Name = contest.Name,
-                StartTime = contest.StartTime.ToString(),
-                Location = contest.Location,
-                Published = true,
-                Participants = participants,
-                Judges = judges,
-            };
-
-            ViewBag.ContestID = contestID;
-
-            return View(contestDetailVM);
+           
         }
         [HttpPost]
-        public async Task<ActionResult> SendEmails(int contestID)
+        public async Task<ActionResult> SendEmails(int? contestID)
         {
-            //on "publish" click, get list of judges and participants for this contest
-            var contest = UnitOfWork.Contests.Get(contestID);
-            var judges = contest.ContestJudges.Select(x => new JudgeVM()
+            
+            if(contestID != null)
             {
-                FirstName = x.AspNetUser.FirstName,
-                LastName = x.AspNetUser.LastName,
-                Email = x.AspNetUser.Email
-            });
-            var participants = new List<ParticipantVM>();
-            foreach (var team in contest.Teams)
-            {
-                var participantsFromTeam = team.AspNetUsers.Select(x => new ParticipantVM() { Email = x.Email, FirstName = x.FirstName, TeamName = team.Name });
-                participants.AddRange(participantsFromTeam);
-            }
-
-            var contestDetailVM = new ContestDetailsVM()
-            {
-                ContestID = contestID,
-                Name = contest.Name,
-                StartTime = contest.StartTime.ToString(),
-                Location = contest.Location,
-                Published = true,
-                Participants = participants,
-                Judges = judges,
-            };
-   
-
-
-            foreach (var participant in contestDetailVM.Participants)
-            {
-                var getUser = UnitOfWork.Users.SingleOrDefault(x => x.Email == participant.Email);
-
-                var getID = getUser.Id;
-                var code = await UserManager.GenerateEmailConfirmationTokenAsync(getID);
-              
-                //var code = UserManager.GeneratePasswordResetTokenAsync(getID);
-                var callbackUrl = Url.Action("SetPassword", "Account", new { userID = getID, code = code }, protocol: Request.Url.Scheme);
-                MailHelper mailer = new MailHelper();
-                string subject = "Your Riipen account";
-                string body = "";
-                if (getUser.EmailConfirmed)
+                //on "publish" click, get list of judges and participants for this contest
+                var contest = UnitOfWork.Contests.Get(contestID.Value);
+                var judges = contest.ContestJudges.Select(x => new JudgeVM()
                 {
-                    body = "Please log in to view your contest: <a href=\"http:\\riipen.whatthefelix.com\" >Log in </a>";
-                }
-                else
+                    FirstName = x.AspNetUser.FirstName,
+                    LastName = x.AspNetUser.LastName,
+                    Email = x.AspNetUser.Email
+                });
+                var participants = new List<ParticipantVM>();
+                foreach (var team in contest.Teams)
                 {
-                    body = "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\"> Confirm </a>";
+                    var participantsFromTeam = team.AspNetUsers.Select(x => new ParticipantVM() { Email = x.Email, FirstName = x.FirstName, TeamName = team.Name });
+                    participants.AddRange(participantsFromTeam);
                 }
 
-                string response = mailer.EmailFromArvixe(new Message(participant.Email, subject, body));
+                var contestDetailVM = new ContestDetailsVM()
+                {
+                    ContestID = contestID.Value,
+                    Name = contest.Name,
+                    StartTime = contest.StartTime.ToString(),
+                    Location = contest.Location,
+                    Published = true,
+                    Participants = participants,
+                    Judges = judges,
+                };
 
+
+
+                foreach (var participant in contestDetailVM.Participants)
+                {
+                    var getUser = UnitOfWork.Users.SingleOrDefault(x => x.Email == participant.Email);
+
+                    var getID = getUser.Id;
+                    var code = await UserManager.GenerateEmailConfirmationTokenAsync(getID);
+
+                    //var code = UserManager.GeneratePasswordResetTokenAsync(getID);
+                    var callbackUrl = Url.Action("SetPassword", "Account", new { userID = getID, code = code }, protocol: Request.Url.Scheme);
+                    MailHelper mailer = new MailHelper();
+                    string subject = "Your Riipen account";
+                    string body = "";
+                    if (getUser.EmailConfirmed)
+                    {
+                        body = "Please log in to view your contest: <a href=\"http:\\riipen.whatthefelix.com\" >Log in </a>";
+                    }
+                    else
+                    {
+                        body = "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\"> Confirm </a>";
+                    }
+
+                    string response = mailer.EmailFromArvixe(new Message(participant.Email, subject, body));
+
+                }
+
+
+
+                return RedirectToAction("Index", "Admin");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Admin");
             }
 
-
-
-            return RedirectToAction("Index", "Admin");
         }
 
         [HttpGet]
@@ -242,22 +261,31 @@ namespace Riipen_SSD.Controllers
 
         // GET: EditContest
         [HttpGet]
-        public ActionResult EditContest(int contestId)
+        public ActionResult EditContest(int? contestId)
         {
-            var contest = UnitOfWork.Contests.Get(contestId);
-
-            var editContestVM = new EditContestVM()
+            if (contestId != null)
             {
-                ContestID = contestId,
-                ContestName = contest.Name,
-                StartTime = contest.StartTime,
-                Location = contest.Location,
-                Criteria = contest.Criteria.Select(c => new CriteriaVM() { Id = c.Id, Name = c.Name, Description = c.Description }),
-                Judges = contest.ContestJudges.Select(c => new JudgeVM() { Email = c.AspNetUser.Email, FirstName = c.AspNetUser.FirstName, LastName = c.AspNetUser.LastName }),
-                Participants = contest.Teams.SelectMany(x => x.AspNetUsers.Select(y => new ParticipantVM() { Email = y.Email, FirstName = y.FirstName, LastName = y.LastName, TeamName = x.Name })),
-            };
 
-            return View(editContestVM);
+
+                var contest = UnitOfWork.Contests.Get(contestId.Value);
+
+                var editContestVM = new EditContestVM()
+                {
+                    ContestID = contestId.Value,
+                    ContestName = contest.Name,
+                    StartTime = contest.StartTime,
+                    Location = contest.Location,
+                    Criteria = contest.Criteria.Select(c => new CriteriaVM() { Id = c.Id, Name = c.Name, Description = c.Description }),
+                    Judges = contest.ContestJudges.Select(c => new JudgeVM() { Email = c.AspNetUser.Email, FirstName = c.AspNetUser.FirstName, LastName = c.AspNetUser.LastName }),
+                    Participants = contest.Teams.SelectMany(x => x.AspNetUsers.Select(y => new ParticipantVM() { Email = y.Email, FirstName = y.FirstName, LastName = y.LastName, TeamName = x.Name })),
+                };
+
+                return View(editContestVM);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Admin");
+            }
         }
 
     // POST: EditContest

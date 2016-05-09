@@ -13,11 +13,25 @@ namespace Riipen_SSD
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+
+
             routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
+                 "ContestDetails",
+              "admin/{action}/{contestID}",
+                 new {controller="admin", action = "Index", contestID = UrlParameter.Optional }
+
+                );
+            routes.MapRoute(
+                "JudgeContestDetails",
+                "judge/{action}/{contestId}",
+                new { controller = "judge", action = "contest", contestId = "" }
+                );
+
+            routes.MapRoute(
+           name: "Default",
+           url: "{controller}/{action}/{id}",
+           defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+       );
         }
     }
 }
