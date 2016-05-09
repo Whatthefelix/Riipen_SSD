@@ -64,12 +64,6 @@ else if (User.IsInRole("Admin"))
     <table>
         <thead>
             <tr>
-                @*<th>
-                    @Html.DisplayNameFor(model => model.First().TeamID)
-                </th>*@
-                @*<th>
-                    @Html.DisplayNameFor(model => model.First().ContestID)
-                </th>*@
                 <th>
                     @Html.DisplayNameFor(model => model.First().TeamName)
                 </th>
@@ -100,12 +94,6 @@ else if (User.IsInRole("Admin"))
             @foreach (var item in Model)
             {
                 <tr>
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.TeamID)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ContestID)
-                    </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.TeamName)
                     </td>
@@ -121,7 +109,7 @@ else if (User.IsInRole("Admin"))
                     }
                     else {
                         <td>
-                            @Html.DisplayFor(modelItem => item.YourCurrentScore)<span>/7</span>
+                            @Html.DisplayFor(modelItem => item.YourCurrentScore)<span> / 7</span>
                         </td>
                     }
 
@@ -133,7 +121,7 @@ else if (User.IsInRole("Admin"))
                         }
                         else
                         {
-                            @Html.DisplayFor(modelItem => item.FinalScore)<span>/7</span>
+                            @Html.DisplayFor(modelItem => item.FinalScore)<span> / 7</span>
                         }
 
                     </td>
@@ -145,10 +133,10 @@ else if (User.IsInRole("Admin"))
                         else
                         {
                             <span>Waiting for @Html.DisplayFor(modelItem => item.JudgeNotSubmitted) judges</span>
-                            <div>
-                                @foreach(var judgename in item.NamesOfJudgeNotSubmitted)
+                            <div class="text-overflow-small">
+                                @foreach(var judgeName in item.NamesOfJudgeNotSubmitted)
                                 {
-                                    <span>@judgename</span><br />
+                                    <span>@judgeName</span><br />
                                 }
                             </div>
                         }

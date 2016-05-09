@@ -1,11 +1,12 @@
 ﻿@model IEnumerable<Riipen_SSD.ViewModels.ParticipantViewModels.TeamMemberVM>
-
+<link href="~/Styles/Judge_Participant.css" rel="stylesheet" />
 @{
     ViewBag.Title = "GetAllTeamMembersForATeam";
 }
 
-<h2>All members in  @ViewBag.TeamName</h2>
-<table class="table">
+<h2>All members in @ViewBag.TeamName</h2>
+
+<table class="table team-members-table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.FirstName)
@@ -32,6 +33,8 @@
             @Html.DisplayFor(modelItem => item.Email)
         </td>
     </tr>
+
+
 }
 
 </table>
