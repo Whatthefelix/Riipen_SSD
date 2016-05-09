@@ -117,7 +117,6 @@ footer{
 
     }
 
-   
 }
 
 .judge-team-score {
@@ -176,4 +175,41 @@ footer{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis; 
+}
+
+
+
+ @media only screen and (max-width: 360px), (min-device-width: 380px) and (max-device-width: 400px) {
+
+        table th {
+            display: none;
+        }
+
+
+    table td {
+        display: block;
+        font-size: 120%;
+    }
+
+    tr td:first-child {
+        font-size: 120%;
+        font-weight: bold;
+    }
+
+    .range {
+        width: 250px;
+        border: black;
+    }
+
+
+    textarea {
+        width: 300px!important;
+        height:200px!important;
+        display: inline-block;
+    }
+
+    .side-score {
+        font-size: 120%;
+    }
+
 }
