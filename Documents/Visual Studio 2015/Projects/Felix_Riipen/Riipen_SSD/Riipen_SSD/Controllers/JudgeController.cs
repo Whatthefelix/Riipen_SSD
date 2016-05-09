@@ -92,8 +92,6 @@ namespace Riipen_SSD.Controllers
         {
             if (contestID != null)
             {
-
-
                 string searchStringValue = "";
                 string sortStringValue = "Status";
 
@@ -248,8 +246,6 @@ namespace Riipen_SSD.Controllers
             {
                 return RedirectToAction("Index", "Judge");
             }
-            else
-            {
                 //get your all criteria Score mark for a team 
                 string UserID = User.Identity.GetUserId();
                 int contestID = _unitOfWork.Teams.Get(teamID.Value).ContestId;
@@ -300,7 +296,7 @@ namespace Riipen_SSD.Controllers
                 ViewBag.ContestName = _unitOfWork.Contests.Get(_unitOfWork.Teams.Get(teamID.Value).ContestId).Name;
 
                 return View(singleJudgeCriteriaScoreVM);
-            }
+            
 
         }
 
