@@ -40,6 +40,14 @@ function getScore(firstLoad) {
 */
 
 
+$(function () {
+    $("tbody.droptrue").sortable({
+        connectWith: ".droptrue"
+    });
+
+    $("#sortable1, #sortable2").disableSelection();
+});
+
 
 $(function () {
   

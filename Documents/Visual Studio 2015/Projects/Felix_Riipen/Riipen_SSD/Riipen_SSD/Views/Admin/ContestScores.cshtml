@@ -1,0 +1,137 @@
+﻿
+@model PagedList.IPagedList<Riipen_SSD.ViewModels.TeamCriteriaScoreVM>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<link href="~/Styles/Judge_Participant.css" rel="stylesheet" />
+
+@{
+    ViewBag.Title = "Finalize Contest";
+}
+
+@section scripts{
+    <script src="~/JavaScript/Judge-Participant.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="~/Styles/ContestScores.css" />
+}
+
+
+
+
+<div class="header">
+    <p class="title"><span class="small-title">@ViewBag.contestName</span></p><br />
+
+    <div class="searchForm">
+        @using (Html.BeginForm("Contest", "Judge", FormMethod.Get))
+        {
+            @Html.AntiForgeryToken()
+            <input name="contestID" value="@ViewBag.contestId" hidden />
+            <button type="submit" class="btn-search"><i class="fa fa-search" aria-hidden="true"></i></button>
+            <input type="text" name="searchATeam" value="@ViewBag.searchStringValue" placeholder="Search"><span class="searchIn">&nbsp;in teams</span>
+
+        }
+    </div>
+</div>
+
+<div class="judge-participant-wrapper">
+    <div class="dropdown" id="sortButton" style="margin-top:10px;margin-bottom:10px;float:right">
+        Sort: <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="sortMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            @ViewBag.sortStringValue
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="sortMenu">
+            <li>@Html.ActionLink("Status", "Contest", new { contestID = ViewBag.contestId, searchATeam = ViewBag.searchStringValue, sortTeams = "Status" })</li>
+            <li>@Html.ActionLink("Name", "Contest", new { contestID = ViewBag.contestId, searchATeam = ViewBag.searchStringValue, sortTeams = "Name" })</li>
+        </ul>
+    </div>
+
+    @if (ViewBag.searchStringValue == "")
+    {
+        <div class="title">All teams</div>
+    }
+    else
+    {
+        <div class="title">Results for: @ViewBag.searchStringValue</div>
+        <p>@Html.ActionLink("Get all teams", "Contest", new { contestID = ViewBag.contestId })</p>
+    }
+    <table>
+        <caption>SelectWinners</caption>
+        <tbody id="sortable2" class="droptrue">
+            <tr>
+                
+                <td>First Place:</td>
+            </tr>
+            <tr>
+                <td>Second Place:</td>
+       
+            </tr>
+            <tr>
+                <td>Third Place:</td>
+        
+            </tr>
+        </tbody>
+    </table>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().TeamName)
+                </th>
+                <th>
+
+                    @Html.DisplayNameFor(model => model.First().FinalScore)
+                </th>
+            </tr>
+        </thead>
+        <tbody id="sortable1" class="droptrue">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TeamName)
+                    </td>
+
+                    @if (item.YourCurrentScore == null)
+                {
+                    if (!User.IsInRole("Admin"))
+                    {
+                            <td>
+                                @Html.ActionLink("Judge Now", "Team", new { teamID = item.TeamID })
+                            </td>
+                        }
+                    }
+                    else {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.YourCurrentScore)<span> / 7</span>
+                        </td>
+                    }
+
+
+                    <td>
+                        @if (item.FinalScore == null)
+                        {
+                            <span>N/A</span>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.FinalScore)<span> / 7</span>
+                        }
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+
+
+    <div class="PageDiv">
+        <div style="float: right;">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</div>
+        @Html.PagedListPager(Model, page => Url.Action("Contest",
+        new { page, contestID = ViewBag.contestId, searchATeam = ViewBag.searchStringValue, sortTeams = ViewBag.sortStringValue }))
+    </div>
+</div>

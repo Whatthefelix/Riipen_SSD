@@ -134,4 +134,5 @@
     <p class="button-group">
         @Html.ActionLink("Edit", "EditContest", new {  ContestID = Model.ContestID  }, new { @class="btn btn-warning"}) 
         @Html.ActionLink("Back to List", "Index", null,new { @class = "btn btn-info" })
+        @Html.ActionLink("Select Winner","ContestScores", new { ContestID = Model.ContestID}, new { @class="btn btn-info"})
     </p>
