@@ -225,6 +225,14 @@ footer{
     overflow: hidden;
     text-overflow: ellipsis; 
 }
+
+   .text-overflow-multi-line {
+    width: 17em;
+    white-space: normal;
+    text-overflow: ellipsis; 
+}
+
+
     .team-members-table td{
         display: inline;
         border-style: none !important;
