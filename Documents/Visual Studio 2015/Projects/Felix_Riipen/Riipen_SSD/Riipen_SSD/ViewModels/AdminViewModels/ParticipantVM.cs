@@ -1,6 +1,7 @@
 ﻿using FileHelpers;
 using System;
 using System.Collections.Generic;
+
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -18,6 +19,9 @@ namespace Riipen_SSD.AdminViewModels
         public string Email { get; set; }
         [Display(Name = "Team")]
         public string TeamName { get; set; }
+
+        [Display(Name = "Website")]
+        public String RiipenUrl { get; set; }
 
     }
 }

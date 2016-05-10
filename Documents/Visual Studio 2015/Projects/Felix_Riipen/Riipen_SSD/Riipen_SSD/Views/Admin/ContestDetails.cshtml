@@ -98,6 +98,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.Participants.FirstOrDefault().Email)
             </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Participants.FirstOrDefault().RiipenUrl)
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -115,6 +119,23 @@
                 </td>
                 <td prewrap>
                     @Html.DisplayFor(x => item.Email)
+                </td>
+                <td>
+                    @{
+                        var url = "N/A";
+                    }
+
+                    @if (item.RiipenUrl != null && item.RiipenUrl.ToUpper().Contains("HTTP"))
+                    {
+                        url = item.RiipenUrl;
+                    }
+                    else
+                    {
+
+                        url = "http://" + item.RiipenUrl;
+                    }
+                    <a href="@url">@item.RiipenUrl</a>
+
                 </td>
             </tr>
         }

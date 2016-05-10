@@ -10,16 +10,11 @@ namespace Riipen_SSD.ViewModels.ParticipantViewModels
     {
         [DisplayName("First name")]
         public string FirstName { get; set; }
-
         [DisplayName("Last name")]
         public string LastName { get; set; }
-
         public string Email { get; set; }
-
         [DisplayName("Website")]
         public String RiipenUrl { get; set; }
-
-
         public TeamMemberVM() { }
 
         public TeamMemberVM(string FirstName, string LastName, string Email, String RiipenUrl)

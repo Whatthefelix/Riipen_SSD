@@ -11,7 +11,7 @@ namespace Riipen_SSD.ViewModels.ParticipantViewModels
     {
         [DisplayName("Criteria ID")]
         public int CriteriaID { get; set; }
-        [Display(Name = "Criteria")]
+        [DisplayName("Criteria")]
         public string CriteriaName { get; set; }
         public string Description { get; set; }
         public double? Score { get; set; }

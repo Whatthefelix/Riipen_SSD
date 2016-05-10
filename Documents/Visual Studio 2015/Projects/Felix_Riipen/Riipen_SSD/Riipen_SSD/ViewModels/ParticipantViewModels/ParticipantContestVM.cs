@@ -13,9 +13,9 @@ namespace Riipen_SSD.ViewModels.ParticipantViewModels
         public int TeamID { get; set; }
         [DisplayName("Contest ID")]
         public int ContestID { get; set; }
-        [Display(Name = "Contest Name")]
+        [DisplayName("Contest Name")]
         public string ContestName { get; set; }
-        [Display(Name = "Date")]
+        [DisplayName("Date")]
         public DateTime? StartTime { get; set; }
         public string Location { get; set; }
 
