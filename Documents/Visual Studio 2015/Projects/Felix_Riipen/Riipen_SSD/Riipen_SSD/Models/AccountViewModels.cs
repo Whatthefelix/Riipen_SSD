@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Riipen_SSD.Models
@@ -6,7 +7,7 @@ namespace Riipen_SSD.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [DisplayName("Email")]
         public string Email { get; set; }
     }
 
