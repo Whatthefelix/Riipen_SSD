@@ -16,10 +16,6 @@ namespace Riipen_SSD.ModelBinders
 
             if (file == null || file.ContentLength < 1)
             {
-                bindingContext.ModelState.AddModelError(
-                  "",
-                  "Please select a valid CSV file"
-                );
                 return null;
             }
 

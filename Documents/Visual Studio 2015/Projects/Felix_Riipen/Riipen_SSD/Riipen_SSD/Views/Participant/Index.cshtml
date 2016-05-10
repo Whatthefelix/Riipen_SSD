@@ -39,6 +39,16 @@
         </ul>
     </div>
 
+    @if (ViewBag.searchStringValue == "")
+    {
+        <div class="title">All contests</div>
+    }
+    else
+    {
+       
+        <div class="title">Results for: @ViewBag.searchStringValue</div>
+    }
+
 
 
     <table>
@@ -78,7 +88,7 @@
 
     <div style="float: right;">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</div>
         @Html.PagedListPager(Model, page => Url.Action("Index",
-        new { page, searchAContest = ViewBag.searchAContest, sortContests = ViewBag.sortContests }))
+        new { page, searchAContest = ViewBag.searchStringValue, sortContests = ViewBag.sortStringValue }))
     </div>
 
 

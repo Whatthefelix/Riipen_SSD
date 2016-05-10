@@ -41,15 +41,15 @@
     <div class="form-group">
         <div class="contestName">
             <label for="contestName">Contest Name</label>
-            <input type="text" class="form-control" name="ContestName" id="contestName" />
+            <input type="text" class="form-control" name="ContestName" id="contestName" required/>
         </div>
         <div class="date">
             <label for="date">Date</label>
-            <input type="text" class="form-control" name="StartTime" id="datepicker" />
+            <input type="text" class="form-control" name="StartTime" id="datepicker"/>
         </div>
         <div class="location">
             <label for="location">Location</label>
-            <input type="text" class="form-control" name="Location" id="location" />
+            <input type="text" class="form-control" name="Location" id="location"/>
         </div>
         <div class="publicly-viewable-scores checkbox">
             <label for="publicly-viewable-scores">Make Scores Publicly Viewable in Real-Time</label>
@@ -60,9 +60,9 @@
             <div class="multi-fields" id="criteria-list">
                 <div class="multi-field criteria-list-item form-inline">
                     <label class="sr-only" for="criteriaName">Criteria</label>
-                    <input type="text" class="form-control" name="criteria[0].name" placeholder="New Criteria" />
+                    <input type="text" class="form-control" name="criteria[0].name" placeholder="New Criteria"/>
                     <label class="sr-only" for="criteriaDescription">Description</label>
-                    <input type="text" class="form-control" name="criteria[0].description" placeholder="Criteria Description" />
+                    <input type="text" class="form-control" name="criteria[0].description" placeholder="Criteria Description"/>
                     <button type="button" class="remove-field btn btn-warning"> Remove </button>
                 </div>
             </div>

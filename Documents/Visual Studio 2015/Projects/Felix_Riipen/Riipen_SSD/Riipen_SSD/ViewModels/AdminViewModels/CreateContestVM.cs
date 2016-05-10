@@ -16,8 +16,7 @@ namespace Riipen_SSD.ViewModels.AdminViewModels
         [Display(Name = "Date")]
         public DateTime? StartTime { get; set; }
         public String Location { get; set; }
-        [Required]
-        public bool PubliclyViewable { get; set; }
+        public bool? PubliclyViewable { get; set; }
         public IEnumerable<ParticipantVM> Participants { get; set; }
         public IEnumerable<CriteriaVM> Criteria { get; set; }
         public IEnumerable<JudgeVM> Judges { get; set; }

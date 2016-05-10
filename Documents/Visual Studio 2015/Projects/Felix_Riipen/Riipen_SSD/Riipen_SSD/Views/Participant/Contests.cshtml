@@ -116,7 +116,7 @@
     <div class="PageDiv">
         <div style="float: right;">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</div>
         @Html.PagedListPager(Model, page => Url.Action("Contests",
-        new { page, contestID= ViewBag.ContestID,searchATeam = ViewBag.searchATeam, sortTeam = ViewBag.sortTeams }))
+        new { page, contestID= ViewBag.ContestID,searchATeam = ViewBag.searchStringValue, sortTeam = ViewBag.sortStringValue }))
     </div>
 
     </div>

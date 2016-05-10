@@ -172,6 +172,6 @@ else if (User.IsInRole("Admin"))
     <div class="PageDiv">
         <div style="float: right;">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</div>
         @Html.PagedListPager(Model, page => Url.Action("Contest",
-        new { page, contestID=ViewBag.contestId, searchATeam = ViewBag.searchATeam, sortTeams = ViewBag.sortTeams }))
+        new { page, contestID=ViewBag.contestId, searchATeam = ViewBag.searchStringValue, sortTeams = ViewBag.sortStringValue }))
     </div>
 </div>

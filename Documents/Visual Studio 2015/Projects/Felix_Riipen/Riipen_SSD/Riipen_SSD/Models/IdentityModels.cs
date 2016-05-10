@@ -15,6 +15,9 @@ namespace Riipen_SSD.Models
         [Required, MaxLength(256)]
         public string LastName { get; set; }
 
+        //[MaxLength(256)]
+        //public string RiipenUrl { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

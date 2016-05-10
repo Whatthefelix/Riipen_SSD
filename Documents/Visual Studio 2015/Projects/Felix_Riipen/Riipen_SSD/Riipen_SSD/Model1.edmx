@@ -67,6 +67,7 @@
           <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="RiipenUrl" Type="varchar" MaxLength="256" />
         </EntityType>
         <EntityType Name="ContestJudges">
           <Key>
@@ -85,7 +86,7 @@
           <Property Name="Location" Type="varchar" MaxLength="255" />
           <Property Name="StartTime" Type="datetime" />
           <Property Name="Published" Type="bit" Nullable="false" />
-          <Property Name="PubliclyViewable" Type="bit" />
+          <Property Name="PubliclyViewable" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Criteria">
           <Key>
@@ -464,6 +465,7 @@
           <NavigationProperty Name="ContestJudges" Relationship="Self.FK__ContestJu__Judge__5026DB83" FromRole="AspNetUsers" ToRole="ContestJudges" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
           <NavigationProperty Name="Teams" Relationship="Self.TeamParticipants" FromRole="AspNetUsers" ToRole="Teams" />
+          <Property Name="RiipenUrl" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ContestJudge">
           <Key>
@@ -488,7 +490,7 @@
           <NavigationProperty Name="ContestJudges" Relationship="Self.FK__ContestJu__Conte__4F32B74A" FromRole="Contests" ToRole="ContestJudges" />
           <NavigationProperty Name="Criteria" Relationship="Self.FK__Criteria__Contes__59B045BD" FromRole="Contests" ToRole="Criteria" />
           <NavigationProperty Name="Teams" Relationship="Self.FK__Teams__ContestId__5303482E" FromRole="Contests" ToRole="Teams" />
-          <Property Name="PubliclyViewable" Type="Boolean" />
+          <Property Name="PubliclyViewable" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Criterion">
           <Key>
@@ -795,6 +797,7 @@
           <EntitySetMapping Name="AspNetUsers">
             <EntityTypeMapping TypeName="SSD_RiipenModel.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="RiipenUrl" ColumnName="RiipenUrl" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />

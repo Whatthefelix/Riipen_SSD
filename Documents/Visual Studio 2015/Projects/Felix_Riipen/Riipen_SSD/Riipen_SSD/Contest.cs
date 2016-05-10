@@ -27,7 +27,7 @@ namespace Riipen_SSD
         public string Location { get; set; }
         public Nullable<System.DateTime> StartTime { get; set; }
         public bool Published { get; set; }
-        public Nullable<bool> PubliclyViewable { get; set; }
+        public bool PubliclyViewable { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ContestJudge> ContestJudges { get; set; }

@@ -8,9 +8,10 @@ namespace Riipen_SSD.ViewModels
 {
     public class ContestVM
     {
-        [Display (Name = "Contest")]
+
+        [DisplayName("Contest")]
         public String ContestName { get; set; }
-        [Display(Name = "Date")]
+        [DisplayName("Date")]
         public DateTime? StartTime { get; set; }
         public String Location { get; set; }
         public IEnumerable<ParticipantVM> Participants {get; set;}
