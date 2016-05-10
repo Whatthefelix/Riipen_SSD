@@ -59,8 +59,8 @@ td, th {
             white-space: nowrap;
         }
     td:nth-of-type(1):before { content: "Name"; }
-	td:nth-of-type(2):before { content: "Start Time"; }
-	td:nth-of-type(3):before { content: "Location"; }
+	td:nth-of-type(2):before { content: "Location"; }
+	td:nth-of-type(3):before { content: "Start Time"; }
 
 
 

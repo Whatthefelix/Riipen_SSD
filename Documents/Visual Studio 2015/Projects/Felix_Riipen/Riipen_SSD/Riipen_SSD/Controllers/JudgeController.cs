@@ -156,7 +156,9 @@ namespace Riipen_SSD.Controllers
                     //get the unsubmitted name
                     foreach (var item in unsubmitedJudges)
                     {
-                        namesOfJudgeNotSubmitted.Add(context.AspNetUsers.Find(item.JudgeUserId).Email);
+                        var user = context.AspNetUsers.Find(item.JudgeUserId);
+                        string name = user.FirstName + " " + user.LastName;
+                        namesOfJudgeNotSubmitted.Add(name);
                     }
 
 
