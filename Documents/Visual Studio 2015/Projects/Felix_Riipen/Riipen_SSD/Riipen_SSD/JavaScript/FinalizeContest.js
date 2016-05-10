@@ -40,19 +40,19 @@ function getScore(firstLoad) {
 */
 
 
-//$(function () {
-//    $("tbody.droptrue").sortable({
-//        connectWith: ".droptrue"
-//    });
+$(function () {
+    $("ul.droptrue").sortable({
+        connectWith: "ul"
+    });
 
-//    $("#sortable1, #sortable2").disableSelection();
-//});
+    $("#sortable1, #sortable2").disableSelection();
+});
 
 
 $(function () {
-  
+
     $(".body-content").removeClass('container').addClass('container-fluid');
-    
+
     getFinalScore();
 
     //show the fault when page load
@@ -138,17 +138,17 @@ $(function () {
    */
     //show range slide score for each criteria
     $('.range').change(function () {
-      //  $(this).siblings('.side-score').html($(this).val());
+        //  $(this).siblings('.side-score').html($(this).val());
         getFinalScore();
     });
 
-    
+
     //get all score values
     function getFinalScore() {
         var sum = 0;
         var allRanges = $('.range');
-      
-        for (var i = 0; i < allRanges.length; i++) {           
+
+        for (var i = 0; i < allRanges.length; i++) {
             sum = parseInt(sum) + parseInt($(allRanges[i]).val());
 
             $(allRanges[i]).siblings('.side-score').html($(allRanges[i]).val());

@@ -416,6 +416,7 @@
     <Content Include="Styles\AdminIndexResponsive.css" />
     <Content Include="Styles\ContestDetailResponsiveTables.css" />
     <Content Include="Styles\ContestScores.css" />
+    <Content Include="JavaScript\FinalizeContest.js" />
     <Content Include="Styles\JudgeContestResponsiveTable.css" />
     <Content Include="Styles\JudgeIndexResponsive.css" />
     <Content Include="Styles\Judge_Participant.css" />
