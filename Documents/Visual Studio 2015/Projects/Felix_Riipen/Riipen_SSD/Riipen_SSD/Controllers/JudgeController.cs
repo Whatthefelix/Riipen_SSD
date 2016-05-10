@@ -130,6 +130,8 @@ namespace Riipen_SSD.Controllers
                     else
                     {
                         judgeNotSubmit = judgesNumber;
+
+                        
                     }
 
                     //get all the unsubmitted judge names
@@ -152,6 +154,15 @@ namespace Riipen_SSD.Controllers
                                             where cj.JudgeUserId != g.Judge_ID
                                             select cj).ToList();
                     }
+
+                    //check if you are the only judge who didn't submit                   
+                    if (unsubmitedJudges.Count() == 1) {
+                        string UserId = User.Identity.GetUserId();
+                        if (unsubmitedJudges.First().JudgeUserId == UserId) {
+                            ViewBag.YourSubmission = false;
+                        }                      
+                    }
+
 
                     //get the unsubmitted name
                     foreach (var item in unsubmitedJudges)

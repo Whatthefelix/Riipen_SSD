@@ -40,7 +40,9 @@
 <div class="judge-participant-wrapper">
 
 
-        <form class="form" method="post" action="EditCriteriaScore">
+      @using (Html.BeginForm("EditCriteriaScore", "Judge", FormMethod.Post))
+      {
+        @Html.AntiForgeryToken()
             <input name="teamID" value="@ViewBag.TeamID" hidden />
             <input name="contestID" value="@ViewBag.ContestID" hidden />
             <table class="table">
@@ -85,7 +87,7 @@
                                 var criteriaIdName = name + counter.ToString() + "].CriteriaID";
                                 var teamIdName = name + counter.ToString() + "].TeamID";
                                 var ScoreID = "Score" + counter.ToString();
-                                
+
                                 counter++;
                             }
 
@@ -133,7 +135,7 @@
             <div class="dl-horizontal">
 
                 @{ string PublicFeedback = "singleJugeCriteriaScoreVM.PublicFeedback";
-                string PrivateFeedback = "singleJugeCriteriaScoreVM.PrivateFeedback";
+                    string PrivateFeedback = "singleJugeCriteriaScoreVM.PrivateFeedback";
                 }
                 <div class="form-group">
                     <label><i class="fa fa-pencil" aria-hidden="true"></i>   &nbsp;&nbsp;Public Feedback</label>
@@ -156,7 +158,7 @@
             </div>
             <input class="btn btn-warning btn-sm submit-form" name="SubmitOrSave" type="submit" value="Save" />
             <input class="btn btn-primary btn-sm submit-form" name="SubmitOrSave" type="submit" value="Submit" />
-        </form>
+                    }
     </div>
 
 
