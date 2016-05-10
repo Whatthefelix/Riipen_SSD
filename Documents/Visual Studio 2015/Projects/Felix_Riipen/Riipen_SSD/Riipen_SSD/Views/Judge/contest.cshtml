@@ -137,23 +137,25 @@ else if (User.IsInRole("Admin"))
                                 <div class="text-overflow-small">
                                     @if (item.YourCurrentScore != null && !item.Submitted)
                                     {
-                                        <span>Waiting for you Submit</span>
+                                        <span>Waiting for you submit</span>
                                     }
                                     else
                                     {
-                                        <span>Waiting for you Judge</span >
+                                        <span>Waiting for you to judge</span >
                                     }
 
                                 </div>
                             }
-                               <span>Waiting for @Html.DisplayFor(modelItem => item.JudgeNotSubmitted) judges</span>
-                                    <div class="text-overflow-small">
-                                        @foreach (var judgeName in item.NamesOfJudgeNotSubmitted)
-                                        {
-                                            <span>@judgeName</span><br />
-                                        }
-                                    </div>
-                         }
+                            else {
+                                <span>Waiting for @Html.DisplayFor(modelItem => item.JudgeNotSubmitted) judges</span>
+                                <div class="text-overflow-small">
+                                    @foreach (var judgeName in item.NamesOfJudgeNotSubmitted)
+                                    {
+                                        <span>@judgeName</span><br />
+                                    }
+                                </div>}
+
+                        }
 
 
 </td>
