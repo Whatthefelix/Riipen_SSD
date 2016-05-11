@@ -28,7 +28,9 @@ namespace Riipen_SSD
         public Nullable<System.DateTime> StartTime { get; set; }
         public bool Published { get; set; }
         public bool PubliclyViewable { get; set; }
-        public Nullable<int> Winner { get; set; }
+        public Nullable<int> WinnerTeamId { get; set; }
+        public Nullable<int> SecondTeamId { get; set; }
+        public Nullable<int> ThirdTeamId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ContestJudge> ContestJudges { get; set; }
@@ -36,6 +38,8 @@ namespace Riipen_SSD
         public virtual ICollection<Criterion> Criteria { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Team> Teams { get; set; }
-        public virtual Team Team { get; set; }
+        public virtual Team WinningTeam { get; set; }
+        public virtual Team SecondPlaceTeam { get; set; }
+        public virtual Team ThirdPlaceTeam { get; set; }
     }
 }
