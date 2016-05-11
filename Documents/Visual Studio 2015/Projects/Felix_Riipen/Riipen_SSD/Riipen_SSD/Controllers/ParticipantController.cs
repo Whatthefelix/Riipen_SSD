@@ -34,8 +34,13 @@ namespace Riipen_SSD.Controllers
 
             foreach (var item in teamList)
             {
+                
                 var getContest = context.Contests.Where(c => c.Id == item.ContestId).FirstOrDefault();
-                participantVMList.Add(new ParticipantContestVM(item.Id, getContest.Id, getContest.Name, getContest.StartTime, getContest.Location));
+                if (getContest.Published)
+                {
+                    participantVMList.Add(new ParticipantContestVM(item.Id, getContest.Id, getContest.Name, getContest.StartTime, getContest.Location));
+                }
+          
 
             }
 

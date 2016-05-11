@@ -16,10 +16,10 @@ namespace Riipen_SSD.Controllers
     public class JudgeController : Controller
     {
         SSD_RiipenEntities context = new SSD_RiipenEntities();
-        private IUnitOfWork _unitOfWork;
-        public JudgeController()
+        private IUnitOfWork UnitOfWork;
+        public JudgeController(IUnitOfWork unitOfWork)
         {
-            _unitOfWork = new UnitOfWork(new SSD_RiipenEntities());
+            UnitOfWork = unitOfWork;
 
         }
 
@@ -36,25 +36,31 @@ namespace Riipen_SSD.Controllers
 
             foreach (var contestJudge in contestJudges)
             {
-                // if search input is not null or empty
-                if (!String.IsNullOrEmpty(searchAContest))
-                {
-                    if (contestJudge.Contest.Name.ToUpper().Contains(searchAContest.ToUpper()))
-                    {
-                        contestList.Add(_unitOfWork.Contests.Get(contestJudge.ContestId));
-                    }
 
-                   searchStringValue =searchAContest;
-                }
-                else
+                if (contestJudge.Contest.Published)
                 {
-                    contestList.Add(_unitOfWork.Contests.Get(contestJudge.ContestId));
-                }                    
+                    // if search input is not null or empty
+                    if (!String.IsNullOrEmpty(searchAContest))
+                    {
+
+                        if (contestJudge.Contest.Name.ToUpper().Contains(searchAContest.ToUpper()))
+                        {
+
+                            contestList.Add(UnitOfWork.Contests.Get(contestJudge.ContestId));
+                        }
+
+                        searchStringValue = searchAContest;
+                    }
+                    else
+                    {
+                        contestList.Add(UnitOfWork.Contests.Get(contestJudge.ContestId));
+                    }
+                }                  
             }
 
             //get all the contests for the admin account
             if (User.IsInRole("Admin")){
-                 contestList = _unitOfWork.Contests.GetAll().ToList();
+                 contestList = UnitOfWork.Contests.GetAll().ToList();
 
                 if (!String.IsNullOrEmpty(searchAContest))
                 {
@@ -96,7 +102,7 @@ namespace Riipen_SSD.Controllers
                 string sortStringValue = "Status";
 
                 //get the number of team in this contest
-                List<Team> teams = _unitOfWork.Contests.Get(contestID.Value).Teams.ToList();
+                List<Team> teams = UnitOfWork.Contests.Get(contestID.Value).Teams.ToList();
 
                 if (!String.IsNullOrEmpty(searchATeam))
                 {
@@ -105,7 +111,7 @@ namespace Riipen_SSD.Controllers
                 }
 
                 List<TeamCriteriaScoreVM> teamCriteriaScoreVMList = new List<TeamCriteriaScoreVM>();
-                List<Criterion> getContestCriteria = _unitOfWork.Contests.Get(contestID.Value).Criteria.ToList();
+                List<Criterion> getContestCriteria = UnitOfWork.Contests.Get(contestID.Value).Criteria.ToList();
 
                 double? YourScore = null;
                 double? FinalScore = null;
@@ -113,7 +119,7 @@ namespace Riipen_SSD.Controllers
 
 
                 //get judge number for a contest
-                int judgesNumber = _unitOfWork.ContestJudges.Find(cj => cj.ContestId == contestID).Count();
+                int judgesNumber = UnitOfWork.ContestJudges.Find(cj => cj.ContestId == contestID).Count();
 
                 int? judgeNotSubmit = null;
 
@@ -234,7 +240,7 @@ namespace Riipen_SSD.Controllers
 
                 ViewBag.searchStringValue = searchStringValue;
                 ViewBag.sortStringValue = sortStringValue;
-                ViewBag.contestName = _unitOfWork.Contests.Get(contestID.Value).Name;
+                ViewBag.contestName = UnitOfWork.Contests.Get(contestID.Value).Name;
                 ViewBag.contestId = contestID;
 
 
@@ -261,8 +267,8 @@ namespace Riipen_SSD.Controllers
             }
                 //get your all criteria Score mark for a team 
                 string UserID = User.Identity.GetUserId();
-                int contestID = _unitOfWork.Teams.Get(teamID.Value).ContestId;
-                string TeamName = _unitOfWork.Teams.Get(teamID.Value).Name;
+                int contestID = UnitOfWork.Teams.Get(teamID.Value).ContestId;
+                string TeamName = UnitOfWork.Teams.Get(teamID.Value).Name;
 
                 List<SingleCriteriaScoreVM> singleCriteriaScoreVMList = new List<SingleCriteriaScoreVM>();
                 SingleJudgeCriteriaScoreVM singleJudgeCriteriaScoreVM = new SingleJudgeCriteriaScoreVM();
@@ -271,7 +277,7 @@ namespace Riipen_SSD.Controllers
 
                 foreach (var item in getYourAllCriteriaScore)
                 {
-                    Criterion criteria = _unitOfWork.Criteria.Get(item.CriteriaId);
+                    Criterion criteria = UnitOfWork.Criteria.Get(item.CriteriaId);
                     string CriteriaName = criteria.Name;
                     string Desciption = criteria.Description;
                     double? Score = item.Score;
@@ -306,7 +312,7 @@ namespace Riipen_SSD.Controllers
                 ViewBag.TeamID = teamID;
                 ViewBag.TeamName = TeamName;
                 ViewBag.ContestID = contestID;
-                ViewBag.ContestName = _unitOfWork.Contests.Get(_unitOfWork.Teams.Get(teamID.Value).ContestId).Name;
+                ViewBag.ContestName = UnitOfWork.Contests.Get(UnitOfWork.Teams.Get(teamID.Value).ContestId).Name;
 
                 return View(singleJudgeCriteriaScoreVM);
             

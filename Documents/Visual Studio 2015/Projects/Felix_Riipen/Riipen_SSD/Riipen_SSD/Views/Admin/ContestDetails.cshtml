@@ -138,15 +138,15 @@
     </tbody>
 </table>
 
-
-@using (Html.BeginForm("SendEmails", "Admin", FormMethod.Post))
+@if (!Model.Published)
 {
-    
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(x=>Model.ContestID)
-    <button type="submit" class="btn btn-success publish-contest-btn">Publish Contest</button>
+    using (Html.BeginForm("SendEmails", "Admin", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(x => Model.ContestID)
+        <button type="submit" class="btn btn-success publish-contest-btn">Publish Contest</button>
+    }
 }
-   
 
     <p class="button-group">
         @Html.ActionLink("Edit", "EditContest", new {  ContestID = Model.ContestID  }, new { @class="btn btn-warning"}) 
