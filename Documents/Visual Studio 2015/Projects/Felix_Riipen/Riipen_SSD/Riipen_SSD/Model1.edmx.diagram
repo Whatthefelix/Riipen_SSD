@@ -29,6 +29,7 @@
         <AssociationConnector Association="SSD_RiipenModel.FK__Feedback__TeamId__6339AFF7" ManuallyRouted="false" />
         <AssociationConnector Association="SSD_RiipenModel.AspNetUserRoles" ManuallyRouted="false" />
         <AssociationConnector Association="SSD_RiipenModel.TeamParticipants" ManuallyRouted="false" />
+        <AssociationConnector Association="SSD_RiipenModel.fk_Teams" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
