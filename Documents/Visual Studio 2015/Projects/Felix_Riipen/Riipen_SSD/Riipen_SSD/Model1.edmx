@@ -87,6 +87,7 @@
           <Property Name="StartTime" Type="datetime" />
           <Property Name="Published" Type="bit" Nullable="false" />
           <Property Name="PubliclyViewable" Type="bit" Nullable="false" />
+          <Property Name="Winner" Type="int" />
         </EntityType>
         <EntityType Name="Criteria">
           <Key>
@@ -327,6 +328,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_Teams">
+          <End Role="Teams" Type="Self.Teams" Multiplicity="0..1" />
+          <End Role="Contests" Type="Self.Contests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teams">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contests">
+              <PropertyRef Name="Winner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="SSD_RiipenModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -397,6 +410,10 @@
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Teams" Association="Self.fk_Teams">
+            <End Role="Teams" EntitySet="Teams" />
+            <End Role="Contests" EntitySet="Contests" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -491,6 +508,8 @@
           <NavigationProperty Name="Criteria" Relationship="Self.FK__Criteria__Contes__59B045BD" FromRole="Contests" ToRole="Criteria" />
           <NavigationProperty Name="Teams" Relationship="Self.FK__Teams__ContestId__5303482E" FromRole="Contests" ToRole="Teams" />
           <Property Name="PubliclyViewable" Type="Boolean" Nullable="false" />
+          <Property Name="Winner" Type="Int32" />
+          <NavigationProperty Name="Team" Relationship="SSD_RiipenModel.fk_Teams" FromRole="Contest" ToRole="Team" />
         </EntityType>
         <EntityType Name="Criterion">
           <Key>
@@ -554,6 +573,7 @@
           <NavigationProperty Name="CriteriaScores" Relationship="Self.FK__CriteriaS__TeamI__5D80D6A1" FromRole="Teams" ToRole="CriteriaScores" />
           <NavigationProperty Name="Feedbacks" Relationship="Self.FK__Feedback__TeamId__6339AFF7" FromRole="Teams" ToRole="Feedback" />
           <NavigationProperty Name="AspNetUsers" Relationship="Self.TeamParticipants" FromRole="Teams" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Contests" Relationship="SSD_RiipenModel.fk_Teams" FromRole="Team" ToRole="Contest" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
@@ -750,7 +770,23 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Teams" EntitySet="Teams" />
           </AssociationSet>
+          <AssociationSet Name="fk_Teams" Association="SSD_RiipenModel.fk_Teams">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="Contest" EntitySet="Contests" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="fk_Teams">
+          <End Type="SSD_RiipenModel.Team" Role="Team" Multiplicity="0..1" />
+          <End Type="SSD_RiipenModel.Contest" Role="Contest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contest">
+              <PropertyRef Name="Winner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -826,6 +862,7 @@
           <EntitySetMapping Name="Contests">
             <EntityTypeMapping TypeName="SSD_RiipenModel.Contest">
               <MappingFragment StoreEntitySet="Contests">
+                <ScalarProperty Name="Winner" ColumnName="Winner" />
                 <ScalarProperty Name="PubliclyViewable" ColumnName="PubliclyViewable" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />

@@ -29,7 +29,6 @@
             <input name="contestID" value="@ViewBag.contestId" hidden />
             <button type="submit" class="btn-search"><i class="fa fa-search" aria-hidden="true"></i></button>
             <input type="text" name="searchATeam" value="@ViewBag.searchStringValue" placeholder="Search"><span class="searchIn">&nbsp;in teams</span>
-
         }
     </div>
 </div>
@@ -46,6 +45,15 @@
         </ul>
     </div>
 
+
+    <div>
+        <ul class="droptrue" id="sortable1">
+            <li>First: </li>
+            <li>Second: </li>
+            <li>Third: </li>
+        </ul>
+    </div>
+
     @if (ViewBag.searchStringValue == "")
     {
         <div class="title">All teams</div>
@@ -55,25 +63,55 @@
         <div class="title">Results for: @ViewBag.searchStringValue</div>
         <p>@Html.ActionLink("Get all teams", "Contest", new { contestID = ViewBag.contestId })</p>
     }
-    <div>
-        <ul class="droptrue" id="sortable1">
-            <li>First: </li>
-            <li>Second: </li>
-            <li>Third: </li>
-        </ul>
 
-    </div>
     <div>
         <ul id="sortable2" class="droptrue">
+
             @foreach (var item in Model)
             {
+             
                 <li>
                     <div class="col-md-3">@Html.DisplayFor(modelItem => item.TeamName)</div><div class="col-md-3">@*@Html.DisplayFor(modelItem => item.FinalScore)*@ 7/7</div>
+                    <div class="TeamId" hidden>@item.TeamID</div>
                 </li>
 
             }
         </ul>
     </div>
+
+  
+ 
+
+ 
+
+
+   @using (Html.BeginForm("PickWinner", "Admin", FormMethod.Post))
+   {
+        @Html.AntiForgeryToken()
+        <input name="TeamId" hidden />
+        <button class="btn btn-default">Finialize Contest</button>
+   }
+
+
+
+
+    <form>
+
+
+       
+
+       
+    </form>
+
+  
+
+
+    <div class="PageDiv">
+        <div style="float: right;">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</div>
+        @Html.PagedListPager(Model, page => Url.Action("Contest",
+        new { page, contestID = ViewBag.contestId, searchATeam = ViewBag.searchStringValue, sortTeams = ViewBag.sortStringValue }))
+    </div>
+</div>
    
     @*<table>
         <thead>
@@ -128,11 +166,3 @@
     </table>*@
 
 
-
-
-    <div class="PageDiv">
-        <div style="float: right;">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</div>
-        @Html.PagedListPager(Model, page => Url.Action("Contest",
-        new { page, contestID = ViewBag.contestId, searchATeam = ViewBag.searchStringValue, sortTeams = ViewBag.sortStringValue }))
-    </div>
-</div>

@@ -480,6 +480,18 @@ namespace Riipen_SSD.Controllers
 
 
 
+        //pick a winner
+        [HttpPost]
+        public ActionResult PickWinner(int TeamId)
+        {
+            Contest contest = UnitOfWork.Teams.Get(TeamId).Contest;
+            contest.Winner = TeamId;
+            UnitOfWork.Complete();
+            return RedirectToAction("Index", "Admin");
+        }
+
+
+
 
     }
 }

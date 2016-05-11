@@ -20,6 +20,7 @@ namespace Riipen_SSD
             this.CriteriaScores = new HashSet<CriteriaScore>();
             this.Feedbacks = new HashSet<Feedback>();
             this.AspNetUsers = new HashSet<AspNetUser>();
+            this.Contests = new HashSet<Contest>();
         }
     
         public int Id { get; set; }
@@ -33,5 +34,7 @@ namespace Riipen_SSD
         public virtual ICollection<Feedback> Feedbacks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Contest> Contests { get; set; }
     }
 }
