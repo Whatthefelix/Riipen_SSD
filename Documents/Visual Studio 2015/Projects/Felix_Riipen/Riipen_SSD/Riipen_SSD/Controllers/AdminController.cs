@@ -34,7 +34,7 @@ namespace Riipen_SSD.Controllers
         // GET: Admin
         public ActionResult Index(String searchAContest, String sortContests, int? page)
         {
-           IEnumerable<AdminViewModels.IndexContestVM> adminContests = UnitOfWork.Contests.GetAll().Select(x => new AdminViewModels.IndexContestVM() { Name = x.Name, StartTime = x.StartTime.ToString(), Location = x.Location, Published = true, ContestID = x.Id });
+           IEnumerable<AdminViewModels.IndexContestVM> adminContests = UnitOfWork.Contests.GetAll().Select(x => new AdminViewModels.IndexContestVM() { Name = x.Name, StartTime = x.StartTime.ToString(), Location = x.Location, Published = x.Published, ContestID = x.Id });
             string searchStringValue = "";
             string sortStringValue = "Latest Contests";
 
@@ -482,10 +482,12 @@ namespace Riipen_SSD.Controllers
 
         //pick a winner
         [HttpPost]
-        public ActionResult PickWinner(int TeamId)
+        public ActionResult PickWinner(int FirstId, int SecondId, int ThirdId)
         {
-            Contest contest = UnitOfWork.Teams.Get(TeamId).Contest;
-            contest.WinnerTeamId = TeamId;
+            Contest contest = UnitOfWork.Teams.Get(FirstId).Contest;
+            contest.WinnerTeamId = FirstId;
+            contest.SecondTeamId = SecondId;
+            contest.ThirdTeamId = ThirdId;
             UnitOfWork.Complete();
             return RedirectToAction("Index", "Admin");
         }

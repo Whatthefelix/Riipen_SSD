@@ -9,11 +9,11 @@
 }
 
 @section scripts{
-<script src="~/JavaScript/FinalizeContest.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-  <link rel="stylesheet" href="~/Styles/ContestScores.css" />
+    <script src="~/JavaScript/FinalizeContest.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="~/Styles/ContestScores.css" />
 }
 
 
@@ -48,9 +48,9 @@
 
     <div>
         <ul class="droptrue" id="sortable1">
-            <li>First: </li>
-            <li>Second: </li>
-            <li>Third: </li>
+            <li class="first">First: </li>
+            <li class="second">Second: </li>
+            <li class="third">Third: </li>
         </ul>
     </div>
 
@@ -69,41 +69,38 @@
 
             @foreach (var item in Model)
             {
-             
+
                 <li>
-                    <div class="col-md-3">@Html.DisplayFor(modelItem => item.TeamName)</div><div class="col-md-3">@*@Html.DisplayFor(modelItem => item.FinalScore)*@ 7/7</div>
-                    <div class="TeamId" hidden>@item.TeamID</div>
+                    <div class="col-xs-3">
+                        @Html.DisplayFor(modelItem => item.TeamName)  @*@Html.DisplayFor(modelItem => item.FinalScore)*@ 7/7 </div>
+                        <div class="TeamId" hidden>@item.TeamID</div>
                 </li>
 
             }
         </ul>
     </div>
 
-  
- 
-
- 
 
 
-   @using (Html.BeginForm("PickWinner", "Admin", FormMethod.Post))
-   {
+
+
+
+
+    @using (Html.BeginForm("PickWinner", "Admin", FormMethod.Post))
+    {
         @Html.AntiForgeryToken()
-        <input name="TeamId" hidden />
+        <input name="FirstId" id="FirstId" hidden />
+        <input name="SecondId" id="SecondId" hidden />
+        <input name="ThirdId" id="ThirdId" hidden />
         <button class="btn btn-default">Finialize Contest</button>
-   }
+    }
 
 
 
 
-    <form>
+    <form></form>
 
 
-       
-
-       
-    </form>
-
-  
 
 
     <div class="PageDiv">
@@ -112,57 +109,55 @@
         new { page, contestID = ViewBag.contestId, searchATeam = ViewBag.searchStringValue, sortTeams = ViewBag.sortStringValue }))
     </div>
 </div>
-   
-    @*<table>
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.First().TeamName)
-                </th>
-                <th>
 
-                    @Html.DisplayNameFor(model => model.First().FinalScore)
-                </th>
-            </tr>
-        </thead>
-        <tbody id="sortable1" class="droptrue">
-            @foreach (var item in Model)
+@*<table>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.First().TeamName)
+            </th>
+            <th>
+
+                @Html.DisplayNameFor(model => model.First().FinalScore)
+            </th>
+        </tr>
+    </thead>
+    <tbody id="sortable1" class="droptrue">
+        @foreach (var item in Model)
+        {
+            @*<tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TeamName)
+                </td>
+
+                @if (item.YourCurrentScore == null)
             {
-                @*<tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TeamName)
-                    </td>
-
-                    @if (item.YourCurrentScore == null)
+                if (!User.IsInRole("Admin"))
                 {
-                    if (!User.IsInRole("Admin"))
-                    {
-                            <td>
-                                @Html.ActionLink("Judge Now", "Team", new { teamID = item.TeamID })
-                            </td>
-                        }
-                    }
-                    else {
                         <td>
-                            @Html.DisplayFor(modelItem => item.YourCurrentScore)<span> / 7</span>
+                            @Html.ActionLink("Judge Now", "Team", new { teamID = item.TeamID })
                         </td>
                     }
-
-
+                }
+                else {
                     <td>
-                        @if (item.FinalScore == null)
-                        {
-                            <span>N/A</span>
-                        }
-                        else
-                        {
-                            @Html.DisplayFor(modelItem => item.FinalScore)<span> / 7</span>
-                        }
-
+                        @Html.DisplayFor(modelItem => item.YourCurrentScore)<span> / 7</span>
                     </td>
-                </tr>*@
-            @*}
+                }
+
+
+                <td>
+                    @if (item.FinalScore == null)
+                    {
+                        <span>N/A</span>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.FinalScore)<span> / 7</span>
+                    }
+
+                </td>
+            </tr>*@
+@*}
         </tbody>
     </table>*@
-
-

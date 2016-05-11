@@ -51,14 +51,28 @@ $(function () {
     //pick the winner
 
     $(".btn").click(function () {
-        var teamIds = $('.TeamId:first').html();
-        
-       $("input[name='TeamId']").val(teamIds);
-        console.log($("input[name='TeamId']").val());
-  
+
+
+        var FirstId = $('.first').next().children('.TeamId').html();
+        var SecondId = $('.second').next().children('.TeamId').html();
+        var ThirdId = $('.third').next().children('.TeamId').html();
+
+
+
+
+        // $("input[name='TeamId']").val(teamIds);
+        // console.log($("input[name='TeamId']").val());
+
+
+        $("input[name='FirstId']").val(FirstId);
+        $("input[name='SecondId']").val(SecondId);
+        $("input[name='ThirdId']").val(ThirdId);
+
+
+
     });
 
-   
+
 });
 
 
