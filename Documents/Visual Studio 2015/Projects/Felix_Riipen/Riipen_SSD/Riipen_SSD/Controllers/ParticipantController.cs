@@ -91,6 +91,11 @@ namespace Riipen_SSD.Controllers
             string searchStringValue = "";
             string sortStringValue = "Status";
 
+            if (_unitOfWork.Contests.Get(contestID.Value)==null)
+            {
+                return RedirectToAction("Index", "Participant");
+            }
+
             //get all criteria for one contset
             List<Criterion> getContestCriteria = _unitOfWork.Contests.Get(contestID.Value).Criteria.ToList();
 
@@ -385,6 +390,11 @@ namespace Riipen_SSD.Controllers
         public ActionResult AllTeamMembersForATeam(int? teamID)
         {          
             if(teamID == null)
+            {
+                return RedirectToAction("Index", "Participant");
+            }
+            var teamIDTest = _unitOfWork.Teams.Get(teamID.Value);
+            if (teamIDTest == null)
             {
                 return RedirectToAction("Index", "Participant");
             }

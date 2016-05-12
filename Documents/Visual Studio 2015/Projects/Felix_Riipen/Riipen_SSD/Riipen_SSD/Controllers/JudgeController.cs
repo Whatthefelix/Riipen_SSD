@@ -99,6 +99,10 @@ namespace Riipen_SSD.Controllers
                 string searchStringValue = "";
                 string sortStringValue = "Status";
 
+                if (_unitOfWork.Contests.Get(contestID.Value) ==null)
+                {
+                    return RedirectToAction("Index", "Judge");
+                }
                 //get the number of team in this contest
                 List<Team> teams = _unitOfWork.Contests.Get(contestID.Value).Teams.ToList();
 
@@ -262,6 +266,10 @@ namespace Riipen_SSD.Controllers
         public ActionResult Team(int? teamID)
         {
             if (teamID == null)
+            {
+                return RedirectToAction("Index", "Judge");
+            }
+            if (_unitOfWork.Teams.Get(teamID.Value) == null)
             {
                 return RedirectToAction("Index", "Judge");
             }
