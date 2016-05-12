@@ -30,6 +30,18 @@
   </div>
 
 <div class="judge-participant-wrapper">
+    <!--show contest result if the conest is finalized-->
+    @if (ViewBag.ContestIsFinalized != null & ViewBag.ContestIsFinalized)
+    {
+        <div class="contest-result-container">
+           @{
+               Html.RenderAction("ContestResults", new { contestID = ViewBag.ContestID });
+           }
+        </div>
+    }
+    
+
+
     <div class="dropdown" style="margin-top:10px;margin-bottom:10px;float:right">
         Sort: <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="sortMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             @ViewBag.sortStringValue
@@ -72,7 +84,16 @@
             {
                 <tr>
                     <td>
-                        @Html.ActionLink(item.TeamName, "TeamScores", new { teamID = item.TeamID, contestID = ViewBag.ContestID, yourTeamID = ViewBag.YourTeamID, totalScore=item.Score })
+                        @if (item.Score != null)
+                        {
+                            @Html.ActionLink(item.TeamName, "TeamScores", new { teamID = item.TeamID, contestID = ViewBag.ContestID, yourTeamID = ViewBag.YourTeamID, totalScore = item.Score })
+                        }
+                        else
+                        {
+                            @item.TeamName;
+                        }
+
+
                     </td>
                     <td>
                         @if (item.Score == null)

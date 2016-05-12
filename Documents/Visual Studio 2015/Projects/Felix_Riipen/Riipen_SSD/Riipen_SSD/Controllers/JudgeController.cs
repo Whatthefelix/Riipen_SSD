@@ -34,23 +34,27 @@ namespace Riipen_SSD.Controllers
             contestJudges = contestJudges.OrderByDescending(cj=>cj.Contest.StartTime).ToList(); 
             List<Contest> contestList = new List<Contest>();
 
-            foreach (var contestJudge in contestJudges)
-            {
-                // if search input is not null or empty
-                if (!String.IsNullOrEmpty(searchAContest))
+           
+                foreach (var contestJudge in contestJudges)
                 {
-                    if (contestJudge.Contest.Name.ToUpper().Contains(searchAContest.ToUpper()))
+                    // if search input is not null or empty
+                    if (!String.IsNullOrEmpty(searchAContest))
+                    {
+                        if (contestJudge.Contest.Name.ToUpper().Contains(searchAContest.ToUpper()))
+                        {
+                            contestList.Add(_unitOfWork.Contests.Get(contestJudge.ContestId));
+                        }
+
+                        searchStringValue = searchAContest;
+                    }
+                    else
                     {
                         contestList.Add(_unitOfWork.Contests.Get(contestJudge.ContestId));
                     }
-
-                   searchStringValue =searchAContest;
                 }
-                else
-                {
-                    contestList.Add(_unitOfWork.Contests.Get(contestJudge.ContestId));
-                }                    
-            }
+
+            
+
 
             //get all the contests for the admin account
             if (User.IsInRole("Admin")){
@@ -149,9 +153,9 @@ namespace Riipen_SSD.Controllers
                     }
                     else
                     {
+               
                         unsubmitedJudges = (from cj in contestJudges
-                                            from g in getSubmitJudges
-                                            where cj.JudgeUserId != g.Judge_ID
+                                            where !getSubmitJudges.Any(x => x.Judge_ID == cj.JudgeUserId)
                                             select cj).ToList();
                     }
 
@@ -193,16 +197,18 @@ namespace Riipen_SSD.Controllers
                         }
                     }
                     else {
-                        foreach (var item in getContestCriteria)
-                        {
-                            CriteriaScore newCriteriaScore = new CriteriaScore();
-                            newCriteriaScore.TeamId = team.Id;
-                            newCriteriaScore.CriteriaId = item.Id;
-                            newCriteriaScore.ContestId = contestID.Value;
-                            newCriteriaScore.Judge_ID = User.Identity.GetUserId();
-                            context.CriteriaScores.Add(newCriteriaScore);
-                            context.SaveChanges();
-                        }
+                      
+                            foreach (var item in getContestCriteria)
+                            {
+                                CriteriaScore newCriteriaScore = new CriteriaScore();
+                                newCriteriaScore.TeamId = team.Id;
+                                newCriteriaScore.CriteriaId = item.Id;
+                                newCriteriaScore.ContestId = contestID.Value;
+                                newCriteriaScore.Judge_ID = User.Identity.GetUserId();
+                                context.CriteriaScores.Add(newCriteriaScore);
+                                context.SaveChanges();
+                            }
+                        
                     }
 
                     //get final score for a team

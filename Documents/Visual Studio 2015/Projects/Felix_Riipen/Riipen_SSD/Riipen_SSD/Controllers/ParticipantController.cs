@@ -152,15 +152,16 @@ namespace Riipen_SSD.Controllers
                 else
                 {
                     unsubmitedJudges = (from cj in contestJudges
-                                        from g in getSubmitJudges
-                                        where cj.JudgeUserId != g.Judge_ID
+                                        where !getSubmitJudges.Any(x => x.Judge_ID == cj.JudgeUserId)
                                         select cj).ToList();
                 }
 
                 //get the unsubmitted judge names
                 foreach (var item in unsubmitedJudges)
                 {
-                    namesOfJudgeNotSubmitted.Add(context.AspNetUsers.Find(item.JudgeUserId).Email);
+                    var user = context.AspNetUsers.Find(item.JudgeUserId);
+                    string name = user.FirstName + " " + user.LastName;
+                    namesOfJudgeNotSubmitted.Add(name);
                 }
 
                 ContestTeamVMList.Add(new ContestTeamVM(team.Id, team.Name, CurrentScore, judgeNotSubmit,namesOfJudgeNotSubmitted));
@@ -193,12 +194,43 @@ namespace Riipen_SSD.Controllers
             ViewBag.ContestName = context.Contests.Find(contestID).Name;
             ViewBag.YourTeamID = yourTeamID;
 
-            const int PAGE_SIZE = 10;
+            //check if the contest is finialized
+            var contest = _unitOfWork.Contests.Get((int)contestID);
+            if (contest.PubliclyViewable && contest.WinnerTeamId != null)
+            {
+                ViewBag.ContestIsFinalized = true;
+            }
+
+                const int PAGE_SIZE = 10;
             int pageNumber = (page ?? 1);
             IEnumerable<ContestTeamVM> newContestTeamVMList = ContestTeamVMList;
             newContestTeamVMList = newContestTeamVMList.ToPagedList(pageNumber, PAGE_SIZE);
 
             return View(newContestTeamVMList);
+        }
+
+        //partial view for contest results
+        [Authorize]
+        public ActionResult ContestResults(int contestID)
+        {
+            //check if the contest has finalized
+           
+            Contest contest = _unitOfWork.Contests.Get((int)contestID);
+            List<ContestResultVM> contestResult = new List<ContestResultVM>();
+
+            var team1 = _unitOfWork.Teams.Get((int)contest.WinnerTeamId);
+            var team2 = _unitOfWork.Teams.Get((int)contest.SecondTeamId);
+            var team3 = _unitOfWork.Teams.Get((int)contest.ThirdTeamId);
+
+            //scores teams
+            double scoreForTeam1 = Math.Round((double)team1.CriteriaScores.Average(cs => cs.Score),2);
+            double scoreForTeam2 = Math.Round((double)team2.CriteriaScores.Average(cs => cs.Score),2);
+            double scoreForTeam3 = Math.Round((double)team3.CriteriaScores.Average(cs => cs.Score),2);
+            contestResult.Add(new ContestResultVM(team1.Id, team1.Name, scoreForTeam1));
+            contestResult.Add(new ContestResultVM(team2.Id, team2.Name, scoreForTeam2));
+            contestResult.Add(new ContestResultVM(team3.Id, team3.Name, scoreForTeam3));            
+
+            return PartialView(contestResult);
         }
 
 
@@ -265,9 +297,10 @@ namespace Riipen_SSD.Controllers
                     
                     //check if this judge write comment or not
                     if(!String.IsNullOrEmpty(item.PublicComment)||!String.IsNullOrEmpty(item.PrivateComment))
-                    { 
+                    {
                         //get the judge name for this feedback 
-                        string JudgeName = context.AspNetUsers.Find(item.JudgeUserId).UserName;
+                        var user = context.AspNetUsers.Find(item.JudgeUserId);
+                        string JudgeName = user.FirstName + " " + user.LastName;
                         
                         //check if this is your team, if so show you private feedback
                         if(teamID == yourTeamID)
@@ -308,7 +341,8 @@ namespace Riipen_SSD.Controllers
 
             foreach (var item in getAllScoresForOneCriteria) {
                 //get judge name for a contest
-                string judgeName = context.AspNetUsers.Find(item.Judge_ID).UserName;
+                var user = context.AspNetUsers.Find(item.Judge_ID);
+                string judgeName = user.FirstName + " " +user.LastName;
 
                 //get score and comment from this judge 
                 double? Score = null;

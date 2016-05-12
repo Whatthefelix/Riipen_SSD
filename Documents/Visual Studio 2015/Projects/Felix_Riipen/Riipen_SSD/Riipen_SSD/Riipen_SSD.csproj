@@ -345,6 +345,7 @@
     <Compile Include="ViewModels\AdminViewModels\JudgeVM.cs" />
     <Compile Include="ViewModels\AdminViewModels\ParticipantVM.cs" />
     <Compile Include="ViewModels\ContestVM.cs" />
+    <Compile Include="ViewModels\ParticipantViewModels\ContestResultVM.cs" />
     <Compile Include="ViewModels\ParticipantViewModels\ContestTeamVM.cs" />
     <Compile Include="ViewModels\ParticipantViewModels\CriteriaDetailVM.cs" />
     <Compile Include="ViewModels\ParticipantViewModels\ParticipantContestVM.cs" />
@@ -474,6 +475,7 @@
     <Content Include="Views\Account\SetPassword.cshtml" />
     <Content Include="Views\Participant\AllTeamMembersForATeam.cshtml" />
     <Content Include="Views\Admin\ContestScores.cshtml" />
+    <Content Include="Views\Participant\ContestResults.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
