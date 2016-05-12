@@ -103,7 +103,7 @@ namespace Riipen_SSD.Controllers
                     Name = contest.Name,
                     StartTime = contest.StartTime.ToString(),
                     Location = contest.Location,
-                    Published = true,
+                    Published = contest.Published,
                     Participants = participants,
                     Judges = judges,
                 };
@@ -126,7 +126,10 @@ namespace Riipen_SSD.Controllers
             if(contestID != null)
             {
                 //on "publish" click, get list of judges and participants for this contest
+
                 var contest = UnitOfWork.Contests.Get(contestID.Value);
+                contest.Published = true;
+                UnitOfWork.Complete();
                 var judges = contest.ContestJudges.Select(x => new JudgeVM()
                 {
                     FirstName = x.AspNetUser.FirstName,
@@ -179,7 +182,7 @@ namespace Riipen_SSD.Controllers
                 }
 
 
-
+                
                 return RedirectToAction("Index", "Admin");
             }
             else
