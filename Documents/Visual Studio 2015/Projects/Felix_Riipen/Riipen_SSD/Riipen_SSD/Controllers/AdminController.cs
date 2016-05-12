@@ -318,9 +318,10 @@ namespace Riipen_SSD.Controllers
                 SSD_RiipenEntities context = new SSD_RiipenEntities();
                 string searchStringValue = "";
                 string sortStringValue = "Status";
+            List<TeamScoreVM> TeamScoreList = new List<TeamScoreVM>();
 
                 //get the number of team in this contest
-                List<Team> teams = UnitOfWork.Contests.Get(contestID.Value).Teams.ToList();
+            List<Team> teams = UnitOfWork.Contests.Get(contestID.Value).Teams.ToList();
 
                 if (!String.IsNullOrEmpty(searchATeam))
                 {

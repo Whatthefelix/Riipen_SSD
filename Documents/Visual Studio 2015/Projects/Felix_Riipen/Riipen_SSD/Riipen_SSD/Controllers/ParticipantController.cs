@@ -393,7 +393,8 @@ namespace Riipen_SSD.Controllers
             {
                 return RedirectToAction("Index", "Participant");
             }
-            if (_unitOfWork.Contests.Get(teamID.Value) == null)
+            var teamIDTest = _unitOfWork.Teams.Get(teamID.Value);
+            if (teamIDTest == null)
             {
                 return RedirectToAction("Index", "Participant");
             }
