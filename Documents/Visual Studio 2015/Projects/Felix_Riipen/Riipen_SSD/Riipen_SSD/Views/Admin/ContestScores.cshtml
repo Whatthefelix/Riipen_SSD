@@ -7,6 +7,41 @@
 @{
     ViewBag.Title = "Finalize Contest";
 }
+<style>
+     /*#sortable1{
+    border: 1px solid #eee;
+    width: 200px;
+    min-height: 20px;
+    list-style-type: none;
+    margin: 0;
+    padding: 5px 0 0 0;
+    float: left;
+    margin-right: 10px;
+  }
+  #sortable1 li{
+    margin: 0 5px 5px 5px;
+    padding: 5px;
+    font-size: 1.2em;
+    width: auto;
+  }*/
+     #centerLists{
+         margin: auto;
+         width: 200px;
+     }
+  #sortable2, #sortable1{
+    border: 1px solid #eee;
+    width: 300px;
+    min-height: 20px;
+    list-style-type: none;
+    margin: 0;
+    padding: 5px 0 0 0;
+
+  }
+  #sortable2 li, #sortable1 li{
+      width: auto;
+  }
+
+</style>
 
 @section scripts{
     <script src="~/JavaScript/FinalizeContest.js"></script>
@@ -46,53 +81,54 @@
     </div>
 
 
+    <div id="centerLists">
+        <div class="title">
 
-    <div>
-        <ul class="droptrue" id="sortable1">
-            <li> 1.</li>
-            <li> 2.</li>
-            <li> 3.</li>
-        </ul>
-    </div>
+            <ul class="droptrue" id="sortable1">
+                <li> First:</li>
+                <li> Second:</li>
+                <li> Third:</li>
+            </ul>
+        </div>
+        <div>
+            @if (ViewBag.searchStringValue == "")
+            {
+                <div class="title">All teams</div>
+            }
+            else
+            {
+                <div class="title">Results for: @ViewBag.searchStringValue</div>
+                <p>@Html.ActionLink("Get all teams", "Contest", new { contestID = ViewBag.contestId })</p>
+            }
 
-    @if (ViewBag.searchStringValue == "")
-    {
-        <div class="title">All teams</div>
-    }
-    else
-    {
-        <div class="title">Results for: @ViewBag.searchStringValue</div>
-        <p>@Html.ActionLink("Get all teams", "Contest", new { contestID = ViewBag.contestId })</p>
-    }
 
-    <div>
-        <ul id="sortable2" class="droptrue">
+            <ul id="sortable2" class="droptrue">
 
-            @foreach (var item in Model)
+                @foreach (var item in Model)
             {
 
-                <li>
-                    <div class="col-md-3">@Html.DisplayFor(modelItem => item.TeamName)</div><div class="col-md-9">@*@Html.DisplayFor(modelItem => item.FinalScore)*@ 7/7</div>
-                    <div class="TeamId" hidden>@item.TeamID</div>
-                </li>
+                    <li>
+                        <div>@Html.DisplayFor(modelItem => item.TeamName) @Html.DisplayFor(modelItem => item.FinalScore)</div>
+                        <div class="TeamId" hidden>@item.TeamID</div>
+                    </li>
 
+                }
+            </ul>
+        </div>
+        <br />
+        <div id="finalizeButton">
+
+            @using (Html.BeginForm("PickWinner", "Admin", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <input name="FirstId" id="FirstId" hidden />
+                <input name="SecondId" id="SecondId" hidden />
+                <input name="ThirdId" id="ThirdId" hidden />
+                <button class="btn btn-primary">Finalize Contest</button>
             }
-        </ul>
+        </div>
     </div>
 
-
-
-    <div>
-
-        @using (Html.BeginForm("PickWinner", "Admin", FormMethod.Post))
-        {
-            @Html.AntiForgeryToken()
-            <input name="FirstId" id="FirstId" hidden />
-            <input name="SecondId" id="SecondId" hidden />
-            <input name="ThirdId" id="ThirdId" hidden />
-            <button class="btn btn-default">Finialize Contest</button>
-        }
-    </div>
 
 
 
@@ -101,11 +137,6 @@
 
 
 
-    <div class="PageDiv">
-        <div style="float: right;">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</div>
-        @Html.PagedListPager(Model, page => Url.Action("Contest",
-        new { page, contestID = ViewBag.contestId, searchATeam = ViewBag.searchStringValue, sortTeams = ViewBag.sortStringValue }))
-    </div>
 </div>
 
 @*<table>
