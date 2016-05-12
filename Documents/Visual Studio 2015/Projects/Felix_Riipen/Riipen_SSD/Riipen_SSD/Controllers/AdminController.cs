@@ -265,7 +265,7 @@ namespace Riipen_SSD.Controllers
 
             var contest = UnitOfWork.Contests.SingleOrDefault(x => x.Id == contestID.Value);
 
-            if (contest.Published == false)
+            if (contest == null || contest.Published == true)
             {
                 return Redirect(Request.UrlReferrer.ToString());
             }
