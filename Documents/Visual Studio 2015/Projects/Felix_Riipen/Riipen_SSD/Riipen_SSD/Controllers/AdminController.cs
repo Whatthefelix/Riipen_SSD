@@ -318,7 +318,7 @@ namespace Riipen_SSD.Controllers
                 SSD_RiipenEntities context = new SSD_RiipenEntities();
                 string searchStringValue = "";
                 string sortStringValue = "Status";
-
+            List<TeamScoreVM> TeamScoreList = new List<TeamScoreVM>();
                 //get the number of team in this contest
                 List<Team> teams = UnitOfWork.Contests.Get(contestID.Value).Teams.ToList();
 
@@ -377,13 +377,17 @@ namespace Riipen_SSD.Controllers
 
         //pick a winner
         [HttpPost]
-        public ActionResult PickWinner(int FirstId, int SecondId, int ThirdId)
+        public ActionResult PickWinner(int? FirstId, int? SecondId, int? ThirdId)
         {
-            Contest contest = UnitOfWork.Teams.Get(FirstId).Contest;
-            contest.WinnerTeamId = FirstId;
-            contest.SecondTeamId = SecondId;
-            contest.ThirdTeamId = ThirdId;
-            UnitOfWork.Complete();
+            if(FirstId!=null && SecondId!=null && ThirdId !=null)
+            {
+                Contest contest = UnitOfWork.Teams.Get((int)FirstId).Contest;
+                contest.WinnerTeamId = FirstId;
+                contest.SecondTeamId = SecondId;
+                contest.ThirdTeamId = ThirdId;
+                UnitOfWork.Complete();               
+            }
+         
             return RedirectToAction("Index", "Admin");
         }
 
