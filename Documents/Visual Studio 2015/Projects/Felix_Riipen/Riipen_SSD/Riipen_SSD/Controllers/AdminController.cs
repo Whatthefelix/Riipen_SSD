@@ -81,9 +81,15 @@ namespace Riipen_SSD.Controllers
         [HttpGet]
         public ActionResult ContestDetails(int? contestID)
         {
+
+   
             if(contestID != null)
             {
                 var contest = UnitOfWork.Contests.Get(contestID.Value);
+                if(contest == null)
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
                 var judges = contest.ContestJudges.Select(x => new JudgeVM()
                 {
                     FirstName = x.AspNetUser.FirstName,
@@ -334,10 +340,13 @@ namespace Riipen_SSD.Controllers
                 SSD_RiipenEntities context = new SSD_RiipenEntities();
                 string searchStringValue = "";
                 string sortStringValue = "Status";
-
+                if (UnitOfWork.Contests.Get(contestID.Value) == null)
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
                 //get the number of team in this contest
                 List<Team> teams = UnitOfWork.Contests.Get(contestID.Value).Teams.ToList();
-
+         
                 if (!String.IsNullOrEmpty(searchATeam))
                 {
                     teams = teams.Where(t => t.Name.ToUpper().Contains(searchATeam.ToUpper())).ToList();

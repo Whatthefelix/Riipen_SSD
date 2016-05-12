@@ -91,6 +91,11 @@ namespace Riipen_SSD.Controllers
             string searchStringValue = "";
             string sortStringValue = "Status";
 
+            if (_unitOfWork.Contests.Get(contestID.Value)==null)
+            {
+                return RedirectToAction("Index", "Participant");
+            }
+
             //get all criteria for one contset
             List<Criterion> getContestCriteria = _unitOfWork.Contests.Get(contestID.Value).Criteria.ToList();
 
@@ -388,7 +393,11 @@ namespace Riipen_SSD.Controllers
             {
                 return RedirectToAction("Index", "Participant");
             }
-            List<TeamMemberVM> TeamMemberVMList = context.Teams.Find(teamID.Value).AspNetUsers.Select(x=> new TeamMemberVM {
+            if (_unitOfWork.Contests.Get(teamID.Value) == null)
+            {
+                return RedirectToAction("Index", "Participant");
+            }
+                List<TeamMemberVM> TeamMemberVMList = context.Teams.Find(teamID.Value).AspNetUsers.Select(x=> new TeamMemberVM {
                 FirstName = x.FirstName,
                 LastName = x.LastName,
                 Email =x.Email,
