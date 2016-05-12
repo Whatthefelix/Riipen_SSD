@@ -1,5 +1,4 @@
-﻿@model PagedList.IPagedList<Riipen_SSD.ViewModels.AdminViewModels.TeamScoreVM>
-@using PagedList.Mvc;
+﻿@model IEnumerable<Riipen_SSD.ViewModels.AdminViewModels.TeamScoreVM>
 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 <link href="~/Styles/Judge_Participant.css" rel="stylesheet" />
@@ -8,7 +7,7 @@
     ViewBag.Title = "Finalize Contest";
 }
 <style>
-      /*#sortable1{
+    /*#sortable1{
       border: 1px solid #eee;
       width: 200px;
       min-height: 20px;
@@ -24,35 +23,35 @@
       font-size: 1.2em;
       width: auto;
     }*/
-      #centerLists {
-          margin: auto;
-          width: 800px;
-      }
+    #centerLists {
+        margin: auto;
+        width: 800px;
+    }
 
-      #sortable2, #sortable1 {
-          border: 1px solid #eee;
-          width: 350px;
-          min-height: 20px;
-          list-style-type: none;
-          margin: 0;
-          padding: 5px 0 0 0;
-      }
+    #sortable2, #sortable1 {
+        border: 1px solid #eee;
+        width: 350px;
+        min-height: 20px;
+        list-style-type: none;
+        margin: 0;
+        padding: 5px 0 0 0;
+    }
 
-          #sortable2 li, #sortable1 li {
-              width: auto;
-          }
+        #sortable2 li, #sortable1 li {
+            width: auto;
+        }
 
-      #first {
-          color: #E7CC5B;
-      }
+    #first {
+        color: #E7CC5B;
+    }
 
-      #second {
-          color: #D6D5D3;
-      }
+    #second {
+        color: #D6D5D3;
+    }
 
-      #third {
-          color: #D8A262;
-      }
+    #third {
+        color: #D8A262;
+    }
 </style>
 
 @section scripts{

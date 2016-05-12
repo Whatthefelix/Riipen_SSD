@@ -314,6 +314,7 @@
     <Compile Include="Team.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\AdminViewModels\ContestDetailsParticipantVM.cs" />
     <Compile Include="ViewModels\AdminViewModels\CreateContestVM.cs" />
     <Compile Include="ViewModels\AdminViewModels\CriteriaVM.cs" />
     <Compile Include="ViewModels\AdminViewModels\EditContestVM.cs" />

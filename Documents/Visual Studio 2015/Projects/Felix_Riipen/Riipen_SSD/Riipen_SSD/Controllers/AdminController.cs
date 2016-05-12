@@ -90,10 +90,10 @@ namespace Riipen_SSD.Controllers
                     LastName = x.AspNetUser.LastName,
                     Email = x.AspNetUser.Email
                 });
-                var participants = new List<ParticipantVM>();
+                var participants = new List<ContestDetailsParticipantVM>();
                 foreach (var team in contest.Teams)
                 {
-                    var participantsFromTeam = team.AspNetUsers.Select(x => new ParticipantVM() { Email = x.Email, FirstName = x.FirstName, LastName = x.LastName, TeamName = team.Name, RiipenUrl = x.RiipenUrl });
+                    var participantsFromTeam = team.AspNetUsers.Select(x => new ContestDetailsParticipantVM() { Email = x.Email, FirstName = x.FirstName, LastName = x.LastName, TeamName = team.Name, RiipenUrl = x.RiipenUrl });
                     participants.AddRange(participantsFromTeam);
                 }
 
@@ -136,10 +136,10 @@ namespace Riipen_SSD.Controllers
                     LastName = x.AspNetUser.LastName,
                     Email = x.AspNetUser.Email
                 });
-                var participants = new List<ParticipantVM>();
+                var participants = new List<ContestDetailsParticipantVM>();
                 foreach (var team in contest.Teams)
                 {
-                    var participantsFromTeam = team.AspNetUsers.Select(x => new ParticipantVM() { Email = x.Email, FirstName = x.FirstName, TeamName = team.Name });
+                    var participantsFromTeam = team.AspNetUsers.Select(x => new ContestDetailsParticipantVM() { Email = x.Email, FirstName = x.FirstName, TeamName = team.Name });
                     participants.AddRange(participantsFromTeam);
                 }
 
@@ -307,7 +307,7 @@ namespace Riipen_SSD.Controllers
         }
 
 
-        public ActionResult ContestScores(int? contestID, String searchATeam, String sortTeams, int? page)
+        public ActionResult ContestScores(int? contestID, String searchATeam, String sortTeams)
         {
             SSD_RiipenEntities context = new SSD_RiipenEntities();
             string searchStringValue = "";
@@ -364,12 +364,8 @@ namespace Riipen_SSD.Controllers
             ViewBag.contestName = UnitOfWork.Contests.Get(contestID.Value).Name;
             ViewBag.contestId = contestID;
 
-            const int PAGE_SIZE = 10;
-            int pageNumber = (page ?? 1);
-
-            IEnumerable<TeamScoreVM> newTeamScoreVMList =TeamScoreList.ToPagedList(pageNumber, PAGE_SIZE);
-
-            return View(newTeamScoreVMList);
+       
+            return View(TeamScoreList);
             
         }
 
