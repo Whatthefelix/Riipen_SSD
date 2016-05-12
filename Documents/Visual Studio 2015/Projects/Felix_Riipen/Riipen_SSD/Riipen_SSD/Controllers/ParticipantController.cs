@@ -11,6 +11,7 @@ using PagedList;
 
 namespace Riipen_SSD.Controllers
 {
+    [Authorize]
     public class ParticipantController : Controller
     {
         SSD_RiipenEntities context = new SSD_RiipenEntities();
@@ -22,7 +23,7 @@ namespace Riipen_SSD.Controllers
 
         }
 
-
+  
         public ActionResult Index(String searchAContest, String sortContests, int? page)
         {
             string searchStringValue = "";
@@ -85,6 +86,7 @@ namespace Riipen_SSD.Controllers
             {
                 return RedirectToAction("index", "participant");
             }
+
 
             List<ContestTeamVM> ContestTeamVMList = new List<ContestTeamVM>();
 
