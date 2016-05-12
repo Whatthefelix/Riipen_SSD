@@ -318,6 +318,7 @@
     <Compile Include="ViewModels\AdminViewModels\CriteriaVM.cs" />
     <Compile Include="ViewModels\AdminViewModels\EditContestVM.cs" />
     <Compile Include="Models\Message.cs" />
+    <Compile Include="ViewModels\AdminViewModels\TeamScoreVM.cs" />
     <Compile Include="ViewModels\CriteriaScoreVM.cs" />
     <Compile Include="ViewModels\AdminViewModels\IndexContestVM.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
