@@ -19,6 +19,23 @@
 </style>
 
 
+<script>
+// just for the demos, avoids form submit
+jQuery.validator.setDefaults({
+  debug: true,
+  success: "valid"
+});
+$("#ContestForm").validate({
+  rules: {
+  criteria[0].name: {
+      required: true,
+      minlength: 1
+    }
+  }
+});
+</script>
+
+
 
 @section scripts{
     <script src="~/JavaScript/Create_Edit_forms.js"></script>
@@ -70,8 +87,8 @@
                 @foreach (var item in Model.Criteria)
                 {
                     <div class="multi-field criteria-list-item">
-                        <input type="text" name="criteria[0].name" placeholder="New Criteria" value="@item.Name" />
-                        <textarea name="criteria[0].description" placeholder="Criteria Description" >@item.Description </textarea>
+                        <input id="criteria" type="text" name="criteria[0].name" placeholder="New Criteria" value="@item.Name" required/>
+                        <textarea name="criteria[0].description" placeholder="Criteria Description" required>@item.Description </textarea>
                         <button type="button" class="remove-field btn btn-warning"> Remove </button>
                     </div>
                 }
@@ -88,9 +105,9 @@
                 @foreach (var item in Model.Judges)
                 {
                     <div class="multi-field judge-list-item">
-                        <input type="text" name="judges[0].firstname" placeholder="Judge First Name" value="@item.FirstName" />
-                        <input type="text" name="judges[0].lastname" placeholder="Judge Last Name" value="@item.LastName" />
-                        <input type="text" name="judges[0].email" placeholder="Judge Email" value="@item.Email" />
+                        <input type="text" name="judges[0].firstname" placeholder="Judge First Name" value="@item.FirstName" required/>
+                        <input type="text" name="judges[0].lastname" placeholder="Judge Last Name" value="@item.LastName"  required/>
+                        <input type="text" name="judges[0].email" placeholder="Judge Email" value="@item.Email"  required/>
                         <button type="button" class="judge-remove-field btn btn-warning">Remove</button>
                     </div>
                 }
