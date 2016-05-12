@@ -265,13 +265,14 @@ namespace Riipen_SSD.Controllers
 
             var contest = UnitOfWork.Contests.SingleOrDefault(x => x.Id == contestID.Value);
 
-            if (contest.Published == false) {
+            if (contest.Published == false)
+            {
                 return Redirect(Request.UrlReferrer.ToString());
             }
 
             UnitOfWork.Criteria.RemoveRange(contest.Criteria);
             var teams = contest.Teams;
-            foreach(var team in teams)
+            foreach (var team in teams)
             {
                 team.AspNetUsers.Clear();
             }
@@ -352,13 +353,17 @@ namespace Riipen_SSD.Controllers
 
         //pick a winner
         [HttpPost]
-        public ActionResult PickWinner(int FirstId, int SecondId, int ThirdId)
+        public ActionResult PickWinner(int? FirstId, int? SecondId, int? ThirdId)
         {
-            Contest contest = UnitOfWork.Teams.Get(FirstId).Contest;
-            contest.WinnerTeamId = FirstId;
-            contest.SecondTeamId = SecondId;
-            contest.ThirdTeamId = ThirdId;
-            UnitOfWork.Complete();
+            if (FirstId != null && SecondId != null && ThirdId != null)
+            {
+                Contest contest = UnitOfWork.Teams.Get((int)FirstId).Contest;
+                contest.WinnerTeamId = FirstId;
+                contest.SecondTeamId = SecondId;
+                contest.ThirdTeamId = ThirdId;
+                UnitOfWork.Complete();
+            }
+
             return RedirectToAction("Index", "Admin");
         }
     }

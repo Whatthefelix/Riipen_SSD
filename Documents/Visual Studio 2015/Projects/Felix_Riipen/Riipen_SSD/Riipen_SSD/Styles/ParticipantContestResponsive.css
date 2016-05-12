@@ -18,6 +18,10 @@ td, th {
   text-align: left; 
 }
 
+    #contest_Teams_Table > tbody > tr:first-child {
+     background: #ED9C28;
+    }
+
 @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
 
         #sortButton{
@@ -58,10 +62,17 @@ td, th {
             padding-right: 10px;
             white-space: nowrap;
         }
+        
+    table.WinnersTable td:nth-of-type(1):before {content: "Contest Result";}
+    table.WinnersTable td:nth-of-type(2):before {content: "Team";}
+    table.WinnersTable td:nth-of-type(3):before {content: "Score";}
 
-	td:nth-of-type(1):before { content: "Team Name"; }
-	td:nth-of-type(2):before { content: "Score"; }
-	td:nth-of-type(3):before { content: "Status"; }
-
+	table.participant-contest-table td:nth-of-type(1):before { content: "Team Name"; }
+	table.participant-contest-table td:nth-of-type(2):before { content: "Score"; }
+	table.participant-contest-table td:nth-of-type(3):before { content: "Status"; }
+        
+    /*table.judgeTable td:nth-of-type(1):before {content: "First Name: "}
+    table.judgeTable td:nth-of-type(2):before {content: "Last Name: "}
+    table.judgeTable td:nth-of-type(3):before {content: "Email: "}*/
 
 }

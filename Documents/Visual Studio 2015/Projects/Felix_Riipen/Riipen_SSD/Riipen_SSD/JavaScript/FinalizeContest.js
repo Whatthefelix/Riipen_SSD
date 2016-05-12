@@ -11,29 +11,20 @@ $(function () {
     //pick the winner
 
     $(".btn").click(function () {
+        var teamIds = $("#sortable1 .TeamId");
 
-
-        var FirstId = $('.first').next().children('.TeamId').html();
-
-        console.log($('.first').next().children('.TeamId'));
-        var SecondId = $('.second').next().children('.TeamId').html();
-        var ThirdId = $('.third').next().children('.TeamId').html();
-
-
-
-
-        // $("input[name='TeamId']").val(teamIds);
-        // console.log($("input[name='TeamId']").val());
-
-
+        if (teamIds.length != 3) {
+            alert("Please pick the first three teams");
+            return false;
+        } 
+              
+        var FirstId = $(teamIds[0]).html();
+        var SecondId = $(teamIds[1]).html();
+        var ThirdId = $(teamIds[2]).html();;
+        
         $("input[name='FirstId']").val(FirstId);
         $("input[name='SecondId']").val(SecondId);
         $("input[name='ThirdId']").val(ThirdId);
-
-        console.log(FirstId);
-
-        return false;
-
 
     });
 

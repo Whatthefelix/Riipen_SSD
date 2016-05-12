@@ -45,24 +45,24 @@
         </div>
         <div class="date">
             <label for="date">Date</label>
-            <input type="text" class="form-control" name="StartTime" id="datepicker"/>
+            <input type="text" class="form-control" name="StartTime" id="datepicker" required/>
         </div>
         <div class="location">
             <label for="location">Location</label>
-            <input type="text" class="form-control" name="Location" id="location"/>
+            <input type="text" class="form-control" name="Location" id="location" required/>
         </div>
         <div class="publicly-viewable-scores checkbox">
             <label for="publicly-viewable-scores">Make Scores Publicly Viewable in Real-Time</label>
-            <input type="checkbox" name="PubliclyViewable" value="true" id="publicly-viewable-scores" />
+            <input type="checkbox" name="PubliclyViewable" value="true" id="publicly-viewable-scores"/>
         </div>
         <div class="multi-field-wrapper">
             <button type="button" class="add-criteria  btn btn-primary"> Add Criteria</button>
             <div class="multi-fields" id="criteria-list">
                 <div class="multi-field criteria-list-item form-inline">
                     <label class="sr-only" for="criteriaName">Criteria</label>
-                    <input type="text" class="form-control" name="criteria[0].name" placeholder="New Criteria"/>
+                    <input type="text" class="form-control" name="criteria[0].name" placeholder="New Criteria" required/>
                     <label class="sr-only" for="criteriaDescription">Description</label>
-                    <input type="text" class="form-control" name="criteria[0].description" placeholder="Criteria Description"/>
+                    <input type="text" class="form-control" name="criteria[0].description" placeholder="Criteria Description" required/>
                     <button type="button" class="remove-field btn btn-warning"> Remove </button>
                 </div>
             </div>
@@ -71,16 +71,16 @@
             <button type="button" class="add-judge btn btn-primary"> Add Judge</button>
             <div class="multi-fields">
                 <div class="multi-field judge-list-item form-inline">
-                    <input type="text" class="form-control" name="judges[0].firstname" placeholder="Judge First Name" />
-                    <input type="text" class="form-control" name="judges[0].lastname" placeholder="Judge Last Name" />
-                    <input type="text" class="form-control" name="judges[0].email" placeholder="Judge Email" />
+                    <input type="text" class="form-control" name="judges[0].firstname" placeholder="Judge First Name" required />
+                    <input type="text" class="form-control" name="judges[0].lastname" placeholder="Judge Last Name" required />
+                    <input type="text" class="form-control" name="judges[0].email" placeholder="Judge Email" required/>
                     <button type="button" class="judge-remove-field btn btn-warning">Remove</button>
                 </div>
             </div>
         </div>
      
         <label for="file-upload" class="btn btn-primary">Upload Participants Using CSV</label>
-        <input name="participants" id="file-upload" accept="csv" type="file" data-val="true" data-val-required="File is required" />
+        <input name="participants" id="file-upload" accept="csv" type="file" data-val="true" data-val-required="File is required" required/>
 
         <label for="file-upload-example">
             <img src="~/Images/CSV_format.PNG" alt="CSV format" />
