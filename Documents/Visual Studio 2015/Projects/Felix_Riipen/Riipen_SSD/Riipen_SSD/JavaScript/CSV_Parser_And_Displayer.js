@@ -20,6 +20,7 @@
                         + "<td>" + data[i]["FirstName"] + "</td>"
                         + "<td>" + data[i]["LastName"] + "</td>"
                         + "<td>" + data[i]["Email"] + "</td>"
+                        + "<td>" + data[i]["RiipenUrl"] + "</td>"
                         + "</tr>");
                     }
                 }

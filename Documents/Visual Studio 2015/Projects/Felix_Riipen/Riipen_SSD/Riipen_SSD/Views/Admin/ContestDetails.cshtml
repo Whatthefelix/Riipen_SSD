@@ -1,16 +1,14 @@
 ﻿@model Riipen_SSD.AdminViewModels.ContestDetailsVM
 
 @{
-    ViewBag.Title = "ContestDetails";
+    ViewBag.Title = "Contest Details";
 }
-<link href="~/Styles/ContestDetailResponsiveTables.css" type="text/css" rel="stylesheet"/>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link href="~/Styles/ContestDetailResponsiveTables.css" type="text/css" rel="stylesheet" />
 <link rel="stylesheet" href="/resources/demos/style.css">
-<h2>Contest details</h2>                                                                             
+<h2>Contest Details</h2>
 
 <div>
-    
+
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -87,7 +85,7 @@
             </tr>
         }
     </tbody>
-    </table>
+</table>
 
 <table class="participantTable">
     <caption>Participants</caption>
@@ -145,25 +143,22 @@
 
                 </td>
             </tr>
-        }
+                        }
     </tbody>
 </table>
 
-@if (!Model.Published)
-{
-    using (Html.BeginForm("SendEmails", "Admin", FormMethod.Post))
+<p class="button-group">
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+    @if (Model.Published)
     {
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(x => Model.ContestID)
-        <button type="submit" class="btn btn-success publish-contest-btn">Publish Contest</button>
+        @Html.ActionLink("Select Winner", "ContestScores", new { ContestID = Model.ContestID }, new { @class = "btn btn-info" })
     }
-}
-
-    <p class="button-group">
+    else
+    {
+        <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#confirmPublishedModal">Publish Contest</button>
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Delete Contest</button>
-        @Html.ActionLink("Back to List", "Index", null,new { @class = "btn btn-info" })
-        @Html.ActionLink("Select Winner","ContestScores", new { ContestID = Model.ContestID}, new { @class="btn btn-info"})
-    </p>
+    }
+</p>
 
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
@@ -181,6 +176,32 @@
             <div class="modal-footer">
                 <a href="@Url.Action("DeleteContest", new { contestID = Model.ContestID })" class="btn btn-danger btn-confirm-delete">Delete</a>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="confirmPublishedModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Publish Contest?</h4>
+            </div>
+            <div class="modal-body">
+                <p>Publishing will send confirmation emails to all participants and judges registered for @(Model.Name).</p>
+            </div>
+            <div class="modal-footer">
+                @using (Html.BeginForm("SendEmails", "Admin", FormMethod.Post))
+                {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => Model.ContestID)
+                    <button type="submit" class="btn btn-success">Publish Contest</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                }
             </div>
         </div>
     </div>
