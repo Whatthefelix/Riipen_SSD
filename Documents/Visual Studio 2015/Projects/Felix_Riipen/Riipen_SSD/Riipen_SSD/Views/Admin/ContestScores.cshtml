@@ -26,11 +26,11 @@
   }*/
      #centerLists{
          margin: auto;
-         width: 200px;
+         width: 800px;
      }
   #sortable2, #sortable1{
     border: 1px solid #eee;
-    width: 300px;
+    width: 350px;
     min-height: 20px;
     list-style-type: none;
     margin: 0;
@@ -39,6 +39,15 @@
   }
   #sortable2 li, #sortable1 li{
       width: auto;
+  }
+  #first{
+      color: #E7CC5B;
+  }
+  #second{
+      color: #D6D5D3;
+  }
+  #third{
+      color: #D8A262;
   }
 
 </style>
@@ -85,9 +94,9 @@
         <div class="title">
 
             <ul class="droptrue" id="sortable1">
-                <li> First:</li>
-                <li> Second:</li>
-                <li> Third:</li>
+                <li id="first"> First:</li>
+                <li id="second"> Second:</li>
+                <li id="third"> Third:</li>
             </ul>
         </div>
         <div>
@@ -108,7 +117,7 @@
             {
 
                     <li>
-                        <div>@Html.DisplayFor(modelItem => item.TeamName) @Html.DisplayFor(modelItem => item.FinalScore)</div>
+                        <div>@Html.DisplayFor(modelItem => item.TeamName) @Html.DisplayFor(modelItem => item.FinalScore)/7</div>
                         <div class="TeamId" hidden>@item.TeamID</div>
                     </li>
 
