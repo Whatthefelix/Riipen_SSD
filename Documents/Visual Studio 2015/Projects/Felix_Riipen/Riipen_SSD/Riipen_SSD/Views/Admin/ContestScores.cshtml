@@ -119,7 +119,22 @@
             {
 
                     <li>
-                        <div>@Html.DisplayFor(modelItem => item.TeamName) @Html.DisplayFor(modelItem => item.FinalScore)/7</div>
+                        <div>@Html.DisplayFor(modelItem => item.TeamName) 
+                        @{
+
+                            if (item.FinalScore != null)
+                            {
+                                @Html.DisplayFor(modelItem => item.FinalScore)<span>/ 7</span>
+                            }
+                            else
+                            {
+                                <span>N/A</span>
+                            }
+
+                            
+                        }
+                        
+                       </div>
                         <div class="TeamId" hidden>@item.TeamID</div>
                     </li>
 
