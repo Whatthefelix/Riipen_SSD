@@ -1,12 +1,10 @@
 ﻿@model IEnumerable<Riipen_SSD.ViewModels.ParticipantViewModels.ContestResultVM>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.TeamId)
+           Contest result
         </th>
         <th>
             @Html.DisplayNameFor(model => model.TeamName)
@@ -17,10 +15,14 @@
         <th></th>
     </tr>
 
+    @{ 
+        int counter = 0;
+    }
 @foreach (var item in Model) {
+    counter++;
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.TeamId)
+          @counter
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TeamName)
@@ -29,9 +31,7 @@
             @Html.DisplayFor(modelItem => item.Score)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @Html.ActionLink("View team members", "AllTeamMembersForATeam", new { teamID = item.TeamId })
         </td>
     </tr>
 }

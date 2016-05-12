@@ -30,7 +30,7 @@ namespace Riipen_SSD.Controllers
             string UserID = User.Identity.GetUserId();
             
             //get the numbers of contest which the judge can judge
-            var contestJudges = (from c in context.ContestJudges where c.JudgeUserId == UserID select c).ToList();
+            var contestJudges = (from c in context.ContestJudges where c.JudgeUserId == UserID && c.Contest.Published select c).ToList();
             contestJudges = contestJudges.OrderByDescending(cj=>cj.Contest.StartTime).ToList(); 
             List<Contest> contestList = new List<Contest>();
 
