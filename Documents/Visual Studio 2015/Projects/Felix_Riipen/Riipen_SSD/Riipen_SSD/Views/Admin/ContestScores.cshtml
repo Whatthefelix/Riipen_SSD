@@ -46,11 +46,12 @@
     </div>
 
 
+
     <div>
         <ul class="droptrue" id="sortable1">
-            <li class="first">First: </li>
-            <li class="second">Second: </li>
-            <li class="third">Third: </li>
+            <li> 1.</li>
+            <li> 2.</li>
+            <li> 3.</li>
         </ul>
     </div>
 
@@ -71,9 +72,8 @@
             {
 
                 <li>
-                    <div class="col-xs-3">
-                        @Html.DisplayFor(modelItem => item.TeamName)  @*@Html.DisplayFor(modelItem => item.FinalScore)*@ 7/7 </div>
-                        <div class="TeamId" hidden>@item.TeamID</div>
+                    <div class="col-md-3">@Html.DisplayFor(modelItem => item.TeamName)</div><div class="col-md-9">@*@Html.DisplayFor(modelItem => item.FinalScore)*@ 7/7</div>
+                    <div class="TeamId" hidden>@item.TeamID</div>
                 </li>
 
             }
@@ -82,23 +82,21 @@
 
 
 
+    <div>
+
+        @using (Html.BeginForm("PickWinner", "Admin", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <input name="FirstId" id="FirstId" hidden />
+            <input name="SecondId" id="SecondId" hidden />
+            <input name="ThirdId" id="ThirdId" hidden />
+            <button class="btn btn-default">Finialize Contest</button>
+        }
+    </div>
 
 
 
-
-    @using (Html.BeginForm("PickWinner", "Admin", FormMethod.Post))
-    {
-        @Html.AntiForgeryToken()
-        <input name="FirstId" id="FirstId" hidden />
-        <input name="SecondId" id="SecondId" hidden />
-        <input name="ThirdId" id="ThirdId" hidden />
-        <button class="btn btn-default">Finialize Contest</button>
-    }
-
-
-
-
-    <form></form>
+ 
 
 
 
