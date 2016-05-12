@@ -1,39 +1,40 @@
 ﻿@model IEnumerable<Riipen_SSD.ViewModels.ParticipantViewModels.ContestResultVM>
+<link href="~/Styles/ContestResults.css" rel="stylesheet" />
 
+    <table class="table contest-results">
+        <tr>
+            <th>
+                Contest result
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeamName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Score)
+            </th>
+            <th></th>
+        </tr>
 
-<table class="table">
-    <tr>
-        <th>
-           Contest result
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TeamName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Score)
-        </th>
-        <th></th>
-    </tr>
+        @{
+            int counter = 0;
+        }
+        @foreach (var item in Model)
+        {
+            counter++;
+            <tr>
+                <td>
+                    @counter
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TeamName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Score)
+                </td>
+                <td>
+                    @Html.ActionLink("View team members", "AllTeamMembersForATeam", new { teamID = item.TeamId })
+                </td>
+            </tr>
+        }
 
-    @{ 
-        int counter = 0;
-    }
-@foreach (var item in Model) {
-    counter++;
-    <tr>
-        <td>
-          @counter
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TeamName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Score)
-        </td>
-        <td>
-            @Html.ActionLink("View team members", "AllTeamMembersForATeam", new { teamID = item.TeamId })
-        </td>
-    </tr>
-}
-
-</table>
+    </table>
