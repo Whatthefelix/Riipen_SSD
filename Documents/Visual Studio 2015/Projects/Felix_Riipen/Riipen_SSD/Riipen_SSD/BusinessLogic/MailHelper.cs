@@ -13,17 +13,17 @@ namespace Riipen_SSD.BusinessLogic
     {
         public const string SUCCESS
         = "Success! Your email has been sent.  Please allow up to 48 hrs for a reply.";
-        const string BY = "Riipen@whatthefelix.com";
+        const string BY = "RiipenAdmin@gmail.com";
         public string EmailFromArvixe(AdminViewModels.Message message)
         {
 
             // Use credentials of the Mail account that you created with the steps above.
-            const string FROM = "Riipen@whatthefelix.com";
-            const string FROM_PWD = "Pa$$w0rd";
+            const string FROM = "riipenjudgeathon@gmail.com";
+            const string FROM_PWD = "123Pa$$w0rd";
             const bool USE_HTML = true;
 
             // Get the mail server obtained in the steps described above.
-            const string SMTP_SERVER = "143.95.249.35";
+            const string SMTP_SERVER = "smtp.gmail.com";
             try
             {
                 MailMessage mailMsg = new MailMessage(FROM, message.Sender);
@@ -32,7 +32,8 @@ namespace Riipen_SSD.BusinessLogic
                 mailMsg.IsBodyHtml = USE_HTML;
 
                 SmtpClient smtp = new SmtpClient();
-                smtp.Port = 25;
+                smtp.Port = 587;
+                smtp.EnableSsl = true;
                 smtp.Host = SMTP_SERVER;
                 smtp.Credentials = new System.Net.NetworkCredential(FROM, FROM_PWD);
                 smtp.Send(mailMsg);
