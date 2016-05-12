@@ -1,4 +1,5 @@
 ﻿using Riipen_SSD.AdminViewModels;
+using Riipen_SSD.ViewModels.AdminViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +17,7 @@ namespace Riipen_SSD.AdminViewModels
         public string Location { get; set; }
         public Boolean Published { get; set; }
 
-        public IEnumerable<ParticipantVM> Participants { get; set; }
+        public IEnumerable<ContestDetailsParticipantVM> Participants { get; set; }
         public IEnumerable<JudgeVM> Judges { get; set; }
     }
 }

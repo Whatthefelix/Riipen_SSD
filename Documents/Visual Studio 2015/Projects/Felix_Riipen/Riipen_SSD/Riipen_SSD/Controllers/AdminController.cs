@@ -90,10 +90,10 @@ namespace Riipen_SSD.Controllers
                     LastName = x.AspNetUser.LastName,
                     Email = x.AspNetUser.Email
                 });
-                var participants = new List<ParticipantVM>();
+                var participants = new List<ContestDetailsParticipantVM>();
                 foreach (var team in contest.Teams)
                 {
-                    var participantsFromTeam = team.AspNetUsers.Select(x => new ParticipantVM() { Email = x.Email, FirstName = x.FirstName, LastName = x.LastName, TeamName = team.Name, RiipenUrl = x.RiipenUrl });
+                    var participantsFromTeam = team.AspNetUsers.Select(x => new ContestDetailsParticipantVM() { Email = x.Email, FirstName = x.FirstName, LastName = x.LastName, TeamName = team.Name, RiipenUrl = x.RiipenUrl });
                     participants.AddRange(participantsFromTeam);
                 }
 
@@ -136,10 +136,10 @@ namespace Riipen_SSD.Controllers
                     LastName = x.AspNetUser.LastName,
                     Email = x.AspNetUser.Email
                 });
-                var participants = new List<ParticipantVM>();
+                var participants = new List<ContestDetailsParticipantVM>();
                 foreach (var team in contest.Teams)
                 {
-                    var participantsFromTeam = team.AspNetUsers.Select(x => new ParticipantVM() { Email = x.Email, FirstName = x.FirstName, TeamName = team.Name });
+                    var participantsFromTeam = team.AspNetUsers.Select(x => new ContestDetailsParticipantVM() { Email = x.Email, FirstName = x.FirstName, TeamName = team.Name });
                     participants.AddRange(participantsFromTeam);
                 }
 
