@@ -14,6 +14,8 @@ $(function () {
 
 
         var FirstId = $('.first').next().children('.TeamId').html();
+
+        console.log($('.first').next().children('.TeamId'));
         var SecondId = $('.second').next().children('.TeamId').html();
         var ThirdId = $('.third').next().children('.TeamId').html();
 
@@ -28,6 +30,9 @@ $(function () {
         $("input[name='SecondId']").val(SecondId);
         $("input[name='ThirdId']").val(ThirdId);
 
+        console.log(FirstId);
+
+        return false;
 
 
     });

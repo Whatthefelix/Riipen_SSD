@@ -397,7 +397,7 @@ namespace Riipen_SSD.Controllers
             {
                 return RedirectToAction("Index", "Participant");
             }
-                List<TeamMemberVM> TeamMemberVMList = context.Teams.Find(teamID.Value).AspNetUsers.Select(x=> new TeamMemberVM {
+            List<TeamMemberVM> TeamMemberVMList = context.Teams.Find(teamID.Value).AspNetUsers.Select(x=> new TeamMemberVM {
                 FirstName = x.FirstName,
                 LastName = x.LastName,
                 Email =x.Email,
