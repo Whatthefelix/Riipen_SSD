@@ -82,15 +82,19 @@ $(function () {
         var judgeListItems = $('.judge-list-item');
         $(judgeListItems).each(function (index, element) {
             var children = $(element).children("input");
-            $(children[0]).attr('name', 'judges[' + index + '].firstname');
-            $(children[1]).attr('name', 'judges[' + index + '].lastname');
-            $(children[2]).attr('name', 'judges[' + index + '].email');
+            if ($(children[2]).val() != '') {
+                $(children[0]).attr('name', 'judges[' + index + '].firstname');
+                $(children[1]).attr('name', 'judges[' + index + '].lastname');
+                $(children[2]).attr('name', 'judges[' + index + '].email');
+            }
         })
         var criteriaListItems = $('.criteria-list-item');
         $(criteriaListItems).each(function (index, element) {
             var children = $(element).children("input");
-            $(children[0]).attr('name', 'criteria[' + index + '].name');
-            $(children[1]).attr('name', 'criteria[' + index + '].description');
+            if ($(children[0]).val() != '') {
+                $(children[0]).attr('name', 'criteria[' + index + '].name');
+                $(children[1]).attr('name', 'criteria[' + index + '].description');
+            }
         });
         var participantListItems = $('.participant-list-item');
         $(participantListItems).each(function (index, element) {

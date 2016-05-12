@@ -4,6 +4,9 @@
     ViewBag.Title = "ContestDetails";
 }
 <link href="~/Styles/ContestDetailResponsiveTables.css" type="text/css" rel="stylesheet"/>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="/resources/demos/style.css">
 <h2>Contest details</h2>                                                                             
 
 <div>
@@ -38,7 +41,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Published)
+            @if (Model.Published)
+            {
+                @Html.Raw("Yes");
+            }
+            else
+            {
+                @Html.Raw("No");
+            }
         </dd>
 
     </dl>
@@ -149,7 +159,28 @@
 }
 
     <p class="button-group">
-        @Html.ActionLink("Edit", "EditContest", new {  ContestID = Model.ContestID  }, new { @class="btn btn-warning"}) 
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Delete Contest</button>
         @Html.ActionLink("Back to List", "Index", null,new { @class = "btn btn-info" })
         @Html.ActionLink("Select Winner","ContestScores", new { ContestID = Model.ContestID}, new { @class="btn btn-info"})
     </p>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete Contest?</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete @(Model.Name)?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="@Url.Action("DeleteContest", new { contestID = Model.ContestID })" class="btn btn-danger btn-confirm-delete">Delete</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

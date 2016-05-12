@@ -1,25 +1,19 @@
-﻿using CsvHelper;
-using Microsoft.AspNet.Identity;
-using Riipen_SSD.AdminViewModels;
+﻿using Riipen_SSD.AdminViewModels;
 using Riipen_SSD.DAL;
 using Riipen_SSD.ExtensionMethods;
 using Riipen_SSD.Models;
-using Riipen_SSD.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using Riipen_SSD.BusinessLogic;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Riipen_SSD.ViewModels.AdminViewModels;
 using System.Threading.Tasks;
 
 namespace Riipen_SSD.Controllers
 {
-    
+
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
@@ -34,7 +28,7 @@ namespace Riipen_SSD.Controllers
         // GET: Admin
         public ActionResult Index(String searchAContest, String sortContests, int? page)
         {
-           IEnumerable<AdminViewModels.IndexContestVM> adminContests = UnitOfWork.Contests.GetAll().Select(x => new AdminViewModels.IndexContestVM() { Name = x.Name, StartTime = x.StartTime.ToString(), Location = x.Location, Published = x.Published, ContestID = x.Id });
+            IEnumerable<AdminViewModels.IndexContestVM> adminContests = UnitOfWork.Contests.GetAll().Select(x => new AdminViewModels.IndexContestVM() { Name = x.Name, StartTime = x.StartTime.ToString(), Location = x.Location, Published = x.Published, ContestID = x.Id });
             string searchStringValue = "";
             string sortStringValue = "Latest Contests";
 
@@ -45,7 +39,6 @@ namespace Riipen_SSD.Controllers
 
                 searchStringValue = searchAContest;
             }
-
 
             if (!String.IsNullOrEmpty(sortContests))
             {
@@ -82,11 +75,11 @@ namespace Riipen_SSD.Controllers
         public ActionResult ContestDetails(int? contestID)
         {
 
-   
-            if(contestID != null)
+
+            if (contestID != null)
             {
                 var contest = UnitOfWork.Contests.Get(contestID.Value);
-                if(contest == null)
+                if (contest == null)
                 {
                     return RedirectToAction("Index", "Admin");
                 }
@@ -123,13 +116,13 @@ namespace Riipen_SSD.Controllers
                 return RedirectToAction("Index", "admin");
             }
 
-           
+
         }
         [HttpPost]
         public async Task<ActionResult> SendEmails(int? contestID)
         {
-            
-            if(contestID != null)
+
+            if (contestID != null)
             {
                 //on "publish" click, get list of judges and participants for this contest
 
@@ -160,8 +153,6 @@ namespace Riipen_SSD.Controllers
                     Judges = judges,
                 };
 
-
-
                 foreach (var participant in contestDetailVM.Participants)
                 {
                     var getUser = UnitOfWork.Users.SingleOrDefault(x => x.Email == participant.Email);
@@ -182,13 +173,8 @@ namespace Riipen_SSD.Controllers
                     {
                         body = "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\"> Confirm </a>";
                     }
-
                     string response = mailer.EmailFromArvixe(new Message(participant.Email, subject, body));
-
                 }
-
-
-                
                 return RedirectToAction("Index", "Admin");
             }
             else
@@ -207,7 +193,8 @@ namespace Riipen_SSD.Controllers
         [HttpPost]
         public ActionResult CreateContest(CreateContestVM contestVM)
         {
-            if(!ModelState.IsValid){
+            if (!ModelState.IsValid)
+            {
                 return View();
             }
             // THIS SEEMS TO WORK BUT NEEDS SOME REFACTORING 
@@ -269,72 +256,59 @@ namespace Riipen_SSD.Controllers
             return RedirectToAction("ContestDetails", "Admin", new { contestID = contest.Id });
         }
 
-        // GET: EditContest
-        [HttpGet]
-        public ActionResult EditContest(int? contestId)
+        public ActionResult DeleteContest(int? contestID)
         {
-            if (contestId != null)
+            if (contestID.HasValue == false)
             {
-
-
-                var contest = UnitOfWork.Contests.Get(contestId.Value);
-
-                var editContestVM = new EditContestVM()
-                {
-                    ContestID = contestId.Value,
-                    ContestName = contest.Name,
-                    StartTime = contest.StartTime,
-                    Location = contest.Location,
-                    Criteria = contest.Criteria.Select(c => new CriteriaVM() { Id = c.Id, Name = c.Name, Description = c.Description }),
-                    Judges = contest.ContestJudges.Select(c => new JudgeVM() { Email = c.AspNetUser.Email, FirstName = c.AspNetUser.FirstName, LastName = c.AspNetUser.LastName }),
-                    Participants = contest.Teams.SelectMany(x => x.AspNetUsers.Select(y => new ParticipantVM() { Email = y.Email, FirstName = y.FirstName, LastName = y.LastName, TeamName = x.Name })),
-                };
-
-                return View(editContestVM);
+                return Redirect(Request.UrlReferrer.ToString());
             }
-            else
+
+            var contest = UnitOfWork.Contests.SingleOrDefault(x => x.Id == contestID.Value);
+
+            if (contest.Published == false) {
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+
+            UnitOfWork.Criteria.RemoveRange(contest.Criteria);
+            var teams = contest.Teams;
+            foreach(var team in teams)
             {
-                return RedirectToAction("Index", "Admin");
+                team.AspNetUsers.Clear();
             }
+            UnitOfWork.Teams.RemoveRange(contest.Teams);
+            UnitOfWork.ContestJudges.RemoveRange(contest.ContestJudges);
+
+            UnitOfWork.Contests.Remove(contest);
+
+            UnitOfWork.Complete();
+
+            return RedirectToAction("Index");
         }
 
-    // POST: EditContest
-    [HttpPost]
-        public ActionResult EditContest(EditContestVM editContestVM, HttpPostedFileBase file)
-        {
-            var contest = UnitOfWork.Contests.Get(editContestVM.ContestID);
-            contest.Name = editContestVM.ContestName;
-            contest.Location = editContestVM.Location;
-            contest.StartTime = editContestVM.StartTime;
-
-            editContestVM.Criteria.Select(c => new Criterion() { Id = c.Id });
-
-            return View();
-        }
-
+        //Participants = contest.Teams.SelectMany(x => x.AspNetUsers.Select(y => new ParticipantVM() { Email = y.Email, FirstName = y.FirstName, LastName = y.LastName, TeamName = x.Name })),
 
         public ActionResult ContestScores(int? contestID, String searchATeam, String sortTeams)
         {
-                SSD_RiipenEntities context = new SSD_RiipenEntities();
-                string searchStringValue = "";
-                string sortStringValue = "Status";
+            SSD_RiipenEntities context = new SSD_RiipenEntities();
+            string searchStringValue = "";
+            string sortStringValue = "Status";
             List<TeamScoreVM> TeamScoreList = new List<TeamScoreVM>();
 
-                //get the number of team in this contest
+            //get the number of team in this contest
             List<Team> teams = UnitOfWork.Contests.Get(contestID.Value).Teams.ToList();
 
-                if (!String.IsNullOrEmpty(searchATeam))
-                {
-                    teams = teams.Where(t => t.Name.ToUpper().Contains(searchATeam.ToUpper())).ToList();
-                    searchStringValue = searchATeam;
-                }
+            if (!String.IsNullOrEmpty(searchATeam))
+            {
+                teams = teams.Where(t => t.Name.ToUpper().Contains(searchATeam.ToUpper())).ToList();
+                searchStringValue = searchATeam;
+            }
 
-                //get judge number for a contest
-                int judgesNumber = UnitOfWork.ContestJudges.Find(cj => cj.ContestId == contestID).Count();
+            //get judge number for a contest
+            int judgesNumber = UnitOfWork.ContestJudges.Find(cj => cj.ContestId == contestID).Count();
 
             //check if this team has final score or not
-                foreach (var team in teams)
-                {
+            foreach (var team in teams)
+            {
                 double? FinalScore = null;
 
                 //get the number of submitted judges of the contest              
@@ -342,33 +316,33 @@ namespace Riipen_SSD.Controllers
 
                 //if all the judges has submitted
                 if (judgesNumber == getSubmitJudges.Count())
-                    {
+                {
                     //get final score for a team
-                        List<CriteriaScore> getFinalCriteriaScoreForATeam = context.CriteriaScores.Where(ci => ci.ContestId == contestID && ci.TeamId == team.Id).ToList();
+                    List<CriteriaScore> getFinalCriteriaScoreForATeam = context.CriteriaScores.Where(ci => ci.ContestId == contestID && ci.TeamId == team.Id).ToList();
 
-                        if (getFinalCriteriaScoreForATeam.Count() != 0)
-                        {
-                            FinalScore = Math.Round((double)getFinalCriteriaScoreForATeam.Average(g => g.Score), 2);
-                        }
+                    if (getFinalCriteriaScoreForATeam.Count() != 0)
+                    {
+                        FinalScore = Math.Round((double)getFinalCriteriaScoreForATeam.Average(g => g.Score), 2);
                     }
+                }
 
                 TeamScoreList.Add(new TeamScoreVM(team.Id, team.Name, FinalScore));
-                }
+            }
 
-                if (sortTeams == "Name")
-                {
+            if (sortTeams == "Name")
+            {
                 TeamScoreList = TeamScoreList.OrderBy(t => t.TeamName).ToList();
-                    sortStringValue = "Name";
-                }
-                else
-                {
+                sortStringValue = "Name";
+            }
+            else
+            {
                 TeamScoreList = TeamScoreList.OrderByDescending(t => t.FinalScore).ThenBy(t => t.TeamName).ToList();
-                }
+            }
 
-                ViewBag.searchStringValue = searchStringValue;
-                ViewBag.sortStringValue = sortStringValue;
-                ViewBag.contestName = UnitOfWork.Contests.Get(contestID.Value).Name;
-                ViewBag.contestId = contestID;
+            ViewBag.searchStringValue = searchStringValue;
+            ViewBag.sortStringValue = sortStringValue;
+            ViewBag.contestName = UnitOfWork.Contests.Get(contestID.Value).Name;
+            ViewBag.contestId = contestID;
 
 
             return View(TeamScoreList);
@@ -387,9 +361,5 @@ namespace Riipen_SSD.Controllers
             UnitOfWork.Complete();
             return RedirectToAction("Index", "Admin");
         }
-
-
-
-
     }
 }
