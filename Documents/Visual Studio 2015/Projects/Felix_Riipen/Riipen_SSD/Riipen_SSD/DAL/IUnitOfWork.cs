@@ -11,6 +11,7 @@ namespace Riipen_SSD.DAL
         IFeedbackRepository Feedback { get; }
         ITeamRepository Teams { get; }
         IAspNetUserRepository Users { get; }
+        IAspNetRoleRepository Roles { get; }
         IContestJudgeRepository ContestJudges { get; }
 
         int Complete();

@@ -262,8 +262,10 @@ namespace Riipen_SSD.Controllers
                     if (judgeUser == null)
                     {
                         var judgeApplicationUser = new ApplicationUser { UserName = judge.Email, Email = judge.Email, FirstName = judge.FirstName, LastName = judge.LastName };
-                        UserManager.AddToRoleAsync(judgeApplicationUser.Id, "Judge");
+                        
                         judgeUser = AutoMapper.Mapper.Map<ApplicationUser, AspNetUser>(judgeApplicationUser);
+                        var judgeRole = UnitOfWork.Roles.SingleOrDefault(x => x.Name == "Judge");
+                        judgeUser.AspNetRoles.Add(judgeRole);
                         UnitOfWork.Users.Add(judgeUser);
                     }
                     contest.ContestJudges.Add(new ContestJudge { AspNetUser = judgeUser });
